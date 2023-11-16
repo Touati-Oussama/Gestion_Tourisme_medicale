@@ -1,0 +1,9 @@
+.label{
+    -fx-font-size: 20px
+}
+
+.button{
+    -fx-border-raidus: 5;
+    -fx-color: red;
+    -fx-border: none;
+}
