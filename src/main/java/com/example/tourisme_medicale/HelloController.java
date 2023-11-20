@@ -1,9 +1,7 @@
 package com.example.tourisme_medicale;
 
-import com.example.tourisme_medicale.models.Clinique;
-import com.example.tourisme_medicale.models.Hotel;
-import com.example.tourisme_medicale.models.Patient;
-import com.example.tourisme_medicale.models.Specialite;
+import com.example.tourisme_medicale.controlles.ShowDialogController;
+import com.example.tourisme_medicale.models.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -32,7 +30,6 @@ import java.util.ResourceBundle;
 
 public class HelloController implements Initializable{
 
-    public static int indice = 0;
 
     /******************************************* Specialite ************************************/
     @FXML
@@ -43,7 +40,6 @@ public class HelloController implements Initializable{
     private TableColumn<Specialite, String> specialite;
     @FXML
     private TableColumn<Specialite, String> editCol;
-    Specialite specialitee = null;
     ObservableList<Specialite>  specialiteList = FXCollections.observableArrayList();
 
     /******************************************** Clinique ***********************************/
@@ -65,7 +61,6 @@ public class HelloController implements Initializable{
     private TableColumn<Clinique, Float> prix_chClinique;
     @FXML
     private TableColumn<Clinique, String> editColCli;
-    Clinique clinique = null;
     ObservableList<Clinique>  cliniqueList = FXCollections.observableArrayList();
     @FXML
     Button btnAddCli,btnExportCli;
@@ -90,7 +85,6 @@ public class HelloController implements Initializable{
     private TableColumn<Patient, String> nationalite;
     @FXML
     private TableColumn<Patient, String> editColPat;
-    Patient patient = null;
     ObservableList<Patient>  patientsList = FXCollections.observableArrayList();
     @FXML
     Button btnAddPat,btnExportPat;
@@ -116,22 +110,50 @@ public class HelloController implements Initializable{
     private TableColumn<Hotel, String> villeHotel;
     @FXML
     private TableColumn<Hotel, String> editColHotel;
-    Hotel hotel = null;
+
     ObservableList<Hotel>  hotelList = FXCollections.observableArrayList();
     @FXML
     Button btnAddHotel,btnExportHotel;
+
+
+    /******************************************** Appartment ***********************************/
+    @FXML
+    private TableView<AppartementMeuble> tableAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, Integer> idAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, String> nomAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, String> adrAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, Integer> nbChambreAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, Float> prix_chAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, String> villeAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, Boolean> videAppartment;
+    @FXML
+    private TableColumn<AppartementMeuble, String> editColAppartment;
+
+    ObservableList<AppartementMeuble>  appartmentList = FXCollections.observableArrayList();
+    @FXML
+    Button btnAddAppartment,btnExportAppartment;
+
+    /**********************************************************************************************************/
 
     /**********************************************************************************************************/
     @FXML
     TabPane tabPane;
     @FXML
-    ImageView imgRefresh,imgRefresh1, imgRefresh2, imgRefresh3;
+    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
     @FXML
     Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment, btnAdd,btnExport;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        initializeEvent();
         //tabPane.getSelectionModel().select(0);
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
@@ -159,86 +181,6 @@ public class HelloController implements Initializable{
             SpecialiteController specialiteController = loader.getController();
             specialiteController.afficher(btnSpecialite, specialiteList, id, specialite, tableView, editCol);
         }
-        /*if (tab.equals(tabPane.getTabs().get(0))){
-            btnSpecialite.requestFocus();
-            try {
-                specialiteList = fetchData();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            id.setCellValueFactory(new PropertyValueFactory<>("id"));
-            specialite.setCellValueFactory(new PropertyValueFactory<>("specialite"));
-            //add cell of button edit
-            Callback<TableColumn<Specialite, String>, TableCell<Specialite, String>> cellFoctory = (TableColumn<Specialite, String> param) -> {
-                // make cell containing buttons
-                final TableCell<Specialite, String> cell = new TableCell<Specialite, String>() {
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        //that cell created only on non-empty rows
-                        FXMLLoader loader = new FXMLLoader ();
-                        loader.setLocation(getClass().getResource("views/specialite/modifier-specialite.fxml"));
-                        try {
-                            loader.load();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        SpecialiteController specialiteController = loader.getController();
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-
-                        } else {
-
-                            Button deleteIcon = new Button("Delete");
-                            Button editIcon = new Button("Edit");
-                            editIcon.getStyleClass().add("btn-edit");
-                            deleteIcon.getStyleClass().add("btn-delete");
-                            deleteIcon.setOnAction((ActionEvent event) -> {
-                                specialitee = tableView.getSelectionModel().getSelectedItem();
-                                try {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setHeaderText("Suppression");
-                                    alert.setContentText("Voulez-vous supprimer cette specialite ?: ");
-                                    if (alert.showAndWait().get() == ButtonType.OK){
-                                        specialiteController.delete(specialitee.getId());
-                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setHeaderText("Success");
-                                        alert.setContentText("La specialite a été supprimé: ");
-                                    }
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                refreshTable(tab);
-
-
-                            });
-                            editIcon.setOnAction((ActionEvent event) -> {
-                                specialitee = tableView.getSelectionModel().getSelectedItem();
-                                System.out.println(specialitee);
-                                specialiteController.setUpdate(true);
-                                specialiteController.setTextField(specialitee.getId(), specialitee.specialite());
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-
-                            });
-                            HBox managebtn = new HBox(editIcon, deleteIcon);
-                            //managebtn.setStyle("-fx-alignment:center");
-                            HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                            HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-                            setGraphic(managebtn);
-                            setText(null);
-                        }
-                    }
-                };
-                return cell;
-            };
-            editCol.setCellFactory(cellFoctory);
-            tableView.setItems(specialiteList);
-        }*/
         else if (tab.equals(tabPane.getTabs().get(2))){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("views/clinique/modifier-clinique.fxml"));
@@ -251,90 +193,6 @@ public class HelloController implements Initializable{
             cliniqueController.afficher(btnClinique,cliniqueList,idClinique,nomClinique,adrClinique,
                     emailClinique, telClinique, villeClinique,prix_chClinique,tableClinique,editColCli);
         }
-
-            /*indice = 2;
-            btnClinique.requestFocus();
-            idClinique.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomClinique.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            adrClinique.setCellValueFactory(new PropertyValueFactory<>("adresse"));
-            emailClinique.setCellValueFactory(new PropertyValueFactory<>("email"));
-            telClinique.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-            villeClinique.setCellValueFactory(new PropertyValueFactory<>("ville"));
-            prix_chClinique.setCellValueFactory(new PropertyValueFactory<>("prixChambre"));
-            //add cell of button edit
-            Callback<TableColumn<Clinique, String>, TableCell<Clinique, String>> cellFoctory = (TableColumn<Clinique, String> param) -> {
-                // make cell containing buttons
-                final TableCell<Clinique, String> cell = new TableCell<Clinique, String>() {
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        //that cell created only on non-empty rows
-                        FXMLLoader loader = new FXMLLoader ();
-                        loader.setLocation(getClass().getResource("views/clinique/modifier-clinique.fxml"));
-                        try {
-                            loader.load();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        CliniqueController cliniqueController = loader.getController();
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-
-                        } else {
-
-                            Button deleteIcon = new Button("Delete");
-                            Button editIcon = new Button("Edit");
-                            editIcon.getStyleClass().add("btn-edit");
-                            deleteIcon.getStyleClass().add("btn-delete");
-                            deleteIcon.setOnAction((ActionEvent event) -> {
-                                clinique = tableClinique.getSelectionModel().getSelectedItem();
-                                try {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setHeaderText("Suppression");
-                                    alert.setContentText("Voulez-vous supprimer ce clinique ?: ");
-                                    if (alert.showAndWait().get() == ButtonType.OK){
-                                        cliniqueController.delete(clinique.getId());
-                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setHeaderText("Success");
-                                        alert.setContentText("La specialite a été supprimé: ");
-                                    }
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                refreshTable(tab);
-                            });
-                            editIcon.setOnAction((ActionEvent event) -> {
-                                clinique = tableClinique.getSelectionModel().getSelectedItem();
-                                cliniqueController.setUpdate(true);
-                                cliniqueController.setTextField(clinique);
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-
-                            });
-                            HBox managebtn = new HBox(editIcon, deleteIcon);
-                            //managebtn.setStyle("-fx-alignment:center");
-                            HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                            HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-                            setGraphic(managebtn);
-                            setText(null);
-                        }
-                    }
-                };
-                return cell;
-            };
-            editColCli.setCellFactory(cellFoctory);
-            try {
-                cliniqueList = fetchDataClinique();
-                tableClinique.setItems(cliniqueList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }*/
-
         else if (tab.equals(tabPane.getTabs().get(3))){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("views/patient/modifier-patient.fxml"));
@@ -346,90 +204,6 @@ public class HelloController implements Initializable{
             PatientController patientController = loader.getController();
             patientController.afficher(btnPatient,patientsList,idPatient,nomPatient,prenomPatient,
                     dateNaiss,emailPatient,gender,nationalite, editColPat, tablePatient);
-
-            /*indice = 3;
-            btnPatient.requestFocus();
-            idPatient.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomPatient.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            prenomPatient.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-            emailPatient.setCellValueFactory(new PropertyValueFactory<>("email"));
-            dateNaiss.setCellValueFactory(new PropertyValueFactory<>("dateNaissance"));
-            gender.setCellValueFactory(new PropertyValueFactory<>("sexe"));
-            nationalite.setCellValueFactory(new PropertyValueFactory<>("nationalite"));
-            //add cell of button edit
-            Callback<TableColumn<Patient, String>, TableCell<Patient, String>> cellFoctory = (TableColumn<Patient, String> param) -> {
-                // make cell containing buttons
-                final TableCell<Patient, String> cell = new TableCell<Patient, String>() {
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        //that cell created only on non-empty rows
-                        FXMLLoader loader = new FXMLLoader ();
-                        loader.setLocation(getClass().getResource("views/patient/modifier-patient.fxml"));
-                        try {
-                            loader.load();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        PatientController patientController = loader.getController();
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-
-                        } else {
-
-                            Button deleteIcon = new Button("Delete");
-                            Button editIcon = new Button("Edit");
-                            editIcon.getStyleClass().add("btn-edit");
-                            deleteIcon.getStyleClass().add("btn-delete");
-                            deleteIcon.setOnAction((ActionEvent event) -> {
-                                patient = tablePatient.getSelectionModel().getSelectedItem();
-                                try {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setHeaderText("Suppression");
-                                    alert.setContentText("Voulez-vous supprimer ce patient ?: ");
-                                    if (alert.showAndWait().get() == ButtonType.OK){
-                                        patientController.delete(patient.getId());
-                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setHeaderText("Success");
-                                        alert.setContentText("Le patient a été supprimé: ");
-                                    }
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                refreshTable(tab);
-                            });
-                            editIcon.setOnAction((ActionEvent event) -> {
-                                patient = tablePatient.getSelectionModel().getSelectedItem();
-                                patientController.setUpdate(true);
-                                patientController.setTextField(patient);
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-
-                            });
-                            HBox managebtn = new HBox(editIcon, deleteIcon);
-                            //managebtn.setStyle("-fx-alignment:center");
-                            HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                            HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-                            setGraphic(managebtn);
-                            setText(null);
-                        }
-                    }
-                };
-                return cell;
-            };
-            editColPat.setCellFactory(cellFoctory);
-            try {
-                patientsList = fetchDataPatient();
-                tablePatient.setItems(patientsList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        */
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
             FXMLLoader loader = new FXMLLoader();
@@ -442,91 +216,18 @@ public class HelloController implements Initializable{
             HotelController hotelController = loader.getController();
             hotelController.afficher(btnHotel,hotelList,idHotel, nomHotel,adrHotel, telHotel,
                                     emailHotel, catHotel,prix_chHotel,villeHotel, editColHotel,tableHotel);
-            /*
-            indice = 5;
-            btnHotel.requestFocus();
-            idHotel.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomHotel.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            adrHotel.setCellValueFactory(new PropertyValueFactory<>("adresse"));
-            emailHotel.setCellValueFactory(new PropertyValueFactory<>("email"));
-            telHotel.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-            catHotel.setCellValueFactory(new PropertyValueFactory<>("categorie"));
-            prix_chHotel.setCellValueFactory(new PropertyValueFactory<>("prixChambre"));
-            villeHotel.setCellValueFactory(new PropertyValueFactory<>("ville"));
-            //add cell of button edit
-            Callback<TableColumn<Hotel, String>, TableCell<Hotel, String>> cellFoctory = (TableColumn<Hotel, String> param) -> {
-                // make cell containing buttons
-                final TableCell<Hotel, String> cell = new TableCell<Hotel, String>() {
-
-                    @Override
-                    public void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        //that cell created only on non-empty rows
-                        FXMLLoader loader = new FXMLLoader ();
-                        loader.setLocation(getClass().getResource("views/hotel/modifier-hotel.fxml"));
-                        try {
-                            loader.load();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                        HotelController hotelController = loader.getController();
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-
-                        } else {
-
-                            Button deleteIcon = new Button("Delete");
-                            Button editIcon = new Button("Edit");
-                            editIcon.getStyleClass().add("btn-edit");
-                            deleteIcon.getStyleClass().add("btn-delete");
-                            deleteIcon.setOnAction((ActionEvent event) -> {
-                                hotel = tableHotel.getSelectionModel().getSelectedItem();
-                                try {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setHeaderText("Suppression");
-                                    alert.setContentText("Voulez-vous supprimer ce patient ?: ");
-                                    if (alert.showAndWait().get() == ButtonType.OK){
-                                        hotelController.delete(hotel.getId());
-                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setHeaderText("Success");
-                                        alert.setContentText("Le patient a été supprimé: ");
-                                    }
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                refreshTable(tab);
-                            });
-                            editIcon.setOnAction((ActionEvent event) -> {
-                                hotel = tableHotel.getSelectionModel().getSelectedItem();
-                                hotelController.setUpdate(true);
-                                hotelController.setTextField(hotel);
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-
-                            });
-                            HBox managebtn = new HBox(editIcon, deleteIcon);
-                            //managebtn.setStyle("-fx-alignment:center");
-                            HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                            HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-                            setGraphic(managebtn);
-                            setText(null);
-                        }
-                    }
-                };
-                return cell;
-            };
-            editColHotel.setCellFactory(cellFoctory);
+        }
+        else if (tab.equals(tabPane.getTabs().get(6))){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("views/appartment/modifier-appartment.fxml"));
             try {
-                hotelList = fetchDataHotel();
-                tableHotel.setItems(hotelList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-        */
+            AppartmentController appartmentController = loader.getController();
+            appartmentController.afficher(btnAppartment,appartmentList,idAppartment, nomAppartment,adrAppartment, nbChambreAppartment,
+                    prix_chAppartment,villeAppartment,videAppartment,editColAppartment,tableAppartment);
         }
     }
 
@@ -544,14 +245,6 @@ public class HelloController implements Initializable{
             }
             SpecialiteController specialiteController = loader.getController();
             specialiteController.refreshTable(specialiteList,tableView);
-
-            /*try {
-                specialiteList.clear();
-                specialiteList = fetchData();
-                tableView.setItems(specialiteList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }*/
         }
         else if (tab.equals(tabPane.getTabs().get(2))){
 
@@ -564,14 +257,6 @@ public class HelloController implements Initializable{
             }
             CliniqueController cliniqueController = loader.getController();
             cliniqueController.refreshTable(cliniqueList,tableClinique);
-            /*
-            try {
-                cliniqueList.clear();
-                cliniqueList = fetchDataClinique();
-                tableClinique.setItems(cliniqueList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }*/
         }
         else if (tab.equals(tabPane.getTabs().get(3))){
 
@@ -585,13 +270,6 @@ public class HelloController implements Initializable{
             PatientController patientController = loader.getController();
             patientController.refreshTable(patientsList,tablePatient);
 
-            /*try {
-                patientsList.clear();
-                patientsList = fetchDataPatient();
-                tablePatient.setItems(patientsList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }*/
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
             FXMLLoader loader = new FXMLLoader();
@@ -604,76 +282,28 @@ public class HelloController implements Initializable{
             HotelController hotelController = loader.getController();
             hotelController.refreshTable(hotelList,tableHotel);
 
-            /*try {
-                hotelList.clear();
-                hotelList = fetchDataHotel();
-                tableHotel.setItems(hotelList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }*/
         }
     }
 
-    /*
-    private ObservableList<Hotel> fetchDataHotel() throws SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/hotel/modifier-hotel.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        HotelController hotelController = loader.getController();
-        ArrayList<Hotel> hotels =  hotelController.getAll();
-        return FXCollections.observableArrayList(hotels);
 
+    private void initializeEvent(){
+        ShowDialogController showDialogController = new ShowDialogController(
+                 btnAdd, btnExport, btnAddCli, btnExportCli,btnAddPat,btnExportPat,
+                btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment
+        );
+        btnAdd.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExport.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddCli.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportCli.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddPat.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportPat.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddAppartment.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportAppartment.addEventHandler(ActionEvent.ACTION, showDialogController);
     }
 
-    private ObservableList<Specialite> fetchData() throws SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/specialite/modifier-specialite.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        SpecialiteController specialiteController = loader.getController();
-        ArrayList<Specialite> specialites =  specialiteController.getAll();
-        return FXCollections.observableArrayList(specialites);
-
-    }
-
-    private ObservableList<Clinique> fetchDataClinique() throws SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/clinique/modifier-clinique.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        CliniqueController cliniqueController = loader.getController();
-        ArrayList<Clinique> cliniques =  cliniqueController.getAll();
-        return FXCollections.observableArrayList(cliniques);
-    }
-
-
-    private ObservableList<Patient> fetchDataPatient() throws SQLException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/patient/modifier-patient.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        PatientController patientController = loader.getController();
-        ArrayList<Patient> patients =  patientController.getAll();
-        return FXCollections.observableArrayList(patients);
-    }
-
-       */
-
-
-    @FXML
+    /*@FXML
     void handleButtonClick(ActionEvent event){
         if (event.getSource() == btnAdd){
             showDialog("ajouter-specialite", "specialite");
@@ -702,6 +332,12 @@ public class HelloController implements Initializable{
         if (event.getSource() == btnExportHotel ){
             showDialog("exports", "hotel");
         }
+        if (event.getSource() == btnAddAppartment){
+            showDialog("ajouter-appartment", "appartment");
+        }
+        if (event.getSource() == btnExportAppartment ){
+            showDialog("exports", "appartment");
+        }
     }
 
     private void showDialog(String fxml, String repos){
@@ -718,7 +354,7 @@ public class HelloController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     @FXML
     void handleButtonClickVbox(ActionEvent event){
@@ -748,25 +384,31 @@ public class HelloController implements Initializable{
 
 
     public void refreshData(){
-        imgRefresh.setOnMouseClicked(event ->{
-            refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
-        });
-
         imgRefresh1.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
         });
-
-        imgRefresh2.setOnMouseClicked(event ->{
-            refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
-        });
-
         imgRefresh3.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
         });
+
+        imgRefresh4.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh6.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh7.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        });
+
+
+
+
     }
 
 }

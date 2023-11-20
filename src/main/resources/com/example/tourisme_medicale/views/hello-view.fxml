@@ -161,12 +161,12 @@
                                                                 <Insets left="10.0" />
                                                             </padding>
                                                         </Label>
-                                                        <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau specialite" textFill="#52438f">
+                                                        <Button fx:id="btnAdd" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau specialite" textFill="#52438f">
                                                             <HBox.margin>
                                                                 <Insets />
                                                             </HBox.margin>
                                                         </Button>
-                                                        <Button fx:id="btnExport" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export specialite" textFill="#52438f" />
+                                                        <Button fx:id="btnExport" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export specialite" textFill="#52438f" />
                                                         <ImageView fx:id="imgRefresh1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>
                                                                 <Image url="@../icons/reload.png" />
@@ -214,12 +214,12 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAdd1" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau medicin" textFill="#52438f">
+                                          <Button fx:id="btnAdd1" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau medicin" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExport1" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list medicins" textFill="#52438f" />
+                                          <Button fx:id="btnExport1" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list medicins" textFill="#52438f" />
                                        </children>
                                     </HBox>
                                  </top>
@@ -265,13 +265,13 @@
                                                           <Insets left="10.0" />
                                                       </padding>
                                                   </Label>
-                                                  <Button fx:id="btnAddCli" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau clinique" textFill="#52438f">
+                                                  <Button fx:id="btnAddCli" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau clinique" textFill="#52438f">
                                                       <HBox.margin>
                                                           <Insets />
                                                       </HBox.margin>
                                                   </Button>
-                                                  <Button fx:id="btnExportCli" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list cliniques" textFill="#52438f" />
-                                          <ImageView fx:id="imgRefresh" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                  <Button fx:id="btnExportCli" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list cliniques" textFill="#52438f" />
+                                          <ImageView fx:id="imgRefresh3" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
                                              </image>
@@ -320,13 +320,13 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAddPat" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau patient" textFill="#52438f">
+                                          <Button fx:id="btnAddPat" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau patient" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExportPat" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list patients" textFill="#52438f" />
-                                          <ImageView fx:id="imgRefresh2" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                          <Button fx:id="btnExportPat" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list patients" textFill="#52438f" />
+                                          <ImageView fx:id="imgRefresh4" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
                                              </image>
@@ -382,13 +382,13 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAddHotel" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau hotel" textFill="#52438f">
+                                          <Button fx:id="btnAddHotel" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau hotel" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExportHotel" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list hotels" textFill="#52438f" />
-                                          <ImageView fx:id="imgRefresh3" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                          <Button fx:id="btnExportHotel" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list hotels" textFill="#52438f" />
+                                          <ImageView fx:id="imgRefresh6" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
                                              </image>
@@ -420,7 +420,53 @@
                   </Tab>
                   <Tab text="Liste des appartment">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0">
+                           <children>
+                              <BorderPane prefHeight="488.0" prefWidth="770.0" stylesheets="@../css/style.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="696.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label graphicTextGap="10.0" text="Voici la liste des appartments" textFill="#5e5c5c">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Button fx:id="btnAddAppartment" mnemonicParsing="false"  prefHeight="26.0" prefWidth="177.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau appartment" textFill="#52438f">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="btnExportAppartment" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list hotels" textFill="#52438f" />
+                                          <ImageView fx:id="imgRefresh7" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/reload.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </top>
+                                 <center>
+                                    <TableView fx:id="tableAppartment" prefHeight="428.0" prefWidth="730.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+                                       <columns>
+                                          <TableColumn id="id" fx:id="idAppartment" prefWidth="42.399964928627014" text="ID" />
+                                          <TableColumn fx:id="nomAppartment" prefWidth="86.13330841064453" text="Nom" />
+                                          <TableColumn fx:id="adrAppartment" minWidth="0.0" prefWidth="73.60003662109375" text="Adresse" />
+                                          <TableColumn fx:id="nbChambreAppartment" minWidth="0.0" prefWidth="91.199951171875" text="nbre des chambres" />
+                                          <TableColumn fx:id="villeAppartment" prefWidth="75.0" text="Ville" />
+                                          <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="127.19998168945312" text="Prix_chambre(DT)" />
+                                          <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="100.00006103515625" text="Vide" />
+                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="177.5999755859375" text="Action" />
+                                       </columns>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </TableView>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Liste des medicins">

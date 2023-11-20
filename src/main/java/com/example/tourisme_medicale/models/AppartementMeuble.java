@@ -1,17 +1,24 @@
 package com.example.tourisme_medicale.models;
 public final class AppartementMeuble extends Hebergement implements InterfacePrix {
     private int id;
-    private String designation;
+    private String nom;
     private float prixAPayer;
     private float prixChambre;
     private String adresse;
+
+    private boolean vide;
     private int nbChambres;
 
-    public AppartementMeuble(int id, String designation, float prixAPayer, float prixChambre, String adresse, int nbChambres) {
-        super(id, designation, prixAPayer);
-        this.prixChambre = prixChambre;
-        this.adresse = adresse;
+    private  String ville;
+    public AppartementMeuble(int id, String nom, int nbChambres, String ville, Float prix_chambre,boolean vide, String adresse) {
+        super(id, nom, 0);
+        this.id = id;
+        this.nom = nom;
         this.nbChambres = nbChambres;
+        this.adresse = adresse;
+        this.prixChambre = prix_chambre;
+        this.ville = ville;
+        this.vide = vide;
     }
 
     public int getId() {
@@ -22,13 +29,6 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
         this.id = id;
     }
 
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
 
     public float getPrixAPayer() {
         return prixAPayer;
@@ -64,6 +64,30 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
         this.nbChambres = nbChambres;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public boolean isVide() {
+        return vide;
+    }
+
+    public void setVide(boolean vide) {
+        this.vide = vide;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
     @Override
     public float getPrixJour() {
         return prixChambre;
@@ -73,7 +97,7 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
     public String toString() {
         return "AppartementMeuble{" +
                 "id=" + id +
-                ", designation='" + designation + '\'' +
+                ", nom='" + nom + '\'' +
                 ", prixAPayer=" + prixAPayer +
                 ", prixChambre=" + prixChambre +
                 ", adresse='" + adresse + '\'' +
