@@ -1,5 +1,5 @@
 package com.example.tourisme_medicale.models;
-import java.util.Date;
+import java.sql.Date;
 
 public class Medicin {
     private int id;
@@ -85,18 +85,23 @@ public class Medicin {
         this.telephone = telephone;
     }
 
-    public Clinique getClinique() {
+    public Clinique clinique() {
         return clinique;
     }
+
+    public String getClinique(){ return  clinique.nom();}
 
     public void setClinique(Clinique clinique) {
         this.clinique = clinique;
     }
 
-    public Specialite getSpecialite() {
-        return specialite;
+    public String getspecialite() {
+        return specialite.specialite();
     }
 
+    public String getSpecialite(){ return  specialite.specialite();}
+
+    public Specialite getSpec(){ return  specialite;}
     public void setSpecialite(Specialite specialite) {
         this.specialite = specialite;
     }

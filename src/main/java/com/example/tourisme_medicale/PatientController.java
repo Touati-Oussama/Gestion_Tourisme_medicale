@@ -233,8 +233,8 @@ public class PatientController implements Initializable {
 
                     } else {
 
-                        Button deleteIcon = new Button("Delete");
-                        Button editIcon = new Button("Edit");
+                        Button deleteIcon = new Button("Supprimer");
+                        Button editIcon = new Button("Modifier");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
                         deleteIcon.setOnAction((ActionEvent event) -> {

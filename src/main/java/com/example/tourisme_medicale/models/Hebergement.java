@@ -2,13 +2,12 @@ package com.example.tourisme_medicale.models;
 public sealed   class Hebergement  permits ChambreClinique,ChambreHotel,AppartementMeuble{
     private int id;
     private String designation;
-    private float prixAPayer;
 
 
-    public Hebergement(int id, String designation, float prixAPayer) {
+
+    public Hebergement(int id, String designation) {
         this.id = id;
         this.designation = designation;
-        this.prixAPayer = prixAPayer;
     }
 
 
@@ -30,11 +29,4 @@ public sealed   class Hebergement  permits ChambreClinique,ChambreHotel,Appartem
     }
 
 
-    public float getPrixAPayer() {
-        return prixAPayer;
-    }
-
-    public void setPrixAPayer(float prixAPayer) {
-        this.prixAPayer = prixAPayer;
-    }
 }

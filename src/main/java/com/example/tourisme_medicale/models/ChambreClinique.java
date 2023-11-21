@@ -1,16 +1,15 @@
 package com.example.tourisme_medicale.models;
 public final class ChambreClinique extends Hebergement implements InterfacePrix {
     private int id;
-    private String designation;
-    private float prixAPayer;
+    private String nom;
     private int nbLits;
     private Clinique clinique;
 
     public ChambreClinique(){
-        super(0,"",0);
+        super(0,"");
     };
-    public ChambreClinique(int id, String designation, float prixAPayer, int nbLits, Clinique clinique) {
-        super(id, designation, prixAPayer);
+    public ChambreClinique(int id, String nom, int nbLits, Clinique clinique) {
+        super(id, nom);
         this.nbLits = nbLits;
         this.clinique = clinique;
     }
@@ -25,8 +24,6 @@ public final class ChambreClinique extends Hebergement implements InterfacePrix 
 
     @Override
     public float getPrixJour() { return clinique.prixChambre();}
-
-
 
     public Clinique getClinique() {
         return clinique;
@@ -48,8 +45,7 @@ public final class ChambreClinique extends Hebergement implements InterfacePrix 
     public String toString() {
         return "ChambreClinique{" +
                 "id=" + id +
-                ", designation='" + designation + '\'' +
-                ", prixAPayer=" + prixAPayer +
+                ", nom='" + nom + '\'' +
                 ", nbLits=" + nbLits +
                 ", clinique=" + clinique +
                 '}';

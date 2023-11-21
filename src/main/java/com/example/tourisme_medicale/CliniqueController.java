@@ -68,7 +68,6 @@ public class CliniqueController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         connection = DbConnect.getConnect();
         if (villes != null)
             villes.getItems().addAll(Ville.values());
@@ -158,6 +157,7 @@ public class CliniqueController implements Initializable {
     ArrayList<Clinique> getAll() throws SQLException {
         ArrayList<Clinique> s = new ArrayList<>();
         query = "SELECT * FROM `clinique`";
+        connection = DbConnect.getConnect();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 
@@ -239,8 +239,8 @@ public class CliniqueController implements Initializable {
 
                     } else {
 
-                        Button deleteIcon = new Button("Delete");
-                        Button editIcon = new Button("Edit");
+                        Button deleteIcon = new Button("Supprimer");
+                        Button editIcon = new Button("Modifier");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
                         deleteIcon.setOnAction((ActionEvent event) -> {
@@ -305,5 +305,23 @@ public class CliniqueController implements Initializable {
     private ObservableList<Clinique> fetchDataClinique() throws SQLException {
         ArrayList<Clinique> cliniques =  getAll();
         return FXCollections.observableArrayList(cliniques);
+    }
+
+    public Clinique getCliniqueById( int cliniqueId) throws SQLException {
+        for (Clinique clinique : getAll()) {
+            if (clinique.getId() == cliniqueId) {
+                return clinique; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Clinique getCliniqueByName(String cli) throws SQLException {
+        for (Clinique clinique : getAll()) {
+            if (clinique.nom().equals(cli)) {
+                return clinique; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 }

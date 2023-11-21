@@ -12,10 +12,11 @@ import java.io.IOException;
 
 public class ShowDialogController implements EventHandler<ActionEvent> {
 
-    private Button btnAdd,btnExport,btnAddCli,btnExportCli,btnAddPat,btnExportPat,
-            btnAddHotel,btnExportHotel,btnAddAppartment,btnExportAppartment;
+    private Button btnAdd,btnExport,btnAddCli,btnExportCli,btnAddPat,btnExportPat,btnAddCh,
+            btnAddHotel,btnExportHotel,btnAddAppartment,btnExportAppartment, btnAddMedicin,btnExportMedicin;
 
-    public ShowDialogController(Button btnAdd, Button btnExport, Button btnAddCli, Button btnExportCli, Button btnAddPat, Button btnExportPat, Button btnAddHotel, Button btnExportHotel, Button btnAddAppartment, Button btnExportAppartment) {
+    public ShowDialogController(Button btnAdd, Button btnExport, Button btnAddCli, Button btnExportCli, Button btnAddPat, Button btnExportPat, Button btnAddHotel, Button btnExportHotel, Button btnAddAppartment, Button btnExportAppartment,
+                                Button btnAddMedicin, Button btnExportMedicin) {
         this.btnAdd = btnAdd;
         this.btnExport = btnExport;
         this.btnAddCli = btnAddCli;
@@ -26,7 +27,14 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         this.btnExportHotel = btnExportHotel;
         this.btnAddAppartment = btnAddAppartment;
         this.btnExportAppartment = btnExportAppartment;
+        this.btnAddMedicin = btnAddMedicin;
+        this.btnExportMedicin = btnExportMedicin;
     }
+
+    public ShowDialogController(Button btn){
+        this.btnAddCh = btn;
+    }
+
 
     @Override
     public void handle(ActionEvent event) {
@@ -62,6 +70,21 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         }
         if (event.getSource() == btnExportAppartment ){
             showDialog("exports", "appartment");
+        }
+
+        if (event.getSource() == btnAddMedicin){
+            showDialog("ajouter-medicin", "medicin");
+        }
+        if (event.getSource() == btnExportMedicin ){
+            showDialog("exports", "medicin");
+        }
+
+        if (event.getSource() == btnAddCh){
+            System.out.println("hhhhhaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhh");
+            showDialog("ajouter-chambre", "chambre-hotel");
+        }
+        if (event.getSource() == btnExportMedicin ){
+            showDialog("exports", "medicin");
         }
     }
 

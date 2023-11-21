@@ -3,6 +3,7 @@ package com.example.tourisme_medicale;
 import com.example.tourisme_medicale.Helpers.DbConnect;
 import com.example.tourisme_medicale.models.Clinique;
 import com.example.tourisme_medicale.models.Hotel;
+import com.example.tourisme_medicale.models.Specialite;
 import com.example.tourisme_medicale.models.Ville;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -162,6 +163,7 @@ public class HotelController  implements Initializable {
     ArrayList<Hotel> getAll() throws SQLException {
         ArrayList<Hotel> s = new ArrayList<>();
         query = "SELECT * FROM `hotel`";
+        connection = DbConnect.getConnect();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 
@@ -246,8 +248,8 @@ public class HotelController  implements Initializable {
 
                     } else {
 
-                        Button deleteIcon = new Button("Delete");
-                        Button editIcon = new Button("Edit");
+                        Button deleteIcon = new Button("Supprimer");
+                        Button editIcon = new Button("Modifier");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
                         deleteIcon.setOnAction((ActionEvent event) -> {
@@ -312,5 +314,23 @@ public class HotelController  implements Initializable {
     private ObservableList<Hotel> fetchDataHotel() throws SQLException {
         ArrayList<Hotel> hotels =  getAll();
         return FXCollections.observableArrayList(hotels);
+    }
+
+    public Hotel getHotelById(int hotelId) throws SQLException {
+        for (Hotel hotel : getAll()) {
+            if (hotel.getId() == hotelId) {
+                return hotel; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Hotel getHotelByName(String hot) throws SQLException {
+        for (Hotel hotel : getAll()) {
+            if (hotel.nom().equals(hot)) {
+                return hotel; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 }

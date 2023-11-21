@@ -142,13 +142,42 @@ public class HelloController implements Initializable{
 
     /**********************************************************************************************************/
 
+
+    /******************************************** Appartment ***********************************/
+    @FXML
+    private TableView<Medicin> tableMedicin;
+    @FXML
+    private TableColumn<Medicin, Integer> idMedicin;
+    @FXML
+    private TableColumn<Medicin, String> nomMedicin;
+    @FXML
+    private TableColumn<Medicin, String> prenomMedicin;
+    @FXML
+    private TableColumn<Medicin, String> emailMedicin;
+    @FXML
+    private TableColumn<Medicin, String> genderMedicin;
+    @FXML
+    private TableColumn<Medicin, Date> dateNaissMedicin;
+    @FXML
+    private TableColumn<Medicin, Integer> telephone;
+    @FXML
+    private TableColumn<Medicin, String> clinique;
+    @FXML
+    private TableColumn<Medicin, String> specialiteMed;
+    @FXML
+    private TableColumn<Medicin, String> editColMed;
+
+    ObservableList<Medicin>  medicinList = FXCollections.observableArrayList();
+    @FXML
+    Button btnAddMedicin,btnExportMedicin;
+
     /**********************************************************************************************************/
     @FXML
     TabPane tabPane;
     @FXML
     ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
     @FXML
-    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment, btnAdd,btnExport;
+    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChambreHotels, btnAdd,btnExport;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -180,6 +209,18 @@ public class HelloController implements Initializable{
             }
             SpecialiteController specialiteController = loader.getController();
             specialiteController.afficher(btnSpecialite, specialiteList, id, specialite, tableView, editCol);
+        }
+        else if (tab.equals(tabPane.getTabs().get(1))){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("views/medicin/modifier-medicin.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            MedicinController medicinController = loader.getController();
+            medicinController.afficher(btnMedicin, medicinList,idMedicin, nomMedicin,prenomMedicin, dateNaissMedicin,
+                    emailMedicin,genderMedicin,telephone, specialiteMed,clinique,editColMed, tableMedicin);
         }
         else if (tab.equals(tabPane.getTabs().get(2))){
             FXMLLoader loader = new FXMLLoader();
@@ -246,6 +287,17 @@ public class HelloController implements Initializable{
             SpecialiteController specialiteController = loader.getController();
             specialiteController.refreshTable(specialiteList,tableView);
         }
+        if (tab.equals(tabPane.getTabs().get(1))){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("views/medicin/modifier-medicin.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            MedicinController medicinController = loader.getController();
+            medicinController.refreshTable(medicinList,tableMedicin);
+        }
         else if (tab.equals(tabPane.getTabs().get(2))){
 
             FXMLLoader loader = new FXMLLoader();
@@ -289,7 +341,8 @@ public class HelloController implements Initializable{
     private void initializeEvent(){
         ShowDialogController showDialogController = new ShowDialogController(
                  btnAdd, btnExport, btnAddCli, btnExportCli,btnAddPat,btnExportPat,
-                btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment
+                btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment,
+                btnAddMedicin,btnExportMedicin
         );
         btnAdd.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExport.addEventHandler(ActionEvent.ACTION, showDialogController);
@@ -301,60 +354,11 @@ public class HelloController implements Initializable{
         btnExportHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnAddAppartment.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExportAppartment.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddMedicin.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportMedicin.addEventHandler(ActionEvent.ACTION, showDialogController);
     }
 
-    /*@FXML
-    void handleButtonClick(ActionEvent event){
-        if (event.getSource() == btnAdd){
-            showDialog("ajouter-specialite", "specialite");
-        }
-        if (event.getSource() == btnExport){
-            showDialog("exports", "specialite");
-        }
 
-        if (event.getSource() == btnAddCli){
-            showDialog("ajouter-clinique", "clinique");
-        }
-        if (event.getSource() == btnExportCli ){
-            showDialog("exports", "clinique");
-        }
-
-        if (event.getSource() == btnAddPat){
-            showDialog("ajouter-patient", "patient");
-        }
-        if (event.getSource() == btnExportPat ){
-            showDialog("exports", "patient");
-        }
-
-        if (event.getSource() == btnAddHotel){
-            showDialog("ajouter-hotel", "hotel");
-        }
-        if (event.getSource() == btnExportHotel ){
-            showDialog("exports", "hotel");
-        }
-        if (event.getSource() == btnAddAppartment){
-            showDialog("ajouter-appartment", "appartment");
-        }
-        if (event.getSource() == btnExportAppartment ){
-            showDialog("exports", "appartment");
-        }
-    }
-
-    private void showDialog(String fxml, String repos){
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource("views/"+repos+"/"+fxml+".fxml"));
-            Stage stage = new Stage();
-            Scene scene = new Scene(parent);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-
-            // After the dialog is closed, refresh the table
-            refreshTable(tabPane.getSelectionModel().getSelectedItem());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     @FXML
     void handleButtonClickVbox(ActionEvent event){
@@ -379,12 +383,31 @@ public class HelloController implements Initializable{
         if (event.getSource() == btnAppartment){
             tabPane.getSelectionModel().select(6);
         }
+
+        if (event.getSource() == btnChambreHotels){
+            FXMLLoader loader = new FXMLLoader ();
+            loader.setLocation(getClass().getResource("views/chambre-hotel/liste-chambre.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
     }
 
 
 
     public void refreshData(){
         imgRefresh1.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh2.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
         });
@@ -405,10 +428,6 @@ public class HelloController implements Initializable{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
         });
-
-
-
-
     }
 
 }

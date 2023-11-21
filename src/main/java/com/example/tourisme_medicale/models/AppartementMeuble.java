@@ -11,7 +11,7 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
 
     private  String ville;
     public AppartementMeuble(int id, String nom, int nbChambres, String ville, Float prix_chambre,boolean vide, String adresse) {
-        super(id, nom, 0);
+        super(id, nom);
         this.id = id;
         this.nom = nom;
         this.nbChambres = nbChambres;
@@ -28,17 +28,6 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
     public void setId(int id) {
         this.id = id;
     }
-
-
-    public float getPrixAPayer() {
-        return prixAPayer;
-    }
-
-    public void setPrixAPayer(float prixAPayer) {
-        this.prixAPayer = prixAPayer;
-    }
-
-
 
     public float getPrixChambre() {
         return prixChambre;
@@ -98,7 +87,6 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
         return "AppartementMeuble{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", prixAPayer=" + prixAPayer +
                 ", prixChambre=" + prixChambre +
                 ", adresse='" + adresse + '\'' +
                 ", nbChambres=" + nbChambres +

@@ -1,6 +1,7 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
+import com.example.tourisme_medicale.models.Clinique;
 import com.example.tourisme_medicale.models.Specialite;
 import com.example.tourisme_medicale.models.SpecialiteVm;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -138,6 +139,7 @@ public class SpecialiteController implements Initializable {
     ArrayList<Specialite> getAll() throws SQLException {
         ArrayList<Specialite> s = new ArrayList<>();
         query = "SELECT * FROM `specialite`";
+        connection = DbConnect.getConnect();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 
@@ -200,8 +202,8 @@ public class SpecialiteController implements Initializable {
                             setText(null);
 
                         } else {
-                            Button deleteIcon = new Button("Delete");
-                            Button editIcon = new Button("Edit");
+                            Button deleteIcon = new Button("Supprimer");
+                            Button editIcon = new Button("Modifier");
                             editIcon.getStyleClass().add("btn-edit");
                             deleteIcon.getStyleClass().add("btn-delete");
                             deleteIcon.setOnAction((ActionEvent event) -> {
@@ -267,5 +269,23 @@ public class SpecialiteController implements Initializable {
 
     }
 
+
+    public Specialite getSpecialiteById(int specialiteId) throws SQLException {
+        for (Specialite specialite : getAll()) {
+            if (specialite.getId() == specialiteId) {
+                return specialite; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Specialite getSpecialiteByName(String spec) throws SQLException {
+        for (Specialite specialite : getAll()) {
+            if (specialite.getSpecialite().equals(spec)) {
+                return specialite; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
 
 }

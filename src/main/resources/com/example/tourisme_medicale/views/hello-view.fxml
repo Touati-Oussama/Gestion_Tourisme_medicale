@@ -13,15 +13,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="578.0" prefWidth="977.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
+<AnchorPane prefHeight="764.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
     <children>
         <BorderPane prefHeight="578.0" prefWidth="977.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
                 <VBox prefHeight="447.0" prefWidth="169.0" style="-fx-background-color: #6F5CC2;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="btnSpecialite" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Specialite" textFill="WHITE">
+                        <Button fx:id="btnSpecialite" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="209.0" stylesheets="@../css/style.css" text="Liste des specialites" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -33,7 +34,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnMedicin" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Medicin" textFill="WHITE">
+                        <Button fx:id="btnMedicin" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="215.0" stylesheets="@../css/style.css" text="Liste des medicins" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -45,7 +46,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnClinique" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Clinique" textFill="WHITE">
+                        <Button fx:id="btnClinique" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="226.0" stylesheets="@../css/style.css" text="Liste des cliniques" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -57,7 +58,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnPatient" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Patient" textFill="WHITE">
+                        <Button fx:id="btnPatient" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="238.0" stylesheets="@../css/style.css" text="Liste des patients" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -69,7 +70,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnRV" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Rendez-vous" textFill="WHITE">
+                        <Button fx:id="btnRV" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="224.0" stylesheets="@../css/style.css" text="Liste des rendez-vous" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -81,7 +82,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Hebergment" textFill="WHITE">
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Hebergment" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -93,7 +94,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnHotel" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Hotel" textFill="WHITE">
+                        <Button fx:id="btnHotel" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="230.0" stylesheets="@../css/style.css" text="Liste des hotels" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -105,7 +106,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnAppartment" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="170.0" stylesheets="@../css/style.css" text="Appartment Meuble" textFill="WHITE">
+                        <Button fx:id="btnAppartment" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="217.0" stylesheets="@../css/style.css" text="Liste des appartments" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -117,11 +118,36 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
+                  <Line endX="100.0" fill="BLACK" startX="-100.0" stroke="#fffbfb" />
+                  <Button fx:id="btnChambreHotels" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres hotels" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/accomodation.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres cliniques" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/accomodation.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Button>
                     </children>
                 </VBox>
             </left>
             <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="578.0" style="-fx-background-color: #5243BF;" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="1050.0" style="-fx-background-color: #5243BF;" BorderPane.alignment="CENTER">
                     <children>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -145,7 +171,7 @@
             <center>
                 <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                     <tabs>
-                        <Tab text="Liste des specialites">
+                        <Tab text="Specialites">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="494.0" prefWidth="808.0" stylesheets="@../css/style.css">
                                     <children>
@@ -161,12 +187,12 @@
                                                                 <Insets left="10.0" />
                                                             </padding>
                                                         </Label>
-                                                        <Button fx:id="btnAdd" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau specialite" textFill="#52438f">
+                                                        <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau specialite" textFill="#52438f">
                                                             <HBox.margin>
                                                                 <Insets />
                                                             </HBox.margin>
                                                         </Button>
-                                                        <Button fx:id="btnExport" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export specialite" textFill="#52438f" />
+                                                        <Button fx:id="btnExport" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export specialite" textFill="#52438f" />
                                                         <ImageView fx:id="imgRefresh1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>
                                                                 <Image url="@../icons/reload.png" />
@@ -180,7 +206,7 @@
                                                     <columns>
                                                         <TableColumn id="id" fx:id="id" prefWidth="144.80004274845123" text="ID" />
                                                         <TableColumn fx:id="specialite" prefWidth="152.79998779296875" text="Specialite" />
-                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="508.800048828125" text="Action" />
+                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="644.5332946777344" text="Action" />
                                                     </columns>
                                                     <opaqueInsets>
                                                         <Insets />
@@ -198,7 +224,7 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
-                        <Tab text="Liste des medicins">
+                        <Tab text="Medicins">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" stylesheets="@../css/style.css">
                            <children>
@@ -214,27 +240,33 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAdd1" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau medicin" textFill="#52438f">
+                                          <Button fx:id="btnAddMedicin" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau medicin" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExport1" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list medicins" textFill="#52438f" />
+                                          <Button fx:id="btnExportMedicin" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list medicins" textFill="#52438f" />
+                                          <ImageView fx:id="imgRefresh2" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/reload.png" />
+                                             </image>
+                                          </ImageView>
                                        </children>
                                     </HBox>
                                  </top>
                                  <center>
-                                    <TableView fx:id="tableView1" prefHeight="428.0" prefWidth="730.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+                                    <TableView fx:id="tableMedicin" prefHeight="428.0" prefWidth="730.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
                                        <columns>
-                                          <TableColumn id="id" fx:id="id1" prefWidth="42.399964928627014" text="ID" />
-                                          <TableColumn fx:id="specialite1" prefWidth="64.00001525878906" text="Nom" />
-                                          <TableColumn fx:id="editCol1" minWidth="0.0" prefWidth="106.39995574951172" text="Prenom" />
-                                          <TableColumn fx:id="editCol11" minWidth="0.0" prefWidth="100.79998779296875" text="Telephone" />
-                                          <TableColumn fx:id="editCol12" minWidth="0.0" prefWidth="111.20001220703125" text="DateNaissance" />
-                                          <TableColumn fx:id="editCol121" minWidth="0.0" prefWidth="93.60003662109375" text="Email" />
-                                          <TableColumn fx:id="editCol1211" minWidth="0.0" prefWidth="80.800048828125" text="Specialite" />
-                                          <TableColumn fx:id="editCol1212" minWidth="0.0" prefWidth="91.2000732421875" text="Clinique" />
-                                          <TableColumn fx:id="editCol12121" minWidth="0.0" prefWidth="79.9998779296875" text="Action" />
+                                          <TableColumn id="id" fx:id="idMedicin" prefWidth="42.399964928627014" text="ID" />
+                                          <TableColumn fx:id="nomMedicin" prefWidth="64.00001525878906" text="Nom" />
+                                          <TableColumn fx:id="prenomMedicin" minWidth="0.0" prefWidth="72.79998779296875" text="Prenom" />
+                                          <TableColumn fx:id="telephone" minWidth="0.0" prefWidth="91.20001220703125" text="Telephone" />
+                                          <TableColumn fx:id="dateNaissMedicin" minWidth="0.0" prefWidth="106.4000244140625" text="DateNaissance" />
+                                          <TableColumn fx:id="genderMedicin" prefWidth="75.0" text="Gender" />
+                                          <TableColumn fx:id="emailMedicin" minWidth="0.0" prefWidth="144.0" text="Email" />
+                                          <TableColumn fx:id="specialiteMed" minWidth="0.0" prefWidth="99.2000732421875" text="Specialite" />
+                                          <TableColumn fx:id="clinique" minWidth="0.0" prefWidth="97.333251953125" text="Clinique" />
+                                          <TableColumn fx:id="editColMed" minWidth="0.0" prefWidth="226.40004882812502" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -249,7 +281,7 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
-                  <Tab text="Liste des cliniques">
+                  <Tab text="Cliniques">
                       <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" stylesheets="@../css/style.css">
                               <children>
@@ -265,12 +297,12 @@
                                                           <Insets left="10.0" />
                                                       </padding>
                                                   </Label>
-                                                  <Button fx:id="btnAddCli" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau clinique" textFill="#52438f">
+                                                  <Button fx:id="btnAddCli" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau clinique" textFill="#52438f">
                                                       <HBox.margin>
                                                           <Insets />
                                                       </HBox.margin>
                                                   </Button>
-                                                  <Button fx:id="btnExportCli" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list cliniques" textFill="#52438f" />
+                                                  <Button fx:id="btnExportCli" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list cliniques" textFill="#52438f" />
                                           <ImageView fx:id="imgRefresh3" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
@@ -287,9 +319,9 @@
                                                   <TableColumn fx:id="adrClinique" minWidth="0.0" prefWidth="102.666748046875" text="Adresse" />
                                                   <TableColumn fx:id="telClinique" minWidth="0.0" prefWidth="94.66665649414062" text="Telephone" />
                                                   <TableColumn fx:id="emailClinique" minWidth="0.0" prefWidth="121.3333740234375" text="Email" />
-                                                  <TableColumn fx:id="villeClinique" minWidth="0.0" prefWidth="71.46661376953125" text="Ville" />
-                                                  <TableColumn fx:id="prix_chClinique" minWidth="0.0" prefWidth="142.933349609375" text="Prix_chambre(DT)" />
-                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="122.6666259765625" text="Action" />
+                                                  <TableColumn fx:id="villeClinique" minWidth="0.0" prefWidth="89.066650390625" text="Ville" />
+                                                  <TableColumn fx:id="prix_chClinique" minWidth="0.0" prefWidth="126.1334228515625" text="Prix_chambre(DT)" />
+                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="279.9999633789063" text="Action" />
                                               </columns>
                                               <opaqueInsets>
                                                   <Insets />
@@ -304,7 +336,7 @@
                           </AnchorPane>
                       </content>
                   </Tab>
-                  <Tab text="Liste des patients">
+                  <Tab text="Patients">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0">
                            <children>
@@ -320,12 +352,12 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAddPat" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau patient" textFill="#52438f">
+                                          <Button fx:id="btnAddPat" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau patient" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExportPat" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list patients" textFill="#52438f" />
+                                          <Button fx:id="btnExportPat" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list patients" textFill="#52438f" />
                                           <ImageView fx:id="imgRefresh4" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
@@ -341,10 +373,10 @@
                                           <TableColumn fx:id="nomPatient" prefWidth="86.13330841064453" text="Nom" />
                                           <TableColumn fx:id="prenomPatient" minWidth="0.0" prefWidth="102.666748046875" text="Prenom" />
                                           <TableColumn fx:id="dateNaiss" minWidth="0.0" prefWidth="126.1334228515625" text="Date de Naissance" />
-                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="102.93328857421875" text="Email" />
-                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="74.93338012695312" text="Sexe" />
-                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="113.86663818359375" text="Nationalite" />
-                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="140.800048828125" text="Action" />
+                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="119.199951171875" text="Email" />
+                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="120.0" text="Sexe" />
+                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="121.5999755859375" text="Nationalite" />
+                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="225.60006103515627" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -361,12 +393,12 @@
                            </padding></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Liste des rendez-vous">
+                  <Tab text="Rendez-vous">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" />
                      </content>
                   </Tab>
-                  <Tab text="Liste des hotels">
+                  <Tab text="Hotels">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0">
                            <children>
@@ -403,11 +435,11 @@
                                           <TableColumn fx:id="nomHotel" prefWidth="86.13330841064453" text="Nom" />
                                           <TableColumn fx:id="adrHotel" minWidth="0.0" prefWidth="73.60003662109375" text="Adresse" />
                                           <TableColumn fx:id="telHotel" minWidth="0.0" prefWidth="91.199951171875" text="Telephone" />
-                                          <TableColumn fx:id="emailHotel" minWidth="0.0" prefWidth="91.20001220703125" text="Email" />
-                                          <TableColumn fx:id="villeHotel" prefWidth="75.0" text="Ville" />
-                                          <TableColumn fx:id="catHotel" minWidth="0.0" prefWidth="100.00006103515625" text="Categorie" />
-                                          <TableColumn fx:id="prix_chHotel" minWidth="0.0" prefWidth="127.19998168945312" text="Prix_chambre(DT)" />
-                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="177.5999755859375" text="Action" />
+                                          <TableColumn fx:id="emailHotel" minWidth="0.0" prefWidth="113.33334350585938" text="Email" />
+                                          <TableColumn fx:id="villeHotel" prefWidth="85.86663818359375" text="Ville" />
+                                          <TableColumn fx:id="catHotel" minWidth="0.0" prefWidth="111.20004272460938" text="Categorie" />
+                                          <TableColumn fx:id="prix_chHotel" minWidth="0.0" prefWidth="139.199951171875" text="Prix_chambre(DT)" />
+                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="220.00003662109373" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -418,7 +450,7 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Liste des appartment">
+                  <Tab text="Appartments">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0">
                            <children>
@@ -434,12 +466,12 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAddAppartment" mnemonicParsing="false"  prefHeight="26.0" prefWidth="177.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau appartment" textFill="#52438f">
+                                          <Button fx:id="btnAddAppartment" mnemonicParsing="false" prefHeight="26.0" prefWidth="177.0" styleClass="button2" stylesheets="@../css/style.css" text="Ajouter nouveau appartment" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExportAppartment" mnemonicParsing="false"  prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list hotels" textFill="#52438f" />
+                                          <Button fx:id="btnExportAppartment" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../css/style.css" text="Export list hotels" textFill="#52438f" />
                                           <ImageView fx:id="imgRefresh7" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../icons/reload.png" />
@@ -454,11 +486,11 @@
                                           <TableColumn id="id" fx:id="idAppartment" prefWidth="42.399964928627014" text="ID" />
                                           <TableColumn fx:id="nomAppartment" prefWidth="86.13330841064453" text="Nom" />
                                           <TableColumn fx:id="adrAppartment" minWidth="0.0" prefWidth="73.60003662109375" text="Adresse" />
-                                          <TableColumn fx:id="nbChambreAppartment" minWidth="0.0" prefWidth="91.199951171875" text="nbre des chambres" />
-                                          <TableColumn fx:id="villeAppartment" prefWidth="75.0" text="Ville" />
-                                          <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="127.19998168945312" text="Prix_chambre(DT)" />
-                                          <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="100.00006103515625" text="Vide" />
-                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="177.5999755859375" text="Action" />
+                                          <TableColumn fx:id="nbChambreAppartment" minWidth="0.0" prefWidth="121.06674194335938" text="nbre des chambres" />
+                                          <TableColumn fx:id="villeAppartment" prefWidth="118.13330078125" text="Ville" />
+                                          <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="140.2667236328125" text="Prix_chambre(DT)" />
+                                          <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="90.66671752929688" text="Vide" />
+                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="269.6" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -469,7 +501,12 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Liste des medicins">
+                  <Tab text="Chambres Hotels">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" />
+                     </content>
+                  </Tab>
+                  <Tab text="Chambres Cliniques">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="516.0" />
                      </content>
