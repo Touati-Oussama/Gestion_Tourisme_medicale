@@ -177,7 +177,7 @@ public class HelloController implements Initializable{
     @FXML
     ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
     @FXML
-    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChambreHotels, btnAdd,btnExport;
+    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -387,6 +387,21 @@ public class HelloController implements Initializable{
         if (event.getSource() == btnChambreHotels){
             FXMLLoader loader = new FXMLLoader ();
             loader.setLocation(getClass().getResource("views/chambre-hotel/liste-chambre.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
+
+        if (event.getSource() == btnChambreCliniques){
+            FXMLLoader loader = new FXMLLoader ();
+            loader.setLocation(getClass().getResource("views/chambre-clinique/liste-chambre.fxml"));
             try {
                 loader.load();
             } catch (IOException ex) {

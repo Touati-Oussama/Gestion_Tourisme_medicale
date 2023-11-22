@@ -123,7 +123,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/accomodation.png" />
+                              <Image url="@../icons/lit-dhotel.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -131,11 +131,11 @@
                         <Insets left="10.0" />
                      </padding>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres cliniques" textFill="WHITE">
+                  <Button fx:id="btnChambreCliniques" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres cliniques" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/accomodation.png" />
+                              <Image url="@../icons/hebergement.png" />
                            </image>
                         </ImageView>
                      </graphic>
