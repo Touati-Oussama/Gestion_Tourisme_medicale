@@ -59,7 +59,7 @@ public class SpecialiteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
     }
 
 
@@ -67,7 +67,6 @@ public class SpecialiteController implements Initializable {
     @FXML
     private void save(ActionEvent event) {
 
-        //connection = DbConnect.getConnect();
         String specialite = vspecialite.getText();
         if (specialite.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -131,15 +130,15 @@ public class SpecialiteController implements Initializable {
     }
     void delete(int id) throws SQLException {
         query = "DELETE FROM `specialite` WHERE id  ="+id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<Specialite> getAll() throws SQLException {
+    public ArrayList<Specialite> getAll() throws SQLException {
         ArrayList<Specialite> s = new ArrayList<>();
         query = "SELECT * FROM `specialite`";
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 

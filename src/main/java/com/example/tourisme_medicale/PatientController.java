@@ -66,7 +66,7 @@ public class PatientController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (sexes != null)
             sexes.getItems().addAll(Sexe.values());
         if (nationalites != null)
@@ -148,7 +148,7 @@ public class PatientController implements Initializable {
     }
     public void delete(int id) throws SQLException {
         query = "DELETE FROM `patient` WHERE id  ="+id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }

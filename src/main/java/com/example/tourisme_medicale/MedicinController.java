@@ -71,7 +71,7 @@ public class MedicinController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (sexes != null)
             sexes.getItems().addAll(Sexe.values());
         if (cliniques != null) {
@@ -186,7 +186,7 @@ public class MedicinController implements Initializable {
     }
     public void delete(int id) throws SQLException {
         query = "DELETE FROM `medicin` WHERE id  ="+id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }

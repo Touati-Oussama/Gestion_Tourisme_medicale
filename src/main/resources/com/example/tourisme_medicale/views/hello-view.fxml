@@ -22,45 +22,9 @@
             <left>
                 <VBox prefHeight="447.0" prefWidth="169.0" style="-fx-background-color: #6F5CC2;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="btnSpecialite" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="209.0" stylesheets="@../css/style.css" text="Liste des specialites" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../icons/medical.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
-                        <Button fx:id="btnMedicin" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="215.0" stylesheets="@../css/style.css" text="Liste des medicins" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../icons/doctor.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
-                        <Button fx:id="btnClinique" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="226.0" stylesheets="@../css/style.css" text="Liste des cliniques" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../icons/hospital.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
                         <Button fx:id="btnPatient" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="238.0" stylesheets="@../css/style.css" text="Liste des patients" textFill="WHITE">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../icons/examination.png" />
                                     </image>
@@ -70,11 +34,11 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnRV" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="224.0" stylesheets="@../css/style.css" text="Liste des rendez-vous" textFill="WHITE">
+                        <Button fx:id="btnMedicin" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="215.0" stylesheets="@../css/style.css" text="Liste des medicins" textFill="WHITE">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/meeting.png" />
+                                        <Image url="@../icons/doctor.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -82,11 +46,12 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Hebergment" textFill="WHITE">
+                  <Line endX="100.0" startX="-100.0" stroke="WHITE" />
+                        <Button fx:id="btnClinique" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="226.0" stylesheets="@../css/style.css" text="Liste des cliniques" textFill="WHITE">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/accomodation.png" />
+                                        <Image url="@../icons/hospital.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -94,46 +59,9 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="btnHotel" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="230.0" stylesheets="@../css/style.css" text="Liste des hotels" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../icons/hotel.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
-                        <Button fx:id="btnAppartment" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="217.0" stylesheets="@../css/style.css" text="Liste des appartments" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../icons/appartment.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
-                  <Line endX="100.0" fill="BLACK" startX="-100.0" stroke="#fffbfb" />
-                  <Button fx:id="btnChambreHotels" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres hotels" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/lit-dhotel.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Button>
                   <Button fx:id="btnChambreCliniques" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres cliniques" textFill="WHITE">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/hebergement.png" />
                            </image>
@@ -143,6 +71,94 @@
                         <Insets left="10.0" />
                      </padding>
                   </Button>
+                  <Line endX="100.0" startX="-100.0" stroke="WHITE" />
+                        <Button fx:id="btnHotel" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="230.0" stylesheets="@../css/style.css" text="Liste des hotels" textFill="WHITE">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/hotel.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
+                  <Button fx:id="btnChambreHotels" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chambres hotels" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/lit-dhotel.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Button>
+                  <Line endX="100.0" fill="WHITE" startX="-100.0" stroke="#fffbfb" />
+                        <Button fx:id="btnAppartment" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="217.0" stylesheets="@../css/style.css" text="Liste des appartments" textFill="WHITE">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/appartment.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
+                  <Line endX="100.0" fill="WHITE" startX="-100.0" stroke="#fffbfb" />
+                        <Button fx:id="btnSpecialite" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="209.0" stylesheets="@../css/style.css" text="Liste des specialites" textFill="WHITE">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/medical.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
+                  <Line endX="100.0" fill="WHITE" startX="-100.0" stroke="#fffbfb" />
+                        <Button fx:id="btnChirurgies" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des chirurgies" textFill="WHITE">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/chirurgie.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
+                  <Button fx:id="btnSoins" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="213.0" stylesheets="@../css/style.css" text="Liste des soins medicaux" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/healthcare-and-medical.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Button>
+                        <Button fx:id="btnRV" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="224.0" stylesheets="@../css/style.css" text="Liste des rendez-vous" textFill="WHITE">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../icons/meeting.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
                     </children>
                 </VBox>
             </left>

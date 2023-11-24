@@ -29,8 +29,9 @@ public abstract class Type {
         this.prix = prix;
     }
 
-    public Specialite getSpecialite() {
-        return specialite;
+    public Specialite specialite(){ return  specialite;}
+    public String getSpecialite() {
+        return specialite.specialite();
     }
 
     public void setSpecialite(Specialite specialite) {

@@ -14,35 +14,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="499.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.ChambreHotelController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="691.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.SoinMedicaleController">
    <children>
-      <BorderPane prefHeight="578.0" prefWidth="977.0">
-         <top>
-            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="1050.0" style="-fx-background-color: #5243BF;" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/travel.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label graphicTextGap="10.0" text="Gestion Santé Voyage" textFill="WHITE">
-                     <font>
-                        <Font name="Arial Bold" size="12.0" />
-                     </font>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-               </children>
-            </HBox>
-         </top>
+      <BorderPane prefHeight="232.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="tabPane" prefHeight="281.0" prefWidth="576.0" stylesheets="@../../css/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                <tabs>
-                  <Tab text="Liste des chambres des hotels">
+                  <Tab text="Liste des chambres des soins medicaux disponibles">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="494.0" prefWidth="808.0" stylesheets="@../../css/style.css">
                            <children>
@@ -50,7 +29,7 @@
                                  <top>
                                     <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="696.0" spacing="10.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label graphicTextGap="10.0" text="Voici la liste des chambres des hotels disponibles " textFill="#5e5c5c">
+                                          <Label graphicTextGap="10.0" text="Voici la liste  des soins medicaux disponibles" textFill="#5e5c5c">
                                              <font>
                                                 <Font name="Arial Bold" size="12.0" />
                                              </font>
@@ -58,12 +37,12 @@
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="btnAddCh" mnemonicParsing="false" onAction="#showDialog" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Ajouter nouvelle chambre" textFill="#52438f">
+                                          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#showDialog" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Ajouter soin medicale" textFill="#52438f">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="btnExport" mnemonicParsing="false" onAction="#exportData" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Export list" textFill="#52438f" />
+                                          <Button fx:id="btnExport" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Export list" textFill="#52438f" />
                                           <ImageView fx:id="imgRefresh" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../../icons/reload.png" />
@@ -73,13 +52,11 @@
                                     </HBox>
                                  </top>
                                  <center>
-                                    <TableView fx:id="tableChambre" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
+                                    <TableView fx:id="tableSoin" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
                                        <columns>
-                                          <TableColumn id="id" fx:id="idChambre" prefWidth="105.60000455379486" text="ID" />
-                                          <TableColumn fx:id="nomChambre" prefWidth="192.79998016357422" text="Nom" />
-                                          <TableColumn fx:id="superficieCh" prefWidth="152.79998779296875" text="Superficie" />
-                                          <TableColumn fx:id="hotel" prefWidth="152.79998779296875" text="Hotel" />
-                                          <TableColumn fx:id="videCh" prefWidth="152.79998779296875" text="Vide" />
+                                          <TableColumn id="id" fx:id="idSoin" prefWidth="105.60000455379486" text="ID" />
+                                          <TableColumn fx:id="prixSoin" prefWidth="152.79998779296875" text="Prix initial" />
+                                          <TableColumn fx:id="specialite" prefWidth="152.79998779296875" text="Specialite" />
                                           <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="644.5332946777344" text="Action" />
                                        </columns>
                                        <opaqueInsets>

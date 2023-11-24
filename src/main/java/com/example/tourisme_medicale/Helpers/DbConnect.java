@@ -15,8 +15,25 @@ public class DbConnect {
     private static String PASSWORD = "";
     private static Connection connection ;
 
+    public static DbConnect instance;//hedhi el attribut staituqe et publique
 
-    public static Connection getConnect (){
+    public Connection getConnection() {
+        return connection;
+    }
+
+    private DbConnect(){
+
+        try {
+            System.out.println("Connexion en cours");
+            connection=  DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST,PORT,DB_NAME),USERNAME,PASSWORD);
+            System.out.println("Connexion établie !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
+    /*public static Connection getConnect (){
         try {
             connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", HOST,PORT,DB_NAME),USERNAME,PASSWORD);
         } catch (SQLException ex) {
@@ -24,5 +41,11 @@ public class DbConnect {
         }
 
         return  connection;
+    }*/
+
+    public static DbConnect getInstance() {
+        if (instance == null)
+            instance = new DbConnect();
+        return  instance;
     }
 }

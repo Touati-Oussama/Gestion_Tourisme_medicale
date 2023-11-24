@@ -1,0 +1,11 @@
+ID,NOM,ADRESSE,TELEPHONE,EMAIL,VILLE,CATEGORIE,PRIX CHAMBRE (DT)
+3,Movenpick,kantoui Sousse,2222222,movenpick@gmail.com,SOUSSE,5,250.0
+5,Sousse Pearl Marriott Resort,Abdelhamid El Kadhi Avenue,73104000,pearl.m@gmail.com,SOUSSE,5,150.0
+6,Sousse Palace,Avenue Hbib bourgiba,1111111,palace@gmail.com,SOUSSE,4,120.0
+7,El Kaiser,Boulevard Taib M'Hiri,22222222,elkaiser@gmail.com,SOUSSE,3,100.0
+8,Hotel Le Sultan,Route Touristique,77777777,lesultan@gmail.com,HAMMAMET,5,175.0
+9,Medina Belisaire & Thalasso,Rue De La Medina Yasmine Hammamet,14725836,medina@gmail.com,HAMMAMET,4,120.0
+10,Magic Hotel Manar,Route Touristique Mrezga,14736925,magic@gmail.com,HAMMAMET,5,200.0
+11,Hotel Belvedere Fourati,10 Avenue des Etats Unis d'Amerique,12345678,fourati@gmail.com,TUNIS,5,200.0
+12,Dar El Jeld Hotel & Spa,10 Rue Dar El Jeld,10203040,hotel@gmail.com,TUNIS,4,160.0
+13,Hotel TIBA,4 Ali Bach Hamba,25814796,hotel.tiba@gmail.com,TUNIS,3,90.0

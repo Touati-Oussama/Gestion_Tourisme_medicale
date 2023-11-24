@@ -65,7 +65,7 @@ public class AppartmentController  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (villes != null)
             villes.getItems().addAll(Ville.values());
         if (vide != null)
@@ -149,12 +149,12 @@ public class AppartmentController  implements Initializable {
     }
     void delete(int id) throws SQLException {
         query = "DELETE FROM `appartment_meuble` WHERE id  =" +id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<AppartementMeuble> getAll() throws SQLException {
+    public ArrayList<AppartementMeuble> getAll() throws SQLException {
         ArrayList<AppartementMeuble> s = new ArrayList<>();
         query = "SELECT * FROM `appartment_meuble`";
         preparedStatement = connection.prepareStatement(query);

@@ -1,0 +1,3 @@
+ID,NOM,ADRESSE,NOMBRE DE CHAMBRE,VILLE,PRIX CHAMBRE (DT),ETAT
+1,Appartment 1,Kantaoui,2,SOUSSE,90.0,true
+2,Appartment 2,Khzema,3,SOUSSE,120.0,false

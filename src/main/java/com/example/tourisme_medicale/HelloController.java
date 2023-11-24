@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -177,11 +178,13 @@ public class HelloController implements Initializable{
     @FXML
     ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
     @FXML
-    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
+    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChirurgies,btnSoins,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
 
+    private HotelController  hotelController = new HotelController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+        tabPane.getSelectionModel().select(3);
+        loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         initializeEvent();
         //tabPane.getSelectionModel().select(0);
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -189,7 +192,7 @@ public class HelloController implements Initializable{
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 if (newValue != null) {
                     System.out.println("Changement vers: " + newValue.getText());
-                    loadSpecialite(newValue);
+                    loadDataByTabs(newValue);
                 }
             }
         });
@@ -198,7 +201,7 @@ public class HelloController implements Initializable{
     }
 
     @FXML
-    public void loadSpecialite(Tab tab){
+    public void loadDataByTabs(Tab tab){
         if (tab.equals(tabPane.getTabs().get(0))) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("views/specialite/modifier-specialite.fxml"));
@@ -247,14 +250,6 @@ public class HelloController implements Initializable{
                     dateNaiss,emailPatient,gender,nationalite, editColPat, tablePatient);
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/hotel/modifier-hotel.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            HotelController hotelController = loader.getController();
             hotelController.afficher(btnHotel,hotelList,idHotel, nomHotel,adrHotel, telHotel,
                                     emailHotel, catHotel,prix_chHotel,villeHotel, editColHotel,tableHotel);
         }
@@ -324,14 +319,6 @@ public class HelloController implements Initializable{
 
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/hotel/modifier-hotel.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            HotelController hotelController = loader.getController();
             hotelController.refreshTable(hotelList,tableHotel);
 
         }
@@ -413,6 +400,36 @@ public class HelloController implements Initializable{
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
         }
+
+        if (event.getSource() == btnSoins){
+            FXMLLoader loader = new FXMLLoader ();
+            loader.setLocation(getClass().getResource("views/soin-medicale/liste-soin.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
+
+        if (event.getSource() == btnChirurgies){
+            FXMLLoader loader = new FXMLLoader ();
+            loader.setLocation(getClass().getResource("views/chirurgie-medicale/liste-chirurgie.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
     }
 
 
@@ -420,28 +437,28 @@ public class HelloController implements Initializable{
     public void refreshData(){
         imgRefresh1.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh2.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh3.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
 
         imgRefresh4.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh6.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh7.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
-            loadSpecialite(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
     }
 

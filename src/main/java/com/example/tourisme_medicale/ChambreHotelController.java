@@ -20,17 +20,17 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ChambreHotelController implements Initializable {
 
@@ -83,7 +83,7 @@ public class ChambreHotelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (hotels != null)
             try {
                 for (Hotel hotel: hotelController.getAll()) {
@@ -178,7 +178,7 @@ public class ChambreHotelController implements Initializable {
     }
     void delete(int id) throws SQLException {
         query = "DELETE FROM `chambre_hotel` WHERE id  =" +id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
@@ -367,5 +367,34 @@ public class ChambreHotelController implements Initializable {
             loadData();
         });
     }
+
+    @FXML
+    public void exportData(ActionEvent event){
+        ChambreHotelController chambreHotelController = new ChambreHotelController();
+        chambreHotelController.initialize(null,null);
+        ArrayList<ChambreHotel> l = null;
+        try {
+            l = chambreHotelController.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("ID").append(",").append("NOM").append(",").append("SUPERFICIE").append(",").append("HOTEL")
+                .append(",").append("ETAT").append("\n");
+
+        for (ChambreHotel  c: l) {
+            stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getSuperficie()).append(",").append(c.getHotel())
+                    .append(",").append(c.getVide()).append("\n");
+        }
+
+        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
+            writer.write(stringBuilder.toString());
+            System.out.println("File created ! ");
+        }
+        catch (Exception e){
+
+        }
+    }
 }
+
 

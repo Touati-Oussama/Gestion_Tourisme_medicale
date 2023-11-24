@@ -1,0 +1,22 @@
+ID,NOM,SUPERFICIE,HOTEL,ETAT
+2,Chambre 1,120.0,Movenpick,false
+3,Chambre 2,120.0,Movenpick,true
+4,Chambre 3,150.0,Movenpick,true
+5,Chambre 4,50.0,Movenpick,true
+6,Chambre 5,80.0,Movenpick,true
+7,Chambre 1,90.0,Sousse Pearl Marriott Resort,false
+8,Chambre 2,90.0,Sousse Pearl Marriott Resort,false
+9,Chambre 3,90.0,Sousse Pearl Marriott Resort,false
+10,Chambre 1,90.0,Sousse Palace,false
+11,Chambre 2,90.0,Sousse Palace,false
+12,Chambre 3,90.0,Sousse Palace,false
+13,Chambre 1,90.0,El Kaiser,false
+14,Chambre 2,90.0,El Kaiser,false
+15,Chambre 3,90.0,El Kaiser,false
+16,Chambre 1,90.0,Hotel Le Sultan,false
+17,Chambre 2,90.0,Hotel Le Sultan,false
+18,Chambre 1,90.0,Medina Belisaire & Thalasso,false
+19,Chambre 1,90.0,Magic Hotel Manar,false
+20,Chambre 1,90.0,Hotel Belvedere Fourati,false
+21,Chambre 1,90.0,Dar El Jeld Hotel & Spa,false
+22,Chambre 1,90.0,Hotel TIBA,false

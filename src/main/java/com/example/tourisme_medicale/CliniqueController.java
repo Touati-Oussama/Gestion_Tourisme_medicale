@@ -68,7 +68,7 @@ public class CliniqueController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (villes != null)
             villes.getItems().addAll(Ville.values());
     }
@@ -149,15 +149,15 @@ public class CliniqueController implements Initializable {
     }
     void delete(int id) throws SQLException {
         query = "DELETE FROM `clinique` WHERE id  ="+id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<Clinique> getAll() throws SQLException {
+    public ArrayList<Clinique> getAll() throws SQLException {
         ArrayList<Clinique> s = new ArrayList<>();
         query = "SELECT * FROM `clinique`";
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 

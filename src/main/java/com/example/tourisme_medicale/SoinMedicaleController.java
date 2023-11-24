@@ -1,10 +1,8 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
-import com.example.tourisme_medicale.models.ChambreClinique;
-import com.example.tourisme_medicale.models.ChambreHotel;
-import com.example.tourisme_medicale.models.Clinique;
-import com.example.tourisme_medicale.models.Hotel;
+import com.example.tourisme_medicale.models.SoinsMedicaux;
+import com.example.tourisme_medicale.models.Specialite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -30,74 +27,63 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-public class ChambreCliniqueController  implements Initializable {
+public class SoinMedicaleController implements Initializable {
 
 
     String query = null;
     Connection connection = null;
     ResultSet resultSet = null;
     PreparedStatement preparedStatement;
-    ChambreClinique chambre = null;
+    SoinsMedicaux soin = null;
     private boolean update;
-    int chambreId;
+    int soinId;
 
     @FXML
-    private TableView<ChambreClinique> tableChambre;
+    private TableView<SoinsMedicaux> tableSoin;
     @FXML
-    private TableColumn<ChambreClinique, Integer> idChambre;
-    @FXML
-    private TableColumn<ChambreClinique, String> nomChambre;
-    @FXML
-    private TableColumn<ChambreClinique, Float> nbLitsCh;
-    @FXML
-    private TableColumn<ChambreClinique, Boolean> videCh;
-    @FXML
-    private TableColumn<ChambreClinique, String> clinique;
+    private TableColumn<SoinsMedicaux, Integer> idSoin;
 
     @FXML
-    private TableColumn<ChambreClinique, String> editCol;
+    private TableColumn<SoinsMedicaux, Float> prixSoin;
 
-    ObservableList<ChambreClinique> chambreList = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<SoinsMedicaux, String> specialite;
+
+    @FXML
+    private TableColumn<SoinsMedicaux, String> editCol;
+
+    ObservableList<SoinsMedicaux> soinList = FXCollections.observableArrayList();
     @FXML
     ImageView imgRefresh;
 
     @FXML
-    ListView<String> cliniques;
+    ListView<String> specialites;
 
     @FXML
-    ListView<Boolean> vide;
-    @FXML
-    TextField nom;
-
-    @FXML
-    TextField nbLits;
+    TextField prix;
 
 
     @FXML
-    Button btnAddCh,btnExport;
+    Button btnAdd,btnExport;
 
-    private CliniqueController cliniqueController = new CliniqueController();
+    private SpecialiteController specialiteController = new SpecialiteController();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         connection = DbConnect.getInstance().getConnection();
-        if (cliniques != null)
+        if (specialites != null)
             try {
-                for (Clinique clinique: cliniqueController.getAll()) {
-                    this.cliniques.getItems().add(clinique.nom());
+                for (Specialite specialite: specialiteController.getAll()) {
+                    this.specialites.getItems().add(specialite.specialite());
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        if (vide != null)
-            vide.getItems().addAll(Boolean.TRUE,Boolean.FALSE);
         loadData();
         refreshData();
     }
@@ -106,15 +92,14 @@ public class ChambreCliniqueController  implements Initializable {
     @FXML
     private void save(ActionEvent event) {
         //connection = DbConnect.getConnect();
-        Clinique clinique;
-        String nom = this.nom.getText();
-        String nbLits = this.nbLits.getText();
+        Specialite specialite;
+        String prix = this.prix.getText();
         try {
-            clinique = cliniqueController.getCliniqueByName(this.cliniques.getSelectionModel().getSelectedItem());
+            specialite = specialiteController.getSpecialiteByName(this.specialites.getSelectionModel().getSelectedItem());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if (nom.isEmpty() || nbLits.isEmpty()  || clinique == null ) {
+        if (prix.isEmpty()  || specialite == null ) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Tous les champs sont obligatoires");
@@ -126,52 +111,43 @@ public class ChambreCliniqueController  implements Initializable {
             clean();
 
         }
-        Stage stage = (Stage) btnAddCh.getScene().getWindow();
+        Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     private void clean() {
 
-        this.nom.setText(null);
-        this.nbLits.setText(null);
-        this.cliniques.getSelectionModel().select(null);
-        if (this.vide != null)
-            this.vide.getSelectionModel().select(null);
+        this.prix.setText(null);
+        this.specialites.getSelectionModel().select(null);
+
     }
 
     private void getQuery() {
 
         if (update == false) {
 
-            query = "INSERT INTO `chambre_clinique`(`nom`, `vide`, `id_clinique`, `nbLits`) " +
-                    "VALUES (?,?,?,?)";
+            query = "INSERT INTO `soin_medicale`(`prix`, `specialite_id`) " +
+                    "VALUES (?,?)";
         }else{
-            query = "UPDATE `chambre_clinique` SET " +
-                    "`nom`= ?," +
-                    "`vide`= ?," +
-                    "`id_clinique`= ?," +
-                    "`nbLits`= ?" +
-                    " WHERE id = '"+chambreId+"'";
+            query = "UPDATE `soin_medicale` SET " +
+                    "`prix`= ?," +
+                    "`specialite_id`= ?" +
+                    " WHERE id = '"+soinId+"'";
         }
     }
 
     private void insert() {
-        Clinique clinique;
+        Specialite specialite;
         try {
-            clinique = cliniqueController.getCliniqueByName(this.cliniques.getSelectionModel().getSelectedItem());
+            specialite = specialiteController.getSpecialiteByName(this.specialites.getSelectionModel().getSelectedItem());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, this.nom.getText());
-            preparedStatement.setInt(3, clinique.id());
-            preparedStatement.setInt(4,Integer.parseInt(this.nbLits.getText()));
-            if (update == false)
-                preparedStatement.setBoolean(2, true);
-            else
-                preparedStatement.setBoolean(2, this.vide.getSelectionModel().getSelectedItem());
+            preparedStatement.setFloat(1,Float.parseFloat(this.prix.getText()));
+            preparedStatement.setInt(2, specialite.id());
             preparedStatement.execute();
 
         } catch (SQLException ex) {
@@ -180,43 +156,38 @@ public class ChambreCliniqueController  implements Initializable {
 
     }
     void delete(int id) throws SQLException {
-        query = "DELETE FROM `chambre_hotel` WHERE id  =" +id;
+        query = "DELETE FROM `soin_medicale` WHERE id  =" +id;
         connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<ChambreClinique> getAll() throws SQLException {
-        ArrayList<ChambreClinique> s = new ArrayList<>();
-        query = "SELECT * FROM `chambre_clinique`";
+    ArrayList<SoinsMedicaux> getAll() throws SQLException {
+        ArrayList<SoinsMedicaux> s = new ArrayList<>();
+        query = "SELECT * FROM `soin_medicale`";
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()){
-            Clinique clinique;
+            Specialite specialite;
             try {
-                clinique = cliniqueController.getCliniqueById(resultSet.getInt("id_clinique"));
+                specialite = specialiteController.getSpecialiteById(resultSet.getInt("specialite_id"));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            s.add(new ChambreClinique(
+            s.add(new SoinsMedicaux(
                     resultSet.getInt("id"),
-                    resultSet.getString("nom"),
-                    resultSet.getInt("nbLits"),
-                    clinique,
-                    resultSet.getBoolean("vide")
+                    resultSet.getFloat("prix"),
+                    specialite
 
             ));
         }
         return s;
     }
-    void setTextField(ChambreClinique chambre) {
-        chambreId = chambre.getId();
-        nom.setText(chambre.getClinique());
-        nbLits.setText(String.valueOf(chambre.getNbLits()));
-        cliniques.getSelectionModel().select(chambre.getClinique());
-        vide.getSelectionModel().select(chambre.getVide());
-
+    void setTextField(SoinsMedicaux soin) {
+        soinId = soin.getId();
+        prix.setText(String.valueOf(soin.getPrix()));
+        specialites.getSelectionModel().select(soin.getSpecialite());
     }
 
     void setUpdate(boolean b) {
@@ -226,32 +197,30 @@ public class ChambreCliniqueController  implements Initializable {
 
 
     void loadData() {
-        if (idChambre != null && nomChambre != null && nbLitsCh != null && clinique != null && videCh != null){
-            idChambre.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomChambre.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            nbLitsCh.setCellValueFactory(new PropertyValueFactory<>("nbLits"));
-            clinique.setCellValueFactory(new PropertyValueFactory<>("clinique"));
-            videCh.setCellValueFactory(new PropertyValueFactory<>("vide"));
+        if (idSoin != null  && prixSoin != null && specialite != null ){
+            idSoin.setCellValueFactory(new PropertyValueFactory<>("id"));
+            prixSoin.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            specialite.setCellValueFactory(new PropertyValueFactory<>("specialite"));
         }
 
         //add cell of button edit
-        ObservableList<ChambreClinique> finalChambreList = chambreList;
-        Callback<TableColumn<ChambreClinique, String>, TableCell<ChambreClinique, String>> cellFoctory = (TableColumn<ChambreClinique, String> param) -> {
+        ObservableList<SoinsMedicaux> finalSoinList = soinList;
+        Callback<TableColumn<SoinsMedicaux, String>, TableCell<SoinsMedicaux, String>> cellFoctory = (TableColumn<SoinsMedicaux, String> param) -> {
             // make cell containing buttons
-            final TableCell<ChambreClinique, String> cell = new TableCell<ChambreClinique, String>() {
+            final TableCell<SoinsMedicaux, String> cell = new TableCell<SoinsMedicaux, String>() {
 
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
                     //that cell created only on non-empty rows
                     FXMLLoader loader = new FXMLLoader ();
-                    loader.setLocation(getClass().getResource("views/chambre-clinique/modifier-chambre.fxml"));
+                    loader.setLocation(getClass().getResource("views/soin-medicale/modifier-soin.fxml"));
                     try {
                         loader.load();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    ChambreCliniqueController chambreCliniqueController = loader.getController();
+                    SoinMedicaleController soinMedicaleController = loader.getController();
                     if (empty) {
                         setGraphic(null);
                         setText(null);
@@ -263,14 +232,14 @@ public class ChambreCliniqueController  implements Initializable {
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
                         deleteIcon.setOnAction((ActionEvent event) -> {
-                            chambre = tableChambre.getSelectionModel().getSelectedItem();
-                            if (chambre != null){
+                            soin = tableSoin.getSelectionModel().getSelectedItem();
+                            if (soin != null){
                                 try {
                                     Alert alert = new Alert(Alert.AlertType.WARNING);
                                     alert.setHeaderText("Suppression");
                                     alert.setContentText("Voulez-vous supprimer ce patient ?: ");
                                     if (alert.showAndWait().get() == ButtonType.OK){
-                                        delete(chambre.getId());
+                                        delete(soin.getId());
                                         alert = new Alert(Alert.AlertType.CONFIRMATION);
                                         alert.setHeaderText("Success");
                                         alert.setContentText("Le patient a été supprimé: ");
@@ -278,7 +247,7 @@ public class ChambreCliniqueController  implements Initializable {
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
-                                refreshTable(finalChambreList,tableChambre);
+                                refreshTable(finalSoinList,tableSoin);
                             }
                             else {
                                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -289,10 +258,10 @@ public class ChambreCliniqueController  implements Initializable {
 
                         });
                         editIcon.setOnAction((ActionEvent event) -> {
-                            chambre = tableChambre.getSelectionModel().getSelectedItem();
-                            if (chambre != null){
-                                chambreCliniqueController.setUpdate(true);
-                                chambreCliniqueController.setTextField(chambre);
+                            soin = tableSoin.getSelectionModel().getSelectedItem();
+                            if (soin != null){
+                                soinMedicaleController.setUpdate(true);
+                                soinMedicaleController.setTextField(soin);
                                 Parent parent = loader.getRoot();
                                 Stage stage = new Stage();
                                 stage.setScene(new Scene(parent));
@@ -318,11 +287,11 @@ public class ChambreCliniqueController  implements Initializable {
             };
             return cell;
         };
-        if (editCol != null && tableChambre != null){
+        if (editCol != null && tableSoin != null){
             editCol.setCellFactory(cellFoctory);
             try {
-                chambreList = fetchDataHotel();
-                tableChambre.setItems(chambreList);
+                soinList = fetchDataSoin();
+                tableSoin.setItems(soinList);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -330,11 +299,11 @@ public class ChambreCliniqueController  implements Initializable {
 
     }
 
-    public void refreshTable(ObservableList<ChambreClinique> chambreList, TableView<ChambreClinique> tableChambre) {
+    public void refreshTable(ObservableList<SoinsMedicaux> soinList, TableView<SoinsMedicaux> tableSoin) {
         try {
-            chambreList.clear();
-            chambreList = fetchDataHotel();
-            tableChambre.setItems(chambreList);
+            soinList.clear();
+            soinList = fetchDataSoin();
+            tableSoin.setItems(soinList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -344,7 +313,7 @@ public class ChambreCliniqueController  implements Initializable {
     @FXML
     public void showDialog(ActionEvent event){
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/com/example/tourisme_medicale/views/chambre-clinique/ajouter-chambre.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/com/example/tourisme_medicale/views/soin-medicale/ajouter-soin.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(parent);
             stage.setResizable(false);
@@ -358,9 +327,9 @@ public class ChambreCliniqueController  implements Initializable {
         }
     }
 
-    private ObservableList<ChambreClinique> fetchDataHotel() throws SQLException {
-        ArrayList<ChambreClinique> chambres =  getAll();
-        return FXCollections.observableArrayList(chambres);
+    private ObservableList<SoinsMedicaux> fetchDataSoin() throws SQLException {
+        ArrayList<SoinsMedicaux> soins =  getAll();
+        return FXCollections.observableArrayList(soins);
     }
 
 
@@ -370,32 +339,5 @@ public class ChambreCliniqueController  implements Initializable {
                 loadData();
             });
     }
-
-    @FXML
-    public void exportData(ActionEvent event){
-        ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
-        chambreCliniqueController.initialize(null,null);
-        ArrayList<ChambreClinique> l = null;
-        try {
-            l = chambreCliniqueController.getAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("ID").append(",").append("NOM").append(",").append("NOMBRE DES LITS").append(",").append("CLINIQUE")
-                .append(",").append("ETAT").append("\n");
-
-        for (ChambreClinique  c: l) {
-            stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getNbLits()).append(",").append(c.getClinique())
-                    .append(",").append(c.getVide()).append("\n");
-        }
-
-        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreCliniques.csv")){
-            writer.write(stringBuilder.toString());
-            System.out.println("File created ! ");
-        }
-        catch (Exception e){
-
-        }
-    }
 }
+

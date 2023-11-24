@@ -1,10 +1,7 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
-import com.example.tourisme_medicale.models.Clinique;
-import com.example.tourisme_medicale.models.Hotel;
-import com.example.tourisme_medicale.models.Specialite;
-import com.example.tourisme_medicale.models.Ville;
+import com.example.tourisme_medicale.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,9 +25,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class HotelController  implements Initializable {
 
@@ -72,7 +72,7 @@ public class HotelController  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         if (categories != null)
             categories.getItems().addAll(Categories);
         if (villes != null)
@@ -155,15 +155,15 @@ public class HotelController  implements Initializable {
     }
     void delete(int id) throws SQLException {
         query = "DELETE FROM `hotel` WHERE id  ="+id;
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<Hotel> getAll() throws SQLException {
+    public ArrayList<Hotel> getAll() throws SQLException {
         ArrayList<Hotel> s = new ArrayList<>();
         query = "SELECT * FROM `hotel`";
-        connection = DbConnect.getConnect();
+        connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
 
@@ -294,7 +294,10 @@ public class HotelController  implements Initializable {
         editColHotel.setCellFactory(cellFoctory);
         try {
             hotelList = fetchDataHotel();
-            tableHotel.setItems(hotelList);
+            List<Hotel> filteredHotels = hotelList.stream()
+                    .sorted(Comparator.comparing(Hotel::getPrixChambre))
+                    .collect(Collectors.toList());
+            tableHotel.setItems(FXCollections.observableArrayList(filteredHotels));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
