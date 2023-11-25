@@ -83,6 +83,9 @@ public class ChirurgieController implements Initializable {
     Button btnAdd,btnExport;
 
     private SpecialiteController specialiteController = new SpecialiteController();
+    public ChirurgieController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -255,8 +258,10 @@ public class ChirurgieController implements Initializable {
 
                         Button deleteIcon = new Button("Supprimer");
                         Button editIcon = new Button("Modifier");
+                        Button medicinIcon = new Button("Medicins");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
+                        medicinIcon.getStyleClass().add("btn-info");
                         deleteIcon.setOnAction((ActionEvent event) -> {
                             chirurgie = tablechirurgie.getSelectionModel().getSelectedItem();
                             if (chirurgie != null){
@@ -302,10 +307,38 @@ public class ChirurgieController implements Initializable {
 
 
                         });
-                        HBox managebtn = new HBox(editIcon, deleteIcon);
+                        medicinIcon.setOnAction(event ->{
+                            chirurgie = tablechirurgie.getSelectionModel().getSelectedItem();
+                            FXMLLoader loader2 = new FXMLLoader ();
+                            loader2.setLocation(getClass().getResource("views/medicin_chirurgie/liste.fxml"));
+                                try {
+                                    loader2.load();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                if (chirurgie != null){
+                                    ChirurgieMedicinController chirurgieMedicinController = loader2.getController();
+                                    chirurgieMedicinController.setChirurgie(chirurgie);
+                                    chirurgieMedicinController.updateMedicinsForChirurgie(chirurgie);
+                                    Parent parent = loader2.getRoot();
+                                    Stage stage = new Stage();
+                                    stage.setScene(new Scene(parent));
+                                    stage.initStyle(StageStyle.UTILITY);
+                                    stage.show();
+                                }else {
+                                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                                    alert.setHeaderText("Erreur de selection");
+                                    alert.setContentText("Selectionner une chirurgie ! ");
+                                    alert.showAndWait();
+                                }
+
+
+                        });
+                        HBox managebtn = new HBox(editIcon, deleteIcon, medicinIcon);
                         //managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
                         HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+                        HBox.setMargin(medicinIcon, new Insets(2, 3, 0, 1));
                         setGraphic(managebtn);
                         setText(null);
                     }
@@ -364,6 +397,24 @@ public class ChirurgieController implements Initializable {
             imgRefresh.setOnMouseClicked(event ->{
                 loadData();
             });
+    }
+
+    public Chirurgie getChirurgieByById(int id) throws SQLException {
+        for (Chirurgie  chirurgie : getAll()) {
+            if (chirurgie.getId() == id) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Chirurgie getChirurgieByType(String type) throws SQLException {
+        for (Chirurgie  chirurgie : getAll()) {
+            if (chirurgie.getTypeChirurgie().equals(type)) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 }
 

@@ -68,6 +68,11 @@ public class MedicinController implements Initializable {
 
     private CliniqueController cliniqueController = new CliniqueController();
     private SpecialiteController specialiteController = new SpecialiteController();
+
+    public MedicinController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -351,5 +356,24 @@ public class MedicinController implements Initializable {
         ArrayList<Medicin> medicins = getAll();
         return FXCollections.observableArrayList(medicins);
     }
-}
 
+    public Medicin getMedicinById(int id) throws SQLException {
+        for (Medicin  medicin : getAll()) {
+            if (medicin.getId() == id) {
+                return medicin; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Medicin getMedicinByName(String type) throws SQLException {
+        String[] s = type.split(" ");
+        for (Medicin  medicin : getAll()) {
+            if (medicin.getNom().equals(s[0]) && medicin.getPrenom().equals(s[1])) {
+                return medicin; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+}

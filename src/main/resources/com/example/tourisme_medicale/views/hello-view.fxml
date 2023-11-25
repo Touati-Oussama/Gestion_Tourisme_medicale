@@ -159,6 +159,18 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
+                  <Button fx:id="btnMedCh" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleButtonClickVbox" prefHeight="42.0" prefWidth="224.0" stylesheets="@../css/style.css" text="Affectation Medicin/Chirurgie" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/meeting.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Button>
                     </children>
                 </VBox>
             </left>

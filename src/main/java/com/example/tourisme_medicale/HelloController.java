@@ -178,7 +178,7 @@ public class HelloController implements Initializable{
     @FXML
     ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
     @FXML
-    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnChirurgies,btnSoins,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
+    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnMedCh,btnChirurgies,btnSoins,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
 
     private HotelController  hotelController = new HotelController();
     @Override
@@ -419,6 +419,21 @@ public class HelloController implements Initializable{
         if (event.getSource() == btnChirurgies){
             FXMLLoader loader = new FXMLLoader ();
             loader.setLocation(getClass().getResource("views/chirurgie-medicale/liste-chirurgie.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
+
+        if (event.getSource() == btnMedCh){
+            FXMLLoader loader = new FXMLLoader ();
+            loader.setLocation(getClass().getResource("views/medicin_chirurgie/liste.fxml"));
             try {
                 loader.load();
             } catch (IOException ex) {
