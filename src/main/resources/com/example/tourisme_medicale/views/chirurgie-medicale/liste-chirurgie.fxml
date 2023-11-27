@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="480.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.ChirurgieController">
+<AnchorPane prefHeight="534.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.ChirurgieController">
     <children>
         <BorderPane prefHeight="232.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>
@@ -41,7 +41,7 @@
                                                                 <Insets />
                                                             </HBox.margin>
                                                         </Button>
-                                                        <Button fx:id="btnExport" mnemonicParsing="false" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Export list" textFill="#52438f" />
+                                                        <Button fx:id="btnExport" mnemonicParsing="false" onAction="#exportData" prefHeight="26.0" prefWidth="158.0" styleClass="button2" stylesheets="@../../css/style.css" text="Export list" textFill="#52438f" />
                                                         <ImageView fx:id="imgRefresh" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>
                                                                 <Image url="@../../icons/reload.png" />

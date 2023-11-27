@@ -6,12 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="e2544eb4-2887-4b14-a6e6-d2fd5df9e55c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/CSV/patients.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/CSV/patients.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/appartments.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/chambreCliniques.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/chambreHotels.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/cliniques.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/hotels.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/CSV/hotels.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/medicins.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/patients.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/specialites.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieMedicinController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieMedicinController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/Helpers/DbConnect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/Helpers/DbConnect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/MedicinController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/MedicinController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/chirurgie-medicale/liste-chirurgie.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/chirurgie-medicale/liste-chirurgie.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/medicin_chirurgie/liste.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/medicin_chirurgie/liste.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

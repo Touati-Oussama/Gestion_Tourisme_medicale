@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="764.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
+<AnchorPane prefHeight="776.0" prefWidth="1238.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
     <children>
         <BorderPane prefHeight="578.0" prefWidth="977.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
@@ -234,7 +234,7 @@
                                                     <columns>
                                                         <TableColumn id="id" fx:id="id" prefWidth="144.80004274845123" text="ID" />
                                                         <TableColumn fx:id="specialite" prefWidth="152.79998779296875" text="Specialite" />
-                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="644.5332946777344" text="Action" />
+                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="716.8000183105469" text="Action" />
                                                     </columns>
                                                     <opaqueInsets>
                                                         <Insets />
@@ -344,12 +344,12 @@
                                               <columns>
                                                   <TableColumn id="id" fx:id="idClinique" prefWidth="42.399964928627014" text="ID" />
                                                   <TableColumn fx:id="nomClinique" prefWidth="86.13330841064453" text="Nom" />
-                                                  <TableColumn fx:id="adrClinique" minWidth="0.0" prefWidth="102.666748046875" text="Adresse" />
-                                                  <TableColumn fx:id="telClinique" minWidth="0.0" prefWidth="94.66665649414062" text="Telephone" />
-                                                  <TableColumn fx:id="emailClinique" minWidth="0.0" prefWidth="121.3333740234375" text="Email" />
-                                                  <TableColumn fx:id="villeClinique" minWidth="0.0" prefWidth="89.066650390625" text="Ville" />
-                                                  <TableColumn fx:id="prix_chClinique" minWidth="0.0" prefWidth="126.1334228515625" text="Prix_chambre(DT)" />
-                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="279.9999633789063" text="Action" />
+                                                  <TableColumn fx:id="adrClinique" minWidth="0.0" prefWidth="160.0" text="Adresse" />
+                                                  <TableColumn fx:id="telClinique" minWidth="0.0" prefWidth="105.86663818359375" text="Telephone" />
+                                                  <TableColumn fx:id="emailClinique" minWidth="0.0" prefWidth="148.53338623046875" text="Email" />
+                                                  <TableColumn fx:id="villeClinique" minWidth="0.0" prefWidth="116.2666015625" text="Ville" />
+                                                  <TableColumn fx:id="prix_chClinique" minWidth="0.0" prefWidth="149.333251953125" text="Prix_chambre(DT)" />
+                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="210.66668701171875" text="Action" />
                                               </columns>
                                               <opaqueInsets>
                                                   <Insets />
@@ -401,10 +401,10 @@
                                           <TableColumn fx:id="nomPatient" prefWidth="86.13330841064453" text="Nom" />
                                           <TableColumn fx:id="prenomPatient" minWidth="0.0" prefWidth="102.666748046875" text="Prenom" />
                                           <TableColumn fx:id="dateNaiss" minWidth="0.0" prefWidth="126.1334228515625" text="Date de Naissance" />
-                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="119.199951171875" text="Email" />
-                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="120.0" text="Sexe" />
-                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="121.5999755859375" text="Nationalite" />
-                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="225.60006103515627" text="Action" />
+                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="155.46673583984375" text="Email" />
+                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="109.33331298828125" text="Sexe" />
+                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="139.199951171875" text="Nationalite" />
+                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="253.33331298828125" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -461,13 +461,13 @@
                                        <columns>
                                           <TableColumn id="id" fx:id="idHotel" prefWidth="42.399964928627014" text="ID" />
                                           <TableColumn fx:id="nomHotel" prefWidth="86.13330841064453" text="Nom" />
-                                          <TableColumn fx:id="adrHotel" minWidth="0.0" prefWidth="73.60003662109375" text="Adresse" />
-                                          <TableColumn fx:id="telHotel" minWidth="0.0" prefWidth="91.199951171875" text="Telephone" />
-                                          <TableColumn fx:id="emailHotel" minWidth="0.0" prefWidth="113.33334350585938" text="Email" />
-                                          <TableColumn fx:id="villeHotel" prefWidth="85.86663818359375" text="Ville" />
-                                          <TableColumn fx:id="catHotel" minWidth="0.0" prefWidth="111.20004272460938" text="Categorie" />
-                                          <TableColumn fx:id="prix_chHotel" minWidth="0.0" prefWidth="139.199951171875" text="Prix_chambre(DT)" />
-                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="220.00003662109373" text="Action" />
+                                          <TableColumn fx:id="adrHotel" minWidth="0.0" prefWidth="137.33340454101562" text="Adresse" />
+                                          <TableColumn fx:id="telHotel" minWidth="0.0" prefWidth="92.2666015625" text="Telephone" />
+                                          <TableColumn fx:id="emailHotel" minWidth="0.0" prefWidth="134.39993286132812" text="Email" />
+                                          <TableColumn fx:id="villeHotel" prefWidth="86.13339233398438" text="Ville" />
+                                          <TableColumn fx:id="catHotel" minWidth="0.0" prefWidth="91.19989013671875" text="Categorie" />
+                                          <TableColumn fx:id="prix_chHotel" minWidth="0.0" prefWidth="143.7333984375" text="Prix_chambre(DT)" />
+                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="224.2667236328125" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -513,12 +513,12 @@
                                        <columns>
                                           <TableColumn id="id" fx:id="idAppartment" prefWidth="42.399964928627014" text="ID" />
                                           <TableColumn fx:id="nomAppartment" prefWidth="86.13330841064453" text="Nom" />
-                                          <TableColumn fx:id="adrAppartment" minWidth="0.0" prefWidth="73.60003662109375" text="Adresse" />
-                                          <TableColumn fx:id="nbChambreAppartment" minWidth="0.0" prefWidth="121.06674194335938" text="nbre des chambres" />
-                                          <TableColumn fx:id="villeAppartment" prefWidth="118.13330078125" text="Ville" />
-                                          <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="140.2667236328125" text="Prix_chambre(DT)" />
-                                          <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="90.66671752929688" text="Vide" />
-                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="269.6" text="Action" />
+                                          <TableColumn fx:id="adrAppartment" minWidth="0.0" prefWidth="198.13333129882812" text="Adresse" />
+                                          <TableColumn fx:id="nbChambreAppartment" minWidth="0.0" prefWidth="131.46658325195312" text="nbre des chambres" />
+                                          <TableColumn fx:id="villeAppartment" prefWidth="106.66668701171875" text="Ville" />
+                                          <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="111.199951171875" text="Prix_chambre(DT)" />
+                                          <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="81.86676025390625" text="Vide" />
+                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="257.86669921875" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />

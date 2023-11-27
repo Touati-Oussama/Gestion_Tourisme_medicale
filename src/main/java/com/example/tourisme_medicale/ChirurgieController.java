@@ -1,6 +1,7 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
+import com.example.tourisme_medicale.models.ChambreClinique;
 import com.example.tourisme_medicale.models.Chirurgie;
 import com.example.tourisme_medicale.models.Specialite;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -209,6 +211,8 @@ public class ChirurgieController implements Initializable {
         }
         return s;
     }
+
+
     void setTextField(Chirurgie chirurgie) {
         chirurgieId = chirurgie.getId();
         prix.setText(String.valueOf(chirurgie.getPrix()));
@@ -258,10 +262,12 @@ public class ChirurgieController implements Initializable {
 
                         Button deleteIcon = new Button("Supprimer");
                         Button editIcon = new Button("Modifier");
-                        Button medicinIcon = new Button("Medicins");
+                        Button medicinIcon = new Button("Liste Medicins");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
                         medicinIcon.getStyleClass().add("btn-info");
+                        medicinIcon.setStyle("-fx-text-fill: white;");
+
                         deleteIcon.setOnAction((ActionEvent event) -> {
                             chirurgie = tablechirurgie.getSelectionModel().getSelectedItem();
                             if (chirurgie != null){
@@ -415,6 +421,34 @@ public class ChirurgieController implements Initializable {
             }
         }
         return null; // No Clinique found with the specified ID
+    }
+
+    @FXML
+    public void exportData(ActionEvent event){
+        ChirurgieController chirurgieController = new ChirurgieController();
+        chirurgieController.initialize(null,null);
+        ArrayList<Chirurgie> l = null;
+        try {
+            l = chirurgieController.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("ID").append(",").append("TYPE").append(",").append("SPECIALITE").append(",").append("PRIX INITIAL")
+                .append(",").append("DUREE DE TRAITEMENT(JRS)").append("\n");
+
+        for (Chirurgie  c: l) {
+            stringBuilder.append(c.getId()).append(",").append(c.getTypeChirurgie()).append(",").append(c.getSpecialite())
+                    .append(",").append(c.getPrix()).append(",").append(c.getDuree()).append("\n");
+        }
+
+        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\listeChirurgies.csv")){
+            writer.write(stringBuilder.toString());
+            System.out.println("File created ! ");
+        }
+        catch (Exception e){
+
+        }
     }
 }
 

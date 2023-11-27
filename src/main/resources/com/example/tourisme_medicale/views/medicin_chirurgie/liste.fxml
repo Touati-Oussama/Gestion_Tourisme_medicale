@@ -54,14 +54,14 @@
                                             <center>
                                                 <TableView fx:id="tableMedChir" prefHeight="410.0" prefWidth="838.0" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
                                                     <columns>
-                                                        <TableColumn fx:id="typeChirur" prefWidth="44.80001449584961" text="Type" />
-                                                        <TableColumn fx:id="specChirur" prefWidth="81.59996795654297" text="Specialite" />
-                                                        <TableColumn fx:id="prixIniChirur" prefWidth="88.0" text="Prix initial" />
-                                                        <TableColumn fx:id="dureeChirur" prefWidth="92.80000305175781" text="Duree (Jrs)" />
-                                          <TableColumn fx:id="nomMedicin" prefWidth="120.00006103515625" text="Medicin" />
-                                          <TableColumn fx:id="reductionMedCh" prefWidth="87.20004272460938" text="Reduction" />
-                                          <TableColumn fx:id="prixFinChirur" prefWidth="92.7998046875" text="Prix Reduction" />
-                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="265.5999877929687" text="Action" />
+                                                        <TableColumn fx:id="typeChirur" prefWidth="121.60000306367874" text="Type" />
+                                                        <TableColumn fx:id="specChirur" prefWidth="88.0" text="Specialite" />
+                                                        <TableColumn fx:id="prixIniChirur" prefWidth="71.20002746582031" text="Prix initial" />
+                                                        <TableColumn fx:id="dureeChirur" prefWidth="84.0" text="Duree (Jrs)" />
+                                          <TableColumn fx:id="nomMedicin" prefWidth="109.5999755859375" text="Medicin" />
+                                          <TableColumn fx:id="reductionMedCh" prefWidth="92.0" text="Reduction" />
+                                          <TableColumn fx:id="prixFinChirur" prefWidth="111.20001220703125" text="Prix Reduction" />
+                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="201.60003662109375" text="Action" />
                                                     </columns>
                                                     <opaqueInsets>
                                                         <Insets />

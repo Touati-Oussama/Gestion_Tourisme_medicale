@@ -24,6 +24,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -263,8 +264,10 @@ public class ChirurgieMedicinController implements Initializable {
 
                         Button deleteIcon = new Button("Supprimer");
                         Button editIcon = new Button("Modifier");
+                        Button rdvIcon = new Button("Rendez-vous");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
+                        rdvIcon.setStyle("-fx-text-fill: white;");
                         deleteIcon.setOnAction((ActionEvent event) -> {
                             medicin_chirurgie = tableMedChir.getSelectionModel().getSelectedItem();
                             if (medicin_chirurgie != null){
@@ -307,13 +310,12 @@ public class ChirurgieMedicinController implements Initializable {
                                 alert.setContentText("Selectionner une appartment ! ");
                                 alert.showAndWait();
                             }
-
-
                         });
                         HBox managebtn = new HBox(editIcon, deleteIcon);
                         //managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
                         HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+                        HBox.setMargin(rdvIcon, new Insets(2,3,0,1));
                         setGraphic(managebtn);
                         setText(null);
                     }
