@@ -17,11 +17,12 @@ import java.util.ArrayList;
 
 public class ShowDialogController implements EventHandler<ActionEvent> {
 
-    private Button btnAdd,btnExport,btnAddCli,btnExportCli,btnAddPat,btnExportPat,btnAddCh,btnExportCh,
+    private Button btnAdd,btnExport,btnAddCli,btnExportCli,btnAddPat,btnExportPat,btnAddCh,btnExportChCli, btnAddChHot,
+            btnExportChHot,
             btnAddHotel,btnExportHotel,btnAddAppartment,btnExportAppartment, btnAddMedicin,btnExportMedicin;
 
     public ShowDialogController(Button btnAdd, Button btnExport, Button btnAddCli, Button btnExportCli, Button btnAddPat, Button btnExportPat, Button btnAddHotel, Button btnExportHotel, Button btnAddAppartment, Button btnExportAppartment,
-                                Button btnAddMedicin, Button btnExportMedicin) {
+                                Button btnAddMedicin, Button btnExportMedicin,Button btnAddCh, Button btnExportChCli,Button btnAddChHot, Button btnExportChHot) {
         this.btnAdd = btnAdd;
         this.btnExport = btnExport;
         this.btnAddCli = btnAddCli;
@@ -34,11 +35,13 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         this.btnExportAppartment = btnExportAppartment;
         this.btnAddMedicin = btnAddMedicin;
         this.btnExportMedicin = btnExportMedicin;
+        this.btnAddCh = btnAddCh;
+        this.btnExportChCli = btnExportChCli;
+        this.btnAddChHot = btnAddChHot;
+        this.btnExportChHot = btnExportChHot;
     }
 
-    public ShowDialogController(Button btn){
-        this.btnAddCh = btn;
-    }
+
 
 
     @Override
@@ -224,10 +227,63 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             }        }
 
         if (event.getSource() == btnAddCh){
+            showDialog("ajouter-chambre", "chambre-clinique");
+        }
+        if (event.getSource() == btnExportChCli ){
+            ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
+            chambreCliniqueController.initialize(null,null);
+            ArrayList<ChambreClinique> l = null;
+            try {
+                l = chambreCliniqueController.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID").append(",").append("NOM").append(",").append("NOMBRE DES LITS").append(",").append("CLINIQUE")
+                    .append(",").append("ETAT").append("\n");
+
+            for (ChambreClinique  c: l) {
+                stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getNbLits()).append(",").append(c.getClinique())
+                        .append(",").append(c.getVide()).append("\n");
+            }
+
+            try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreCliniques.csv")){
+                writer.write(stringBuilder.toString());
+                System.out.println("File created ! ");
+            }
+            catch (Exception e){
+
+            }
+        }
+
+        if (event.getSource() == btnAddChHot){
             showDialog("ajouter-chambre", "chambre-hotel");
         }
-        if (event.getSource() == btnExport ){
-            showDialog("exports", "medicin");
+        if (event.getSource() == btnExportChHot ){
+            ChambreHotelController chambreHotelController = new ChambreHotelController();
+            chambreHotelController.initialize(null,null);
+            ArrayList<ChambreHotel> l = null;
+            try {
+                l = chambreHotelController.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID").append(",").append("NOM").append(",").append("SUPERFICIE").append(",").append("HOTEL")
+                    .append(",").append("ETAT").append("\n");
+
+            for (ChambreHotel  c: l) {
+                stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getSuperficie()).append(",").append(c.getHotel())
+                        .append(",").append(c.getVide()).append("\n");
+            }
+
+            try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
+                writer.write(stringBuilder.toString());
+                System.out.println("File created ! ");
+            }
+            catch (Exception e){
+
+            }
         }
     }
 

@@ -47,6 +47,7 @@ public class ChambreCliniqueController  implements Initializable {
     private boolean update;
     int chambreId;
 
+    /*
     @FXML
     private TableView<ChambreClinique> tableChambre;
     @FXML
@@ -64,6 +65,8 @@ public class ChambreCliniqueController  implements Initializable {
     private TableColumn<ChambreClinique, String> editCol;
 
     ObservableList<ChambreClinique> chambreList = FXCollections.observableArrayList();
+
+     */
     @FXML
     ImageView imgRefresh;
 
@@ -84,6 +87,10 @@ public class ChambreCliniqueController  implements Initializable {
 
     private CliniqueController cliniqueController = new CliniqueController();
 
+    public ChambreCliniqueController() {
+        this.connection = DbConnect.getInstance().getConnection();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -98,8 +105,8 @@ public class ChambreCliniqueController  implements Initializable {
             }
         if (vide != null)
             vide.getItems().addAll(Boolean.TRUE,Boolean.FALSE);
-        loadData();
-        refreshData();
+        /*loadData();
+        refreshData();*/
     }
 
 
@@ -180,13 +187,13 @@ public class ChambreCliniqueController  implements Initializable {
 
     }
     void delete(int id) throws SQLException {
-        query = "DELETE FROM `chambre_hotel` WHERE id  =" +id;
+        query = "DELETE FROM `chambre_clinique` WHERE id  =" +id;
         connection = DbConnect.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.execute();
     }
 
-    ArrayList<ChambreClinique> getAll() throws SQLException {
+    public ArrayList<ChambreClinique> getAll() throws SQLException {
         ArrayList<ChambreClinique> s = new ArrayList<>();
         query = "SELECT * FROM `chambre_clinique`";
         preparedStatement = connection.prepareStatement(query);
@@ -225,111 +232,6 @@ public class ChambreCliniqueController  implements Initializable {
     }
 
 
-    void loadData() {
-        if (idChambre != null && nomChambre != null && nbLitsCh != null && clinique != null && videCh != null){
-            idChambre.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomChambre.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            nbLitsCh.setCellValueFactory(new PropertyValueFactory<>("nbLits"));
-            clinique.setCellValueFactory(new PropertyValueFactory<>("clinique"));
-            videCh.setCellValueFactory(new PropertyValueFactory<>("vide"));
-        }
-
-        //add cell of button edit
-        ObservableList<ChambreClinique> finalChambreList = chambreList;
-        Callback<TableColumn<ChambreClinique, String>, TableCell<ChambreClinique, String>> cellFoctory = (TableColumn<ChambreClinique, String> param) -> {
-            // make cell containing buttons
-            final TableCell<ChambreClinique, String> cell = new TableCell<ChambreClinique, String>() {
-
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    FXMLLoader loader = new FXMLLoader ();
-                    loader.setLocation(getClass().getResource("views/chambre-clinique/modifier-chambre.fxml"));
-                    try {
-                        loader.load();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    ChambreCliniqueController chambreCliniqueController = loader.getController();
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-
-                    } else {
-
-                        Button deleteIcon = new Button("Supprimer");
-                        Button editIcon = new Button("Modifier");
-                        editIcon.getStyleClass().add("btn-edit");
-                        deleteIcon.getStyleClass().add("btn-delete");
-                        deleteIcon.setOnAction((ActionEvent event) -> {
-                            chambre = tableChambre.getSelectionModel().getSelectedItem();
-                            if (chambre != null){
-                                try {
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    alert.setHeaderText("Suppression");
-                                    alert.setContentText("Voulez-vous supprimer ce patient ?: ");
-                                    if (alert.showAndWait().get() == ButtonType.OK){
-                                        delete(chambre.getId());
-                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setHeaderText("Success");
-                                        alert.setContentText("Le patient a été supprimé: ");
-                                    }
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                refreshTable(finalChambreList,tableChambre);
-                            }
-                            else {
-                                Alert alert = new Alert(Alert.AlertType.WARNING);
-                                alert.setHeaderText("Erreur de selection");
-                                alert.setContentText("Selectionner une appartment ! ");
-                                alert.showAndWait();
-                            }
-
-                        });
-                        editIcon.setOnAction((ActionEvent event) -> {
-                            chambre = tableChambre.getSelectionModel().getSelectedItem();
-                            if (chambre != null){
-                                chambreCliniqueController.setUpdate(true);
-                                chambreCliniqueController.setTextField(chambre);
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-                            } else {
-                                Alert alert = new Alert(Alert.AlertType.WARNING);
-                                alert.setHeaderText("Erreur de selection");
-                                alert.setContentText("Selectionner une appartment ! ");
-                                alert.showAndWait();
-                            }
-
-
-                        });
-                        HBox managebtn = new HBox(editIcon, deleteIcon);
-                        //managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
-                        setGraphic(managebtn);
-                        setText(null);
-                    }
-                }
-            };
-            return cell;
-        };
-        if (editCol != null && tableChambre != null){
-            editCol.setCellFactory(cellFoctory);
-            try {
-                chambreList = fetchDataHotel();
-                tableChambre.setItems(chambreList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-    }
-
     public void refreshTable(ObservableList<ChambreClinique> chambreList, TableView<ChambreClinique> tableChambre) {
         try {
             chambreList.clear();
@@ -364,17 +266,11 @@ public class ChambreCliniqueController  implements Initializable {
     }
 
 
-    public void refreshData(){
-        if (imgRefresh != null)
-            imgRefresh.setOnMouseClicked(event ->{
-                loadData();
-            });
-    }
 
     @FXML
-    public void exportData(ActionEvent event){
+    public void exportData(ActionEvent event) {
         ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
-        chambreCliniqueController.initialize(null,null);
+        chambreCliniqueController.initialize(null, null);
         ArrayList<ChambreClinique> l = null;
         try {
             l = chambreCliniqueController.getAll();
@@ -385,17 +281,130 @@ public class ChambreCliniqueController  implements Initializable {
         stringBuilder.append("ID").append(",").append("NOM").append(",").append("NOMBRE DES LITS").append(",").append("CLINIQUE")
                 .append(",").append("ETAT").append("\n");
 
-        for (ChambreClinique  c: l) {
+        for (ChambreClinique c : l) {
             stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getNbLits()).append(",").append(c.getClinique())
                     .append(",").append(c.getVide()).append("\n");
         }
 
-        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreCliniques.csv")){
+        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreCliniques.csv")) {
             writer.write(stringBuilder.toString());
             System.out.println("File created ! ");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
+
     }
+
+        public void afficher(
+                Button btnChambreClinique,
+            ObservableList<ChambreClinique> chambreList,
+            TableColumn<ChambreClinique, Integer> idChambre,
+            TableColumn<ChambreClinique, String>  nomChambre,
+            TableColumn<ChambreClinique, Float> nbLitsCh,
+            TableColumn<ChambreClinique, Boolean> videCh,
+            TableColumn<ChambreClinique, String>  clinique,
+            TableColumn<ChambreClinique, String> editCol,
+            TableView<ChambreClinique> tableChambre){
+
+
+            btnChambreClinique.requestFocus();
+            idChambre.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nomChambre.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            nbLitsCh.setCellValueFactory(new PropertyValueFactory<>("nbLits"));
+            clinique.setCellValueFactory(new PropertyValueFactory<>("clinique"));
+            videCh.setCellValueFactory(new PropertyValueFactory<>("vide"));
+            //add cell of button edit
+            ObservableList<ChambreClinique> finalChambreList = chambreList;
+            Callback<TableColumn<ChambreClinique, String>, TableCell<ChambreClinique, String>> cellFoctory = (TableColumn<ChambreClinique, String> param) -> {
+                // make cell containing buttons
+                final TableCell<ChambreClinique, String> cell = new TableCell<ChambreClinique, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        //that cell created only on non-empty rows
+                        FXMLLoader loader = new FXMLLoader ();
+                        loader.setLocation(getClass().getResource("views/chambre-clinique/modifier-chambre.fxml"));
+                        try {
+                            loader.load();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        ChambreCliniqueController chambreCliniqueController = loader.getController();
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+
+                        } else {
+
+                            Button deleteIcon = new Button("Supprimer");
+                            Button editIcon = new Button("Modifier");
+                            editIcon.getStyleClass().add("btn-edit");
+                            deleteIcon.getStyleClass().add("btn-delete");
+                            deleteIcon.setOnAction((ActionEvent event) -> {
+                                chambre = tableChambre.getSelectionModel().getSelectedItem();
+                                if (chambre != null){
+                                    try {
+                                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                                        alert.setHeaderText("Suppression");
+                                        alert.setContentText("Voulez-vous supprimer ce patient ?: ");
+                                        if (alert.showAndWait().get() == ButtonType.OK){
+                                            delete(chambre.getId());
+                                            alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                            alert.setHeaderText("Success");
+                                            alert.setContentText("Le patient a été supprimé: ");
+                                        }
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    refreshTable(finalChambreList,tableChambre);
+                                }
+                                else {
+                                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                                    alert.setHeaderText("Erreur de selection");
+                                    alert.setContentText("Selectionner une appartment ! ");
+                                    alert.showAndWait();
+                                }
+
+                            });
+                            editIcon.setOnAction((ActionEvent event) -> {
+                                chambre = tableChambre.getSelectionModel().getSelectedItem();
+                                if (chambre != null){
+                                    chambreCliniqueController.setUpdate(true);
+                                    chambreCliniqueController.setTextField(chambre);
+                                    Parent parent = loader.getRoot();
+                                    Stage stage = new Stage();
+                                    stage.setScene(new Scene(parent));
+                                    stage.initStyle(StageStyle.UTILITY);
+                                    stage.show();
+                                } else {
+                                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                                    alert.setHeaderText("Erreur de selection");
+                                    alert.setContentText("Selectionner une appartment ! ");
+                                    alert.showAndWait();
+                                }
+
+
+                            });
+                            HBox managebtn = new HBox(editIcon, deleteIcon);
+                            //managebtn.setStyle("-fx-alignment:center");
+                            HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+                            HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+                            setGraphic(managebtn);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            };
+            if (editCol != null && tableChambre != null){
+                editCol.setCellFactory(cellFoctory);
+                try {
+                    chambreList = fetchDataHotel();
+                    tableChambre.setItems(chambreList);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
 }

@@ -1,0 +1,14 @@
+ID,NOM,NOMBRE DES LITS,CLINIQUE,ETAT
+1,Chambre 1,2,El Yosr,true
+2,Chambre 2,2,El Yosr,true
+3,Chambre 3,2,El Yosr,true
+4,Chambre 4,2,El Yosr,true
+5,Chambre 1,1,Les oliviers,true
+6,Chambre 2,2,Les oliviers,true
+7,Chambre 3,3,Les oliviers,true
+8,Chambre 4,2,Les oliviers,true
+9,Chambre 5,1,Les oliviers,false
+10,Chambre 1,3,Pasteur,true
+11,Chambre 1,2,Pasteur,true
+12,Chambre 1,1,Pasteur,false
+13,Pasteur,2,Pasteur,false

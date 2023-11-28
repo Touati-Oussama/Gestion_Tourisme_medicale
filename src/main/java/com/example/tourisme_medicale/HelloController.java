@@ -66,6 +66,47 @@ public class HelloController implements Initializable{
     @FXML
     Button btnAddCli,btnExportCli;
 
+    /******************************************** Chambre Clinique ***********************************/
+    @FXML
+    private TableView<ChambreClinique> tableChambre;
+    @FXML
+    private TableColumn<ChambreClinique, Integer> idChambre;
+    @FXML
+    private TableColumn<ChambreClinique, String> nomChambre;
+    @FXML
+    private TableColumn<ChambreClinique, Float> nbLitsCh;
+    @FXML
+    private TableColumn<ChambreClinique, Boolean> videCh;
+    @FXML
+    private TableColumn<ChambreClinique, String> cliniqueCh;
+
+    @FXML
+    private TableColumn<ChambreClinique, String> editColChCli;
+    @FXML
+    Button btnAddCh,btnExportChCli;
+    ObservableList<ChambreClinique> chambreList = FXCollections.observableArrayList();
+
+    /***************************************** Chambre hotel *********************************/
+    @FXML
+    private TableView<ChambreHotel> tableChambreHotel;
+    @FXML
+    private TableColumn<ChambreHotel, Integer> idChambreHotel;
+    @FXML
+    private TableColumn<ChambreHotel, String> nomChambreHotel;
+    @FXML
+    private TableColumn<ChambreHotel, Float> superficieChHotel;
+    @FXML
+    private TableColumn<ChambreHotel, Boolean> videChHotel;
+    @FXML
+    private TableColumn<ChambreHotel, String> hotelCh;
+
+    @FXML
+    private TableColumn<ChambreHotel, String> editColChHotel;
+
+    ObservableList<ChambreHotel>  chambreListHotel = FXCollections.observableArrayList();
+
+    @FXML
+    Button btnAddChHotel,btnExportChHotel;
 
     /******************************************** Patient ***********************************/
     @FXML
@@ -144,7 +185,7 @@ public class HelloController implements Initializable{
     /**********************************************************************************************************/
 
 
-    /******************************************** Appartment ***********************************/
+    /******************************************** Medicin ***********************************/
     @FXML
     private TableView<Medicin> tableMedicin;
     @FXML
@@ -176,11 +217,13 @@ public class HelloController implements Initializable{
     @FXML
     TabPane tabPane;
     @FXML
-    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7;
+    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7,imgRefresh8,imgRefresh9;
     @FXML
-    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnMedCh,btnChirurgies,btnSoins,btnChambreCliniques,btnChambreHotels, btnAdd,btnExport;
+    Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnMedCh,btnChirurgies,btnChambreClinique,btnSoins,btnChambreHotel, btnAdd,btnExport;
 
     private HotelController  hotelController = new HotelController();
+    private ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
+    private  ChambreHotelController chambreHotelController = new ChambreHotelController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabPane.getSelectionModel().select(3);
@@ -265,6 +308,16 @@ public class HelloController implements Initializable{
             appartmentController.afficher(btnAppartment,appartmentList,idAppartment, nomAppartment,adrAppartment, nbChambreAppartment,
                     prix_chAppartment,villeAppartment,videAppartment,editColAppartment,tableAppartment);
         }
+        else if (tab.equals(tabPane.getTabs().get(7))){
+
+            chambreHotelController.afficher(btnChambreHotel,idChambreHotel, nomChambreHotel,superficieChHotel, videChHotel,
+                    hotelCh,editColChHotel,tableChambreHotel,chambreListHotel);
+        }
+
+        else if (tab.equals(tabPane.getTabs().get(8))){
+            chambreCliniqueController.afficher(btnChambreClinique,chambreList,idChambre, nomChambre,nbLitsCh, videCh,
+                    cliniqueCh,editColChCli,tableChambre);
+        }
     }
 
 
@@ -322,6 +375,13 @@ public class HelloController implements Initializable{
             hotelController.refreshTable(hotelList,tableHotel);
 
         }
+
+        else if (tab.equals(tabPane.getTabs().get(7))){
+            chambreHotelController.refreshTable(chambreListHotel,tableChambreHotel);
+        }
+        else if (tab.equals(tabPane.getTabs().get(8))){
+            chambreCliniqueController.refreshTable(chambreList,tableChambre);
+        }
     }
 
 
@@ -329,7 +389,7 @@ public class HelloController implements Initializable{
         ShowDialogController showDialogController = new ShowDialogController(
                  btnAdd, btnExport, btnAddCli, btnExportCli,btnAddPat,btnExportPat,
                 btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment,
-                btnAddMedicin,btnExportMedicin
+                btnAddMedicin,btnExportMedicin, btnAddCh,btnExportChCli,btnAddChHotel,btnExportChHotel
         );
         btnAdd.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExport.addEventHandler(ActionEvent.ACTION, showDialogController);
@@ -343,6 +403,10 @@ public class HelloController implements Initializable{
         btnExportAppartment.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnAddMedicin.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExportMedicin.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddCh.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportChCli.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddChHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportChHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
     }
 
 
@@ -371,34 +435,12 @@ public class HelloController implements Initializable{
             tabPane.getSelectionModel().select(6);
         }
 
-        if (event.getSource() == btnChambreHotels){
-            FXMLLoader loader = new FXMLLoader ();
-            loader.setLocation(getClass().getResource("views/chambre-hotel/liste-chambre.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent));
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
+        if (event.getSource() == btnChambreHotel){
+            tabPane.getSelectionModel().select(7);
         }
 
-        if (event.getSource() == btnChambreCliniques){
-            FXMLLoader loader = new FXMLLoader ();
-            loader.setLocation(getClass().getResource("views/chambre-clinique/liste-chambre.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent));
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
+        if (event.getSource() == btnChambreClinique){
+            tabPane.getSelectionModel().select(8);
         }
 
         if (event.getSource() == btnSoins){
@@ -472,6 +514,14 @@ public class HelloController implements Initializable{
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh7.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh8.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh9.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });

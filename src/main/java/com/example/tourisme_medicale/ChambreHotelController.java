@@ -80,6 +80,11 @@ public class ChambreHotelController implements Initializable {
 
     private HotelController hotelController = new HotelController();
 
+
+    public ChambreHotelController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -94,8 +99,8 @@ public class ChambreHotelController implements Initializable {
             }
         if (vide != null)
             vide.getItems().addAll(Boolean.TRUE,Boolean.FALSE);
-        loadData();
-        refreshData();
+        /*loadData();
+        refreshData();*/
     }
 
 
@@ -183,7 +188,7 @@ public class ChambreHotelController implements Initializable {
         preparedStatement.execute();
     }
 
-    ArrayList<ChambreHotel> getAll() throws SQLException {
+    public ArrayList<ChambreHotel> getAll() throws SQLException {
         ArrayList<ChambreHotel> s = new ArrayList<>();
         query = "SELECT * FROM `chambre_hotel`";
         preparedStatement = connection.prepareStatement(query);
@@ -222,14 +227,88 @@ public class ChambreHotelController implements Initializable {
     }
 
 
-    void loadData() {
-        if (idChambre != null && nomChambre != null && superficieCh != null && hotel != null && videCh != null){
-            idChambre.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nomChambre.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            superficieCh.setCellValueFactory(new PropertyValueFactory<>("superficie"));
-            hotel.setCellValueFactory(new PropertyValueFactory<>("hotel"));
-            videCh.setCellValueFactory(new PropertyValueFactory<>("vide"));
+    public void refreshTable(ObservableList<ChambreHotel> chambreList, TableView<ChambreHotel> tableChambre) {
+        try {
+            chambreList.clear();
+            chambreList = fetchDataHotel();
+            tableChambre.setItems(chambreList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+    }
+
+    @FXML
+    public void showDialog(ActionEvent event){
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/com/example/tourisme_medicale/views/chambre-hotel/ajouter-chambre.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(parent);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+
+            // After the dialog is closed, refresh the table
+            //refreshTable(tabPane.getSelectionModel().getSelectedItem());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ObservableList<ChambreHotel> fetchDataHotel() throws SQLException {
+        ArrayList<ChambreHotel> chambres =  getAll();
+        return FXCollections.observableArrayList(chambres);
+    }
+
+
+
+    @FXML
+    public void exportData(ActionEvent event){
+        ChambreHotelController chambreHotelController = new ChambreHotelController();
+        chambreHotelController.initialize(null,null);
+        ArrayList<ChambreHotel> l = null;
+        try {
+            l = chambreHotelController.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("ID").append(",").append("NOM").append(",").append("SUPERFICIE").append(",").append("HOTEL")
+                .append(",").append("ETAT").append("\n");
+
+        for (ChambreHotel  c: l) {
+            stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getSuperficie()).append(",").append(c.getHotel())
+                    .append(",").append(c.getVide()).append("\n");
+        }
+
+        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
+            writer.write(stringBuilder.toString());
+            System.out.println("File created ! ");
+        }
+        catch (Exception e){
+
+        }
+    }
+
+    public void afficher(
+            Button btnChambreHotel,
+            TableColumn<ChambreHotel, Integer> idChambre,
+            TableColumn<ChambreHotel, String> nomChambre,
+            TableColumn<ChambreHotel, Float> superficieCh,
+            TableColumn<ChambreHotel, Boolean> videCh,
+            TableColumn<ChambreHotel, String> hotel,
+            TableColumn<ChambreHotel, String> editCol,
+            TableView<ChambreHotel> tableChambre,
+            ObservableList<ChambreHotel>  chambreList
+    )
+    {
+        btnChambreHotel.requestFocus();
+        idChambre.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nomChambre.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        superficieCh.setCellValueFactory(new PropertyValueFactory<>("superficie"));
+        hotel.setCellValueFactory(new PropertyValueFactory<>("hotel"));
+        videCh.setCellValueFactory(new PropertyValueFactory<>("vide"));
+
 
         //add cell of button edit
         ObservableList<ChambreHotel> finalChambreList = chambreList;
@@ -325,75 +404,7 @@ public class ChambreHotelController implements Initializable {
             }
         }
 
-    }
 
-    public void refreshTable(ObservableList<ChambreHotel> chambreList, TableView<ChambreHotel> tableChambre) {
-        try {
-            chambreList.clear();
-            chambreList = fetchDataHotel();
-            tableChambre.setItems(chambreList);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @FXML
-    public void showDialog(ActionEvent event){
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/com/example/tourisme_medicale/views/chambre-hotel/ajouter-chambre.fxml"));
-            Stage stage = new Stage();
-            Scene scene = new Scene(parent);
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-
-            // After the dialog is closed, refresh the table
-            //refreshTable(tabPane.getSelectionModel().getSelectedItem());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private ObservableList<ChambreHotel> fetchDataHotel() throws SQLException {
-        ArrayList<ChambreHotel> chambres =  getAll();
-        return FXCollections.observableArrayList(chambres);
-    }
-
-
-    public void refreshData(){
-        if (imgRefresh != null)
-        imgRefresh.setOnMouseClicked(event ->{
-            loadData();
-        });
-    }
-
-    @FXML
-    public void exportData(ActionEvent event){
-        ChambreHotelController chambreHotelController = new ChambreHotelController();
-        chambreHotelController.initialize(null,null);
-        ArrayList<ChambreHotel> l = null;
-        try {
-            l = chambreHotelController.getAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("ID").append(",").append("NOM").append(",").append("SUPERFICIE").append(",").append("HOTEL")
-                .append(",").append("ETAT").append("\n");
-
-        for (ChambreHotel  c: l) {
-            stringBuilder.append(c.getId()).append(",").append(c.getNom()).append(",").append(c.getSuperficie()).append(",").append(c.getHotel())
-                    .append(",").append(c.getVide()).append("\n");
-        }
-
-        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
-            writer.write(stringBuilder.toString());
-            System.out.println("File created ! ");
-        }
-        catch (Exception e){
-
-        }
     }
 }
 
