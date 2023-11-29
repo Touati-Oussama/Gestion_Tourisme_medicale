@@ -68,6 +68,9 @@ public class HotelController  implements Initializable {
     @FXML
     Button btn,btnAdd,btnExport;
 
+    public HotelController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

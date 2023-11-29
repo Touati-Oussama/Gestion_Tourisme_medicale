@@ -62,6 +62,9 @@ public class AppartmentController  implements Initializable {
     Button btn,btnAdd,btnExport;
 
 
+    public AppartmentController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

@@ -157,6 +157,34 @@ public class HelloController implements Initializable{
     @FXML
     Button btnAddHotel,btnExportHotel;
 
+    /******************************************* Chirurgie **************************************/
+
+    @FXML
+    private TableView<Chirurgie> tableChirurgie;
+    @FXML
+    private TableColumn<Chirurgie, Integer> idChirurgie;
+
+    @FXML
+    private TableColumn<Chirurgie, Float> prixChirurgie;
+
+    @FXML
+    private TableColumn<Chirurgie, String> dureeChirurgie;
+
+    @FXML
+    private TableColumn<Chirurgie, String> specialiteChirurgie;
+    @FXML
+    private TableColumn<Chirurgie, String> typeChirurgie;
+
+    @FXML
+    private TableColumn<Chirurgie, String> editColChirurgie;
+
+    ObservableList<Chirurgie> chirurgieList = FXCollections.observableArrayList();
+
+    @FXML
+    Button btnAddChirurgie,btnExportChirurgie;
+
+    @FXML
+    ChoiceBox<String> specialites;
 
     /******************************************** Appartment ***********************************/
     @FXML
@@ -217,13 +245,19 @@ public class HelloController implements Initializable{
     @FXML
     TabPane tabPane;
     @FXML
-    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7,imgRefresh8,imgRefresh9;
+    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7,imgRefresh8,imgRefresh9,imgRefresh10;
     @FXML
     Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnMedCh,btnChirurgies,btnChambreClinique,btnSoins,btnChambreHotel, btnAdd,btnExport;
 
     private HotelController  hotelController = new HotelController();
     private ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
     private  ChambreHotelController chambreHotelController = new ChambreHotelController();
+    private  ChirurgieController chirurgieController = new ChirurgieController();
+    private  AppartmentController appartmentController = new AppartmentController();
+    private  PatientController patientController = new PatientController();
+    private CliniqueController cliniqueController = new CliniqueController();
+    private MedicinController medicinController = new MedicinController();
+    private SpecialiteController specialiteController = new SpecialiteController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabPane.getSelectionModel().select(3);
@@ -246,49 +280,18 @@ public class HelloController implements Initializable{
     @FXML
     public void loadDataByTabs(Tab tab){
         if (tab.equals(tabPane.getTabs().get(0))) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/specialite/modifier-specialite.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            SpecialiteController specialiteController = loader.getController();
             specialiteController.afficher(btnSpecialite, specialiteList, id, specialite, tableView, editCol);
         }
         else if (tab.equals(tabPane.getTabs().get(1))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/medicin/modifier-medicin.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            MedicinController medicinController = loader.getController();
             medicinController.afficher(btnMedicin, medicinList,idMedicin, nomMedicin,prenomMedicin, dateNaissMedicin,
                     emailMedicin,genderMedicin,telephone, specialiteMed,clinique,editColMed, tableMedicin);
         }
         else if (tab.equals(tabPane.getTabs().get(2))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/clinique/modifier-clinique.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            CliniqueController cliniqueController = loader.getController();
+
             cliniqueController.afficher(btnClinique,cliniqueList,idClinique,nomClinique,adrClinique,
                     emailClinique, telClinique, villeClinique,prix_chClinique,tableClinique,editColCli);
         }
         else if (tab.equals(tabPane.getTabs().get(3))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/patient/modifier-patient.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            PatientController patientController = loader.getController();
             patientController.afficher(btnPatient,patientsList,idPatient,nomPatient,prenomPatient,
                     dateNaiss,emailPatient,gender,nationalite, editColPat, tablePatient);
         }
@@ -297,14 +300,6 @@ public class HelloController implements Initializable{
                                     emailHotel, catHotel,prix_chHotel,villeHotel, editColHotel,tableHotel);
         }
         else if (tab.equals(tabPane.getTabs().get(6))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/appartment/modifier-appartment.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            AppartmentController appartmentController = loader.getController();
             appartmentController.afficher(btnAppartment,appartmentList,idAppartment, nomAppartment,adrAppartment, nbChambreAppartment,
                     prix_chAppartment,villeAppartment,videAppartment,editColAppartment,tableAppartment);
         }
@@ -318,56 +313,27 @@ public class HelloController implements Initializable{
             chambreCliniqueController.afficher(btnChambreClinique,chambreList,idChambre, nomChambre,nbLitsCh, videCh,
                     cliniqueCh,editColChCli,tableChambre);
         }
+        else if (tab.equals(tabPane.getTabs().get(9))){
+            chirurgieController.afficher(btnChirurgies,chirurgieList,idChirurgie, prixChirurgie,dureeChirurgie,specialiteChirurgie,
+                    typeChirurgie,editColChirurgie,tableChirurgie,specialites);
+        }
     }
-
 
 
     @FXML
     public void refreshTable(Tab tab) {
         if (tab.equals(tabPane.getTabs().get(0))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/specialite/modifier-specialite.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            SpecialiteController specialiteController = loader.getController();
             specialiteController.refreshTable(specialiteList,tableView);
         }
         if (tab.equals(tabPane.getTabs().get(1))){
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/medicin/modifier-medicin.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            MedicinController medicinController = loader.getController();
             medicinController.refreshTable(medicinList,tableMedicin);
         }
         else if (tab.equals(tabPane.getTabs().get(2))){
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/clinique/modifier-clinique.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            CliniqueController cliniqueController = loader.getController();
             cliniqueController.refreshTable(cliniqueList,tableClinique);
         }
         else if (tab.equals(tabPane.getTabs().get(3))){
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("views/patient/modifier-patient.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            PatientController patientController = loader.getController();
             patientController.refreshTable(patientsList,tablePatient);
 
         }
@@ -382,6 +348,9 @@ public class HelloController implements Initializable{
         else if (tab.equals(tabPane.getTabs().get(8))){
             chambreCliniqueController.refreshTable(chambreList,tableChambre);
         }
+        else if (tab.equals(tabPane.getTabs().get(9))){
+            chirurgieController.refreshTable(chirurgieList,tableChirurgie);
+        }
     }
 
 
@@ -389,7 +358,8 @@ public class HelloController implements Initializable{
         ShowDialogController showDialogController = new ShowDialogController(
                  btnAdd, btnExport, btnAddCli, btnExportCli,btnAddPat,btnExportPat,
                 btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment,
-                btnAddMedicin,btnExportMedicin, btnAddCh,btnExportChCli,btnAddChHotel,btnExportChHotel
+                btnAddMedicin,btnExportMedicin, btnAddCh,btnExportChCli,btnAddChHotel,btnExportChHotel,
+                btnAddChirurgie,btnExportChirurgie
         );
         btnAdd.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExport.addEventHandler(ActionEvent.ACTION, showDialogController);
@@ -407,6 +377,8 @@ public class HelloController implements Initializable{
         btnExportChCli.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnAddChHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExportChHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddChirurgie.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportChirurgie.addEventHandler(ActionEvent.ACTION, showDialogController);
     }
 
 
@@ -442,25 +414,13 @@ public class HelloController implements Initializable{
         if (event.getSource() == btnChambreClinique){
             tabPane.getSelectionModel().select(8);
         }
+        if (event.getSource() == btnChirurgies){
+            tabPane.getSelectionModel().select(9);
+        }
 
         if (event.getSource() == btnSoins){
             FXMLLoader loader = new FXMLLoader ();
             loader.setLocation(getClass().getResource("views/soin-medicale/liste-soin.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent));
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
-        }
-
-        if (event.getSource() == btnChirurgies){
-            FXMLLoader loader = new FXMLLoader ();
-            loader.setLocation(getClass().getResource("views/chirurgie-medicale/liste-chirurgie.fxml"));
             try {
                 loader.load();
             } catch (IOException ex) {
@@ -522,6 +482,10 @@ public class HelloController implements Initializable{
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh9.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh10.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });

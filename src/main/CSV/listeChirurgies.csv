@@ -1,0 +1,5 @@
+ID,TYPE,SPECIALITE,PRIX INITIAL,DUREE DE TRAITEMENT(JRS)
+1,Chirurgie laser,Dermatologie,2000.0,3
+3,Chirurgie des ongles,Dermatologie,1000.0,1
+4,Chirurgie de la cataracte,Ophtalmologie,2000.0,3
+5,Chirurgie du glaucome,Ophtalmologie,1500.0,2

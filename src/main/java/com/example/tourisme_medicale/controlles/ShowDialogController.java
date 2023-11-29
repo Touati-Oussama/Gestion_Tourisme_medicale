@@ -18,11 +18,11 @@ import java.util.ArrayList;
 public class ShowDialogController implements EventHandler<ActionEvent> {
 
     private Button btnAdd,btnExport,btnAddCli,btnExportCli,btnAddPat,btnExportPat,btnAddCh,btnExportChCli, btnAddChHot,
-            btnExportChHot,
+            btnExportChHot,btnAddChirurgie,btnExportChirurgie,
             btnAddHotel,btnExportHotel,btnAddAppartment,btnExportAppartment, btnAddMedicin,btnExportMedicin;
 
     public ShowDialogController(Button btnAdd, Button btnExport, Button btnAddCli, Button btnExportCli, Button btnAddPat, Button btnExportPat, Button btnAddHotel, Button btnExportHotel, Button btnAddAppartment, Button btnExportAppartment,
-                                Button btnAddMedicin, Button btnExportMedicin,Button btnAddCh, Button btnExportChCli,Button btnAddChHot, Button btnExportChHot) {
+                                Button btnAddMedicin, Button btnExportMedicin,Button btnAddCh, Button btnExportChCli,Button btnAddChHot, Button btnExportChHot,Button btnAddChirurgie, Button btnExportChirurgie) {
         this.btnAdd = btnAdd;
         this.btnExport = btnExport;
         this.btnAddCli = btnAddCli;
@@ -39,6 +39,8 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         this.btnExportChCli = btnExportChCli;
         this.btnAddChHot = btnAddChHot;
         this.btnExportChHot = btnExportChHot;
+        this.btnAddChirurgie = btnAddChirurgie;
+        this.btnExportChirurgie = btnExportChirurgie;
     }
 
 
@@ -257,6 +259,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         }
 
         if (event.getSource() == btnAddChHot){
+            System.out.println("Hoteldllllllllllll");
             showDialog("ajouter-chambre", "chambre-hotel");
         }
         if (event.getSource() == btnExportChHot ){
@@ -278,6 +281,37 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             }
 
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
+                writer.write(stringBuilder.toString());
+                System.out.println("File created ! ");
+            }
+            catch (Exception e){
+
+            }
+        }
+        if (event.getSource() == btnAddChirurgie){
+            System.out.println("hhhhhhhhhhhhhh");
+            showDialog("ajouter-chirurgie", "chirurgie-medicale");
+        }
+
+        else if (event.getSource() == btnExportChirurgie){
+            ChirurgieController chirurgieController = new ChirurgieController();
+            chirurgieController.initialize(null,null);
+            ArrayList<Chirurgie> l = null;
+            try {
+                l = chirurgieController.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID").append(",").append("TYPE").append(",").append("SPECIALITE").append(",").append("PRIX INITIAL")
+                    .append(",").append("DUREE DE TRAITEMENT(JRS)").append("\n");
+
+            for (Chirurgie  c: l) {
+                stringBuilder.append(c.getId()).append(",").append(c.getTypeChirurgie()).append(",").append(c.getSpecialite())
+                        .append(",").append(c.getPrix()).append(",").append(c.getDuree()).append("\n");
+            }
+
+            try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\listeChirurgies.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
             }

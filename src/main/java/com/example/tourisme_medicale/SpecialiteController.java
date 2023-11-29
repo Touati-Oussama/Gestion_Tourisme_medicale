@@ -56,6 +56,10 @@ public class SpecialiteController implements Initializable {
 
     Specialite specialitee = null;
 
+
+    public SpecialiteController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

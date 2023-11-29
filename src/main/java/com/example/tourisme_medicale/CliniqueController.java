@@ -66,6 +66,9 @@ public class CliniqueController implements Initializable {
     Button btn,btnAdd,btnExport;
 
 
+    public CliniqueController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connection = DbConnect.getInstance().getConnection();

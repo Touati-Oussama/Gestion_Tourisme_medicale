@@ -1,0 +1,4 @@
+ID,NOM,PRENOM,TELEPHONE,DATE NAISSANCE,GENDER,EMAIL,SPECIALITE,CLINIQUE
+1,Medicin1,Med1,12345,2023-11-22,HOMME,med@gmail.com,Dermatologie,El Yosr
+3,Med2,Med2,10203040,2023-11-16,HOMME,med2@gmail.com,Dermatologie,El Yosr
+5,Medicin3,Medicin3,58731605,2023-11-13,HOMME,med3@gmail.com,Ophtalmologie,Les oliviers

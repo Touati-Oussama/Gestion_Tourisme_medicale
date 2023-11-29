@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="e2544eb4-2887-4b14-a6e6-d2fd5df9e55c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreCliniqueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreCliniqueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreHotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreHotelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CSV/chambreCliniques.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/CSV/chambreCliniques.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/AppartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/AppartmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/CliniqueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/CliniqueController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HotelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/PatientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SpecialiteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SpecialiteController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/controlles/ShowDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/controlles/ShowDialogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" afterDir="false" />
     </list>

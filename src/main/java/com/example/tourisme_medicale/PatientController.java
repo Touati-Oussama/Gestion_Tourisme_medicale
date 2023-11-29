@@ -62,6 +62,9 @@ public class PatientController implements Initializable {
     @FXML
     Button btn,btnAdd,btnExport;
 
+    public PatientController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

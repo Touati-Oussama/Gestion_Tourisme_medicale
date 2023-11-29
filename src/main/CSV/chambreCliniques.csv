@@ -11,4 +11,3 @@ ID,NOM,NOMBRE DES LITS,CLINIQUE,ETAT
 10,Chambre 1,3,Pasteur,true
 11,Chambre 1,2,Pasteur,true
 12,Chambre 1,1,Pasteur,false
-13,Pasteur,2,Pasteur,false
