@@ -52,7 +52,7 @@ public class ChambreHotelController implements Initializable {
     @FXML
     private TableColumn<ChambreHotel, Float> superficieCh;
     @FXML
-    private TableColumn<ChambreHotel, Boolean> videCh;
+    private TableColumn<ChambreHotel, String> videCh;
     @FXML
     private TableColumn<ChambreHotel, String> hotel;
 
@@ -158,6 +158,19 @@ public class ChambreHotelController implements Initializable {
         }
     }
 
+    public void updateEtat(int id){
+        query = "UPDATE `chambre_hotel` SET " +
+                "`vide`= ?" +
+                " WHERE id = '"+id+"'";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, 0);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void insert() {
         Hotel hotel;
         try {
@@ -217,7 +230,7 @@ public class ChambreHotelController implements Initializable {
         nom.setText(chambre.getNom());
         superficie.setText(String.valueOf(chambre.getSuperficie()));
         hotels.getSelectionModel().select(chambre.getHotel());
-        vide.getSelectionModel().select(chambre.getVide());
+        vide.getSelectionModel().select(chambre.vide());
 
     }
 
@@ -295,7 +308,7 @@ public class ChambreHotelController implements Initializable {
             TableColumn<ChambreHotel, Integer> idChambre,
             TableColumn<ChambreHotel, String> nomChambre,
             TableColumn<ChambreHotel, Float> superficieCh,
-            TableColumn<ChambreHotel, Boolean> videCh,
+            TableColumn<ChambreHotel, String> videCh,
             TableColumn<ChambreHotel, String> hotel,
             TableColumn<ChambreHotel, String> editCol,
             TableView<ChambreHotel> tableChambre,

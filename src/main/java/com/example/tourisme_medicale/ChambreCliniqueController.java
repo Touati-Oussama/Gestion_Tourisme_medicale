@@ -222,7 +222,7 @@ public class ChambreCliniqueController  implements Initializable {
         nom.setText(chambre.getClinique());
         nbLits.setText(String.valueOf(chambre.getNbLits()));
         cliniques.getSelectionModel().select(chambre.getClinique());
-        vide.getSelectionModel().select(chambre.getVide());
+        vide.getSelectionModel().select(chambre.vide());
 
     }
 

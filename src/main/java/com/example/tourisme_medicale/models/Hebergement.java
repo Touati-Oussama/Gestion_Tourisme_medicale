@@ -1,5 +1,5 @@
 package com.example.tourisme_medicale.models;
-public sealed   class Hebergement  permits ChambreClinique,ChambreHotel,AppartementMeuble{
+public sealed class Hebergement  permits ChambreClinique,ChambreHotel,AppartementMeuble{
     private int id;
     private String designation;
 

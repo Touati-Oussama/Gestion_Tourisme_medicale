@@ -1,7 +1,7 @@
 package com.example.tourisme_medicale.models;
 import java.util.ArrayList;
 
-public record Hotel(int id, String nom, int categorie, String ville, float prixChambre, String email, int telephone,
+public  record Hotel(int id, String nom, int categorie, String ville, float prixChambre, String email, int telephone,
                     String adresse, ArrayList<ChambreHotel> chambresHotel) {
 
     public void ajouterChambreHotel(ChambreHotel chambre) {

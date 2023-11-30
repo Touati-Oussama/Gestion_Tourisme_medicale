@@ -1,6 +1,6 @@
 package com.example.tourisme_medicale.models;
 
-public class Medicin_Chirurgie {
+public final class Medicin_Chirurgie {
 
     private Medicin medicin;
     private Chirurgie chirurgie;

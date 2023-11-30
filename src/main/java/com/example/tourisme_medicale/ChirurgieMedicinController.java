@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -42,7 +39,7 @@ public class ChirurgieMedicinController implements Initializable {
     private boolean update;
     int medicin_chirurgieId;
 
-    Chirurgie chirurgie = null;
+    private Chirurgie chirurgie = null;
 
 
     @FXML
@@ -93,6 +90,11 @@ public class ChirurgieMedicinController implements Initializable {
 
     private MedicinController medicinController = new MedicinController();
     private ChirurgieController chirurgieController = new ChirurgieController();
+
+    public ChirurgieMedicinController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connection = DbConnect.getInstance().getConnection();
@@ -310,7 +312,38 @@ public class ChirurgieMedicinController implements Initializable {
                                 alert.showAndWait();
                             }
                         });
-                        HBox managebtn = new HBox(editIcon, deleteIcon);
+                        rdvIcon.setOnAction((ActionEvent event) -> {
+                            FXMLLoader loader2 = new FXMLLoader ();
+                            loader2.setLocation(getClass().getResource("views/rendez-vous/ajouter.fxml"));
+                            try {
+                                loader2.load();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            RendezVousController rendezVousController = loader2.getController();
+                            medicin_chirurgie = tableMedChir.getSelectionModel().getSelectedItem();
+                            if (medicin_chirurgie != null){
+                                rendezVousController.setData(medicin_chirurgie.getMedicin(),medicin_chirurgie.getChirurgie());
+                                Parent parent = loader2.getRoot();
+                                Stage stage = new Stage();
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UTILITY);
+                                stage.show();
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setHeaderText("Erreur de selection");
+                                alert.setContentText("Selectionner une appartment ! ");
+                                alert.showAndWait();
+                            }
+                        });
+                        HBox managebtn;
+                        if (getChirurgie() != null){
+                            managebtn = new HBox(rdvIcon);
+
+                        }
+                        else{
+                            managebtn = new HBox(editIcon, deleteIcon);
+                        }
                         //managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
                         HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
@@ -367,8 +400,39 @@ public class ChirurgieMedicinController implements Initializable {
         ArrayList<Medicin_Chirurgie> medicins = getAll();
         List<Medicin_Chirurgie> filteredMedicins = medicins.stream()
                 .filter(e-> e.getChirurgie().equals(chirurgie.getTypeChirurgie()))
+                .sorted(Comparator.comparingDouble(medChirurgie ->
+                        medChirurgie.chirurgie().getDuree() * medChirurgie.getReduction()))
                 .collect(Collectors.toList());
         return FXCollections.observableArrayList(filteredMedicins);
+    }
+    public ArrayList<Medicin> getMedicinsByChirurgie(String chirurgie){
+        ArrayList<Medicin> medicins = new ArrayList<>();
+        try {
+            for (Medicin_Chirurgie m: getAll()
+                 ) {
+                if (m.getChirurgie().equals(chirurgie))
+                    medicins.add(m.medicin());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  medicins;
+    }
+
+
+
+    public float getReduction(Medicin m, Chirurgie c){
+        float reduction = 0;
+        try {
+            for (Medicin_Chirurgie mc: getAll()
+            ) {
+                if (mc.medicin().getPrenom().equals(m.getPrenom()) && (mc.medicin().getNom().equals(m.getNom())) && mc.chirurgie().getTypeChirurgie().equals(c.getTypeChirurgie()))
+                    reduction =  mc.getReduction();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  reduction;
     }
 
 

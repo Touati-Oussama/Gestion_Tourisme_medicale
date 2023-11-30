@@ -3,7 +3,7 @@ package com.example.tourisme_medicale.models;
 
 import java.sql.Date;
 
-public class Patient {
+public final class Patient {
     private int id;
     private String nom;
     private String prenom;

@@ -1,5 +1,5 @@
 package com.example.tourisme_medicale.models;
-public class Chirurgie extends Type {
+public final class Chirurgie extends Type {
 
     private int id;
     private float prix;
@@ -32,12 +32,6 @@ public class Chirurgie extends Type {
 
     public void setTypeChirurgie(String typeChirurgie) {
         this.typeChirurgie = typeChirurgie;
-    }
-
-    @Override
-    public void description() {
-        System.out.println("Type de traitement : Chirurgie");
-        System.out.println("Type de chirurgie : " + typeChirurgie);
     }
 
     @Override

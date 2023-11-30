@@ -23,6 +23,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -40,42 +41,21 @@ public class RendezVousController implements Initializable {
     private boolean update;
     int rdvId;
 
+    RendezVousManager rendezVousManager = new RendezVousManager();
 
     @FXML
-    ChoiceBox<String> patients,listeChirurgies,listSoins,medicins,hebergements,types,hotels,appartments,cliniques,chambreHotels,chambreCliniques,chambreAppartments;
+    ChoiceBox<String> patients,listeChirurgies,listSoins,medicins,hebergements,heures,types,hotels,appartments,cliniques,chambreHotels,chambreCliniques,chambreAppartments;
 
 
     @FXML
     DatePicker dateDeb;
 
     @FXML
-    Button btnExportRendezvous,btnExportRdv;
-    /*
-    @FXML
-    TextField prix;
-    @FXML
-    TextField prenom;
-    @FXML
-    TextField telephone;
-    @FXML
-    DatePicker dateNaiss;
-    @FXML
-    TextField email;
+    Button btnExportRendezvous;
 
     @FXML
-    ListView<Sexe> sexes;
+    Label lbPrixReduction, lbPrixTotal;
 
-    @FXML
-    ChoiceBox<String> specialites;
-
-    @FXML
-    ListView<String> cliniques;
-
-
-
-    @FXML
-    Button btnAdd,btnExport;
-    */
     private CliniqueController cliniqueController = new CliniqueController();
     private PatientController patientController = new PatientController();
     private MedicinController medicinController = new MedicinController();
@@ -86,29 +66,53 @@ public class RendezVousController implements Initializable {
     private  AppartmentController appartmentController = new AppartmentController();
     private  ChambreHotelController chambreHotelController = new ChambreHotelController();
     private  ChambreCliniqueController chambreCliniqueController = new ChambreCliniqueController();
+    private  ChirurgieMedicinController chirurgieMedicinController = new ChirurgieMedicinController();
+    private  Chirurgie chirurgie = null;
+    private ChoiceBox<String> choiceSpecialite = null;
+
     public RendezVousController() {
         connection = DbConnect.getInstance().getConnection();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         loadData();
-
 
     }
 
     private void loadData() {
+        if (heures != null)
+            heures.getItems().addAll("8H","9h","10h","11h", "14h","15h","16h");
         if (types != null){
             types.getItems().add("CHIRURGIE");
             types.getItems().add("SOIN MEDICALE");
             types.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue) ->{
                 listeChirurgies.setVisible(false);
                 listSoins.setVisible(false);
-                if ("CHIRURGIE".equals(newValue))
+                if ("CHIRURGIE".equals(newValue)){
                     listeChirurgies.setVisible(true);
-                else if ("SOIN MEDICALE".equals(newValue))
+                    hebergements.setVisible(true);
+                    appartments.setVisible(true);
+                    cliniques.setVisible(true);
+                    hotels.setVisible(true);
+                    chambreAppartments.setVisible(true);
+                    chambreHotels.setVisible(true);
+                    chambreCliniques.setVisible(true);
+                    heures.setVisible(false);
+                }
+                else if ("SOIN MEDICALE".equals(newValue)){
                     listSoins.setVisible(true);
+                    hebergements.setVisible(false);
+                    appartments.setVisible(false);
+                    cliniques.setVisible(false);
+                    hotels.setVisible(false);
+                    chambreAppartments.setVisible(false);
+                    chambreHotels.setVisible(false);
+                    chambreCliniques.setVisible(false);
+                    heures.setVisible(true);
+
+                }
+
             });
         }
         if (hebergements != null){
@@ -162,6 +166,19 @@ public class RendezVousController implements Initializable {
                 ) {
                     listeChirurgies.getItems().add(c.getTypeChirurgie());
                 }
+
+                listeChirurgies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
+                    ArrayList<Medicin> m =  chirurgieMedicinController.getMedicinsByChirurgie(newValue);
+                    medicins.getItems().clear();
+                    try {
+                        chirurgie = chirurgieController.getChirurgieByName(newValue);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    for (Medicin med: m) {
+                        medicins.getItems().add(med.getNom()+ " " + med.getPrenom());
+                    }
+                });
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -172,6 +189,14 @@ public class RendezVousController implements Initializable {
                 ) {
                     listSoins.getItems().add(s.specialite());
                 }
+                listSoins.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
+                    ArrayList<Medicin> m =  medicinController.getMedicinsBySpecialite(newValue);
+                    medicins.getItems().clear();
+
+                    for (Medicin med: m) {
+                        medicins.getItems().add(med.getNom()+ " " + med.getPrenom());
+                    }
+                });
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -187,12 +212,16 @@ public class RendezVousController implements Initializable {
                     chambreCliniques.setVisible(false);
                     chambreAppartments.setVisible(false);
                     try {
+                        ArrayList<ChambreHotel> chambreHotels1 = new ArrayList<>();
                         chambreHotels.getItems().clear();
                         ArrayList<ChambreHotel> chambres = new ArrayList<>(chambreHotelController.getAll().stream()
                                 .filter(e -> e.getHotel().equals(newValue))
-                                .filter(e-> e.getVide() == true)
                                 .collect(Collectors.toList()));
-                        for (ChambreHotel ch: chambres
+                        if (chirurgie != null){
+                            chambreHotels1 = verifierDate(chirurgie,dateDeb.getValue(),chambres);
+                        }
+
+                        for (ChambreHotel ch: chambreHotels1
                         ) {
                             chambreHotels.getItems().add(ch.getNom());
                         }
@@ -232,27 +261,89 @@ public class RendezVousController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-
-       /* cliniques.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue)->{
+        if (cliniques != null){
+            cliniques.getSelectionModel().selectedItemProperty().addListener((observable,oldValue,newValue)->{
             chambreCliniques.setVisible(true);
             chambreHotels.setVisible(false);
             chambreAppartments.setVisible(false);
             try {
+                ArrayList<ChambreClinique> chambreCliniques1 = new ArrayList<>();
                 chambreCliniques.getItems().clear();
                 ArrayList<ChambreClinique> chambres = new ArrayList<>(chambreCliniqueController.getAll().stream()
                         .filter(e -> e.getClinique().equals(newValue))
-                        .filter(e-> e.getVide() == true)
                         .collect(Collectors.toList()));
-                for (ChambreClinique ch: chambres
+                if (chirurgie != null){
+                    chambreCliniques1 = verifierDateCliniques(chirurgie,dateDeb.getValue(),chambres);
+                }
+                for (ChambreClinique ch: chambreCliniques1
                 ) {
                     chambreCliniques.getItems().add(ch.getNom());
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        });*/
+        });
+        }
+        if (dateDeb != null){
+            dateDeb.valueProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("Selected date: " + newValue);
+                if (cliniques != null){
+                    try {
+                        ArrayList<ChambreClinique> chambreCliniques1 = new ArrayList<>();
+                        chambreCliniques.getItems().clear();
+                        ArrayList<ChambreClinique> chambres = new ArrayList<>(chambreCliniqueController.getAll().stream()
+                                .filter(e -> e.getClinique().equals(cliniques.getValue()))
+                                .collect(Collectors.toList()));
+                        if (chirurgie != null){
+                            chambreCliniques1 = verifierDateCliniques(chirurgie,dateDeb.getValue(),chambres);
+                        }
+                        for (ChambreClinique ch: chambreCliniques1) {
+                            chambreCliniques.getItems().add(ch.getNom());
+                        }
+                    }catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                if (hotels != null){
+                    try {
+                        ArrayList<ChambreHotel> chambreHotels1 = new ArrayList<>();
+                        chambreHotels.getItems().clear();
+                        ArrayList<ChambreHotel> chambres = new ArrayList<>(chambreHotelController.getAll().stream()
+                                .filter(e -> e.getHotel().equals(hotels.getValue()))
+                                .collect(Collectors.toList()));
+                        if (chirurgie != null){
+                            chambreHotels1 = verifierDate(chirurgie,dateDeb.getValue(),chambres);
+                        }
+                        for (ChambreHotel ch: chambreHotels1) {
+                            chambreHotels.getItems().add(ch.getNom());
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (appartments != null){
+                    try {
+                        chambreAppartments.getItems().clear();
+                        ArrayList<AppartementMeuble> chambres = new ArrayList<>(appartmentController.getAll().stream()
+                                .filter(e -> e.getNom().equals(appartments.getValue()))
+                                .filter(e-> e.isVide() == true)
+                                .collect(Collectors.toList()));
+                        for (AppartementMeuble ch: chambres
+                        ) {
+                            chambreAppartments.getItems().add(ch.getNom());
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+
 
     }
+
+
 
 
     @FXML
@@ -262,7 +353,7 @@ public class RendezVousController implements Initializable {
         String hebergments = this.hebergements.getValue();
         String medicin = this.medicins.getValue();
         LocalDate dateDeb = this.dateDeb.getValue();
-        if (patient.isEmpty() || types.isEmpty() || hebergments.isEmpty() || medicin.isEmpty()||  dateDeb == null) {
+        if (patient.isEmpty() || types.isEmpty()  || medicin.isEmpty()||  dateDeb == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Tous les champs sont obligatoires");
@@ -270,7 +361,10 @@ public class RendezVousController implements Initializable {
 
         } else {
             getQuery();
-            insert();
+            if (types.equals("CHIRURGIE"))
+                insert();
+            else if (types.equals("SOIN MEDICALE"))
+                insertSoin();
             clean();
             Stage stage = (Stage) btnExportRendezvous.getScene().getWindow();
             stage.close();
@@ -294,6 +388,8 @@ public class RendezVousController implements Initializable {
         chambreHotels.getSelectionModel().select(null);
         chambreCliniques.getSelectionModel().select(null);
         chambreAppartments.getSelectionModel().select(null);
+        dateDeb.setValue(null);
+        heures.getSelectionModel().select(null);
 
     }
 
@@ -303,7 +399,7 @@ public class RendezVousController implements Initializable {
 
             query = "INSERT INTO `rendez_vous`(`date_debut`, `prix_total`, `chambre_hotel_id`, `appartment_id`," +
                     " `chambre_clinique_id`, `chirurgie_id`, `soin_id`, `medicin_id`, `clinique_id`, `date_fin`," +
-                    " `patient_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    " `patient_id`,`heure`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         }else{
             query = "UPDATE `rendez_vous` SET " +
                     "`date_debut`= ?," +
@@ -316,11 +412,64 @@ public class RendezVousController implements Initializable {
                     "`medicin_id`= ?," +
                     "`clinique_id`= ?," +
                     "`date_fin`= ?," +
-                    "`patient_id` = ? "+
+                    "`patient_id` = ?, "+
+                    "`heure` = ? "+
                     "WHERE id = '"+rdvId+"'";
         }
     }
 
+    private void insertSoin() {
+        Patient patient;
+        Medicin medicin;
+        SoinsMedicaux soinsMedicaux = null;
+        try {
+            patient = patientController.getPatientByName(this.patients.getValue());
+            medicin = medicinController.getMedicinByName(this.medicins.getValue());
+            soinsMedicaux = soinMedicaleController.getSoinsMedicauxByName(listSoins.getValue());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDate(1, Date.valueOf(this.dateDeb.getValue()));
+            preparedStatement.setNull(3, Types.INTEGER);
+            preparedStatement.setNull(4, Types.INTEGER);
+            preparedStatement.setNull(5, Types.INTEGER);
+            preparedStatement.setNull(6, Types.INTEGER);
+            preparedStatement.setInt(7, soinsMedicaux.getId());
+            preparedStatement.setInt(8, medicin.getId());
+            preparedStatement.setInt(9, medicin.clinique().id());
+            preparedStatement.setNull(10, Types.DATE);
+            preparedStatement.setInt(11, patient.getId());
+            preparedStatement.setString(12,heures.getSelectionModel().getSelectedItem());
+            RendezVous v = new RendezVous(0, patient, Date.valueOf(this.dateDeb.getValue()), soinsMedicaux, null, medicin, null);
+            v.setPrixTotal();
+            float montant  = v.getPrixTotal();
+            lbPrixTotal.setText("Le prix total avant reduction est: " + montant + "DT.");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Rendez-vous");
+            alert.setHeaderText("Confirmation de montant ?");
+            alert.setContentText("Le prix total est: " + v.getPrixTotal() + "DT.");
+            preparedStatement.setFloat(2, montant);
+
+            // Custom buttons for confirmation dialog
+            ButtonType buttonTypeYes = new ButtonType("Oui");
+            ButtonType buttonTypeNo = new ButtonType("Non");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            java.util.Optional<ButtonType> result = alert.showAndWait();
+            // Check which button was clicked
+            if (result.isPresent() && result.get() == buttonTypeYes) {
+                preparedStatement.execute();
+                rendezVousManager.bookRendezVous(patient.getNom()+ " "+ patient.getPrenom());
+
+                // Perform the action if the user clicked Yes
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SpecialiteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void insert() {
         Patient patient;
         Medicin medicin;
@@ -331,48 +480,43 @@ public class RendezVousController implements Initializable {
         AppartementMeuble appartment = null;
         ChambreHotel chambreHotel = null;
         ChambreClinique chambreClinique = null;
+        Hebergement hebergement = null;
+        Type type = null;
         boolean verifType = false;
         int indice = 0;
         try {
             patient = patientController.getPatientByName(this.patients.getValue());
             medicin = medicinController.getMedicinByName(this.medicins.getValue());
-            if (types.getSelectionModel().getSelectedItem().equals("CHIRURGIE"))
-                chirurgie = chirurgieController.getChirurgieByName(listeChirurgies.getValue());
-            else if ( types.getValue().equals("SOIN MEDICALE")){
-                soinsMedicaux = soinMedicaleController.getSoinsMedicauxByName(listSoins.getValue());
-                verifType = true;
-            }
+            chirurgie = chirurgieController.getChirurgieByName(listeChirurgies.getValue());
+            type = chirurgie;
             if (hebergements.getValue().equals("HOTEL")){
-                hotel = hotelController.getHotelByName(hotels.getValue());
-                chambreHotel = chambreHotelController.getHotelByNameAndChambreName(hotel.nom(),chambreHotels.getValue());
-                indice = 1;
+                    hotel = hotelController.getHotelByName(hotels.getValue());
+                    chambreHotel = chambreHotelController.getHotelByNameAndChambreName(hotel.nom(),chambreHotels.getValue());
+                    hebergement = chambreHotel;
+                    indice = 1;
             }
             else if (hebergements.getValue().equals("CLINIQUE")){
-                clinique = cliniqueController.getCliniqueByName(cliniques.getValue());
-                chambreClinique = chambreCliniqueController.getChambreByNameAndClinique(clinique.nom(),chambreCliniques.getValue());
-                indice = 2;
+                    clinique = cliniqueController.getCliniqueByName(cliniques.getValue());
+                    chambreClinique = chambreCliniqueController.getChambreByNameAndClinique(clinique.nom(),chambreCliniques.getValue());
+                    hebergement = chambreClinique;
+                    indice = 2;
             }
 
-            else if (hebergements.getValue().equals("APPARTMENT"))
-                appartment = appartmentController.getAppartmentByName(appartments.getValue());
+            else if (hebergements.getValue().equals("APPARTMENT")){
+                    appartment = appartmentController.getAppartmentByName(appartments.getValue());
+                    hebergement = appartment;
+                    indice = 3;
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         try {
             LocalDate datef = null;
-            if (chirurgie!= null)
-            {
-                datef = this.dateDeb.getValue().plusDays(chirurgie.getDuree());
-            }
+            datef = this.dateDeb.getValue().plusDays(chirurgie.getDuree());
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setDate(1, Date.valueOf(this.dateDeb.getValue()));
-            preparedStatement.setFloat(2, 0);
             switch (indice) {
-                case 0:
-                    preparedStatement.setNull(3, Types.INTEGER);
-                    preparedStatement.setInt(4, appartment.getId());
-                    preparedStatement.setNull(5, Types.INTEGER);
-                    break;
                 case 1:
                     preparedStatement.setInt(3, chambreHotel.getId());
                     preparedStatement.setNull(4, Types.INTEGER);
@@ -383,23 +527,44 @@ public class RendezVousController implements Initializable {
                     preparedStatement.setNull(4, Types.INTEGER);
                     preparedStatement.setInt(5, chambreClinique.getId());
                     break;
+                case 3:
+                    preparedStatement.setNull(3, Types.INTEGER);
+                    preparedStatement.setInt(4, appartment.getId());
+                    preparedStatement.setNull(5, Types.INTEGER);
+                    break;
             }
-            if (!verifType){
-                preparedStatement.setInt(6, chirurgie.getId());
-                preparedStatement.setNull(7, Types.INTEGER);
-
-            }
-            else{
-                preparedStatement.setNull(6, Types.INTEGER);
-                preparedStatement.setInt(7, soinsMedicaux.getId());
-            }
+            preparedStatement.setInt(6, chirurgie.getId());
+            preparedStatement.setNull(7, Types.INTEGER);
             preparedStatement.setInt(8, medicin.getId());
             preparedStatement.setInt(9, medicin.clinique().id());
-            preparedStatement.setDate(10, Date.valueOf(datef));
+            if (datef != null)
+                preparedStatement.setDate(10, Date.valueOf(datef));
             preparedStatement.setInt(11, patient.getId());
+            preparedStatement.setNull(12,Types.VARCHAR);
+            RendezVous v = new RendezVous(0,patient,Date.valueOf(this.dateDeb.getValue()),chirurgie,hebergement,medicin,null);
+            float reduction = chirurgieMedicinController.getReduction(medicin,chirurgie);
+            v.setPrixTotal();
+            float montantRed = v.calculMontantReduction(reduction);
+            lbPrixTotal.setText("Le prix total avant reduction est: " + v.getPrixTotal()+"DT.");
+            lbPrixReduction.setText("Le prix aprés redution est: " + montantRed+"DT.");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Rendez-vous");
+            alert.setHeaderText("Confirmation de montant ?");
+            alert.setContentText("Le prix total avant reduction est: " + v.getPrixTotal()+"DT."+"\n"+
+                    "Le prix aprés redution est: " +montantRed +"DT.");
+            preparedStatement.setFloat(2, montantRed);
 
-            preparedStatement.execute();
-
+            // Custom buttons for confirmation dialog
+            ButtonType buttonTypeYes = new ButtonType("Oui");
+            ButtonType buttonTypeNo = new ButtonType("Non");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            java.util.Optional<ButtonType> result = alert.showAndWait();
+            // Check which button was clicked
+            if (result.isPresent() && result.get() == buttonTypeYes) {
+                preparedStatement.execute();
+                rendezVousManager.bookRendezVous(patient.getNom()+ " "+ patient.getPrenom());
+                // Perform the action if the user clicked Yes
+            }
         } catch (SQLException ex) {
             Logger.getLogger(SpecialiteController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -428,27 +593,33 @@ public class RendezVousController implements Initializable {
         ChambreClinique chambreClinique = null;
         Type type;
         Hebergement hebergement = null;
-        int indice = 0;
+        RendezVousManager rendezVousManager = new RendezVousManager();
+        int indice = -1;
         while (resultSet.next()){
             Boolean verifType = false;
             medicin = medicinController.getMedicinById(resultSet.getInt("medicin_id"));
             patient = patientController.getPatientById(resultSet.getInt("patient_id"));
-            if (resultSet.getInt("chirurgie_id") != 0)
-                chirurgie = chirurgieController.getChirurgieByById(resultSet.getInt("chirurgie_id"));
-            if (resultSet.getInt("soin_id") != 0){
-                soinsMedicaux = soinMedicaleController.getSoinsMedicauxById(resultSet.getInt("soin_id"));
+            int chirurgieId = resultSet.getInt("chirurgie_id");
+            if ( !resultSet.wasNull())
+                chirurgie = chirurgieController.getChirurgieByById(chirurgieId);
+            int soinId = resultSet.getInt("soin_id");
+            if ( !resultSet.wasNull()){
+                soinsMedicaux = soinMedicaleController.getSoinsMedicauxById(soinId);
                 verifType = true;
             }
-            if (resultSet.getInt("chambre_clinique_id")!= 0){
-                chambreClinique = chambreCliniqueController.getChambreById(resultSet.getInt("chambre_clinique_id"));
+            int chambreCliniqueId = resultSet.getInt("chambre_clinique_id");
+            if ( ! resultSet.wasNull()){
+                chambreClinique = chambreCliniqueController.getChambreById(chambreCliniqueId);
                 indice = 0;
             }
-            if (resultSet.getInt("chambre_hotel_id") != 0){
-                chambreHotel = chambreHotelController.getChambreById(resultSet.getInt("chambre_hotel_id"));
+            int chambreHotelId = resultSet.getInt("chambre_hotel_id");
+            if ( !resultSet.wasNull()){
+                chambreHotel = chambreHotelController.getChambreById(chambreHotelId);
                 indice = 1;
             }
-            if (resultSet.getInt("appartment_id") != 0){
-                appartment = appartmentController.getChambreById(resultSet.getInt("appartment_id"));
+            int appartment_id = resultSet.getInt("appartment_id");
+            if ( !resultSet.wasNull()){
+                appartment = appartmentController.getChambreById(appartment_id);
                 indice = 2;
             }
             if (verifType)
@@ -466,6 +637,8 @@ public class RendezVousController implements Initializable {
                 case 2:
                     hebergement = appartment;
                     break;
+                default:
+                    hebergement = null;
             }
             s.add(new RendezVous(
                     resultSet.getInt("id"),
@@ -474,7 +647,9 @@ public class RendezVousController implements Initializable {
                     type,
                     hebergement,
                     medicin,
-                    resultSet.getDate("date_fin")
+                    resultSet.getDate("date_fin"),
+                    resultSet.getFloat("prix_total"),
+                    resultSet.getString("heure")
                     ));
         }
         return s;
@@ -512,6 +687,13 @@ public class RendezVousController implements Initializable {
         }
     }
 
+    public void setData(String medicin, String chirurgie){
+        medicins.getSelectionModel().select(medicin);
+        types.getSelectionModel().select("CHIRURGIE");
+        listeChirurgies.getSelectionModel().select(chirurgie);
+
+    }
+
     public void setUpdate(boolean b) {
         this.update = b;
 
@@ -523,14 +705,19 @@ public class RendezVousController implements Initializable {
                   TableColumn<RendezVous, String> medicinRendezvous,
                   TableColumn<RendezVous, String>  cliniqueRendezvous,
                   TableColumn<RendezVous, java.util.Date>dateDRendezvous,
-                  TableColumn<RendezVous, java.util.Date> dateFRendezvous,
+                  TableColumn<RendezVous, String> dateFRendezvous,
                   TableColumn<RendezVous, Float> prixRendezvous,
                   TableColumn<RendezVous, String> typeRendezvous,
                   TableColumn<RendezVous, String> hebergRendezvous,
+                  TableColumn<RendezVous, String> hebergTypeRendezvous,
+                  TableColumn<RendezVous, String> heure,
                   TableColumn<RendezVous, String> editColRendezvous,
-                  TableView<RendezVous> tableRendezvous
+                  TableView<RendezVous> tableRendezvous,
+                  ChoiceBox<String> typesOper
 
     ){
+        this.choiceSpecialite = typesOper;
+        loadDataByType(tableRendezvous);
         btnRV.requestFocus();
         idRendezvous.setCellValueFactory(new PropertyValueFactory<>("id"));
         patientRendezvous.setCellValueFactory(new PropertyValueFactory<>("patient"));
@@ -540,7 +727,9 @@ public class RendezVousController implements Initializable {
         dateFRendezvous.setCellValueFactory(new PropertyValueFactory<>("dateFin"));
         prixRendezvous.setCellValueFactory(new PropertyValueFactory<>("prixTotal"));
         typeRendezvous.setCellValueFactory(new PropertyValueFactory<>("type"));
+        heure.setCellValueFactory(new PropertyValueFactory<>("heure"));
         hebergRendezvous.setCellValueFactory(new PropertyValueFactory<>("hebergement"));
+        hebergTypeRendezvous.setCellValueFactory(new PropertyValueFactory<>("typeHebergement"));
         //add cell of button edit
         ObservableList<RendezVous> finalList = rendezVousList;
         Callback<TableColumn<RendezVous, String>, TableCell<RendezVous, String>> cellFoctory = (TableColumn<RendezVous, String> param) -> {
@@ -611,11 +800,45 @@ public class RendezVousController implements Initializable {
         editColRendezvous.setCellFactory(cellFoctory);
         try {
             rendezVousList = fetchDataRdv();
-            tableRendezvous.setItems(rendezVousList);
+            List<RendezVous> listSorted = rendezVousList.stream().sorted(Comparator.comparing(RendezVous::getDateDebut)).toList();
+            tableRendezvous.setItems(FXCollections.observableArrayList(listSorted));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void loadDataByType(TableView<RendezVous> tableRendezvous) {
+        if (choiceSpecialite != null){
+            choiceSpecialite.getItems().clear();
+            try {
+                choiceSpecialite.getItems().add("Tous");
+                choiceSpecialite.getItems().add("CHIRURGIE");
+                choiceSpecialite.getItems().add("SOIN MEDICALE");
+                ObservableList<RendezVous> list = fetchDataRdv();
+                choiceSpecialite.setOnAction(event ->{
+                    String s = choiceSpecialite.getValue();
+                    ObservableList<RendezVous> filtredList;
+                    if (choiceSpecialite.getSelectionModel().isSelected(1)){
+                        filtredList =  FXCollections.observableArrayList(list.stream()
+                                .filter(e-> e.type() instanceof Chirurgie)
+                                .collect(Collectors.toList()));
+                        tableRendezvous.setItems(filtredList);
+                    }
+                    else if (choiceSpecialite.getSelectionModel().isSelected(2)){
+                        filtredList =  FXCollections.observableArrayList(list.stream()
+                                .filter(e-> e.type() instanceof SoinsMedicaux)
+                                .collect(Collectors.toList()));
+                        tableRendezvous.setItems(filtredList);
+                    }
+                    else {
+                        tableRendezvous.setItems(list);
+                    }
+                });
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void refreshTable(ObservableList<RendezVous> medicinList, TableView<RendezVous> tableMedicin) {
@@ -636,7 +859,50 @@ public class RendezVousController implements Initializable {
     }
 
 
+    private ArrayList<ChambreHotel> verifierDate(Chirurgie c, LocalDate deb,ArrayList<ChambreHotel> hotelCh) throws SQLException {
+        ArrayList<RendezVous> rdv = getAll();
+        ArrayList<ChambreHotel> chambres  = hotelCh;
+        if (deb != null){
+            LocalDate datef = deb.plusDays(c.getDuree());
+            for (RendezVous r : rdv) {
+                if (r.type() instanceof Chirurgie){
+                    if( r.hebergement() instanceof  ChambreHotel){
+                        ChambreHotel ch = (ChambreHotel)r.hebergement();
+                        LocalDate rendezVousDebut = r.getDateDebut().toLocalDate();
+                        LocalDate rendezVousFin = r.dateFin().toLocalDate();
+                        if ((deb.isEqual(rendezVousDebut) || deb.isAfter(rendezVousDebut)) && (deb.isBefore(rendezVousFin) || deb.isEqual(rendezVousFin)) ||
+                                (datef.isEqual(rendezVousDebut) || datef.isAfter(rendezVousDebut)) && (datef.isBefore(rendezVousFin) || datef.isEqual(rendezVousFin))) {
+                            // The date range overlaps, so remove the associated ChambreHotel from the available rooms
+                            chambres.remove(ch);
+                        }
+                    }
+                }
+            }
+        }
+        return chambres;
+    }
 
-
+    private ArrayList<ChambreClinique> verifierDateCliniques(Chirurgie c, LocalDate deb, ArrayList<ChambreClinique> chambresCli) throws SQLException {
+        ArrayList<RendezVous> rdv = getAll();
+        ArrayList<ChambreClinique> chambres  = chambresCli;
+        if (deb != null){
+            LocalDate datef = deb.plusDays(c.getDuree());
+            for (RendezVous r : rdv) {
+                if (r.type() instanceof Chirurgie){
+                    if (r.hebergement() instanceof ChambreClinique){
+                        ChambreClinique ch = (ChambreClinique)r.hebergement();
+                        LocalDate rendezVousDebut = r.getDateDebut().toLocalDate();
+                        LocalDate rendezVousFin = r.dateFin().toLocalDate();
+                        if ((deb.isEqual(rendezVousDebut) || deb.isAfter(rendezVousDebut)) && (deb.isBefore(rendezVousFin) || deb.isEqual(rendezVousFin)) ||
+                                (datef.isEqual(rendezVousDebut) || datef.isAfter(rendezVousDebut)) && (datef.isBefore(rendezVousFin) || datef.isEqual(rendezVousFin))) {
+                            // The date range overlaps, so remove the associated ChambreHotel from the available rooms
+                            chambres.remove(ch);
+                        }
+                    }
+                }
+            }
+        }
+        return chambres;
+    }
 
 }

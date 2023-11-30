@@ -1,4 +1,7 @@
 package com.example.tourisme_medicale.models;
+
+import java.util.Objects;
+
 public final class ChambreClinique extends Hebergement implements InterfacePrix {
     private int id;
     private String nom;
@@ -47,8 +50,12 @@ public final class ChambreClinique extends Hebergement implements InterfacePrix 
         this.clinique = clinique;
     }
 
-    public Boolean getVide() {
-        return vide;
+    public Boolean vide() { return vide;}
+    public String getVide() {
+        if (vide)
+            return  "Disponible";
+        else
+            return  "Non";
     }
 
     public void setVide(Boolean vide) {
@@ -73,5 +80,18 @@ public final class ChambreClinique extends Hebergement implements InterfacePrix 
                 ", nbLits=" + nbLits +
                 ", clinique=" + clinique +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChambreClinique that = (ChambreClinique) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

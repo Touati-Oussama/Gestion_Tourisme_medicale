@@ -381,6 +381,19 @@ public class MedicinController implements Initializable {
         }
         return null; // No Clinique found with the specified ID
     }
+    public ArrayList<Medicin> getMedicinsBySpecialite(String specialite){
+        ArrayList<Medicin> medicins = new ArrayList<>();
+        try {
+            for (Medicin m: getAll()
+            ) {
+                if (m.getSpecialite().equals(specialite))
+                    medicins.add(m);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  medicins;
+    }
 
     private void loadDataByChoicSpecialite(TableView<Medicin> tablechirurgie){
         if (choiceSpecialite != null){

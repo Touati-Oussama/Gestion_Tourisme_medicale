@@ -1,5 +1,5 @@
 package com.example.tourisme_medicale.models;
-public class SoinsMedicaux extends Type {
+public final class SoinsMedicaux extends Type {
     private int id;
     private float prix;
     private Specialite specialite;
@@ -12,13 +12,7 @@ public class SoinsMedicaux extends Type {
         this.prix = prix;
         this.specialite = specialite;
     }
-
-    @Override
-    public void description() {
-        System.out.println("Type de traitement : Soins médicaux");
-    }
-
-
+    
     @Override
     public int getId() {
         return id;

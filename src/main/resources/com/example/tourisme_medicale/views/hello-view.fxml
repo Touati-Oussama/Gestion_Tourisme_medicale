@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="772.0" prefWidth="1376.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
+<AnchorPane prefHeight="772.0" prefWidth="1483.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.HelloController">
     <children>
         <BorderPane prefHeight="578.0" prefWidth="977.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
@@ -223,7 +223,7 @@
                                                     <columns>
                                                         <TableColumn id="id" fx:id="id" prefWidth="144.80004274845123" text="ID" />
                                                         <TableColumn fx:id="specialite" prefWidth="152.79998779296875" text="Specialite" />
-                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="853.5997924804688" text="Action" />
+                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="961.6000183105468" text="Action" />
                                                     </columns>
                                                     <opaqueInsets>
                                                         <Insets />
@@ -274,7 +274,7 @@
                                  <center>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <top>
-                                          <ChoiceBox fx:id="specialitesMedicin" prefHeight="26.0" prefWidth="1142.0" BorderPane.alignment="CENTER">
+                                          <ChoiceBox fx:id="specialitesMedicin" prefHeight="26.0" prefWidth="1261.0" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" />
                                              </BorderPane.margin>
@@ -349,7 +349,7 @@
                                                   <TableColumn fx:id="emailClinique" minWidth="0.0" prefWidth="148.53338623046875" text="Email" />
                                                   <TableColumn fx:id="villeClinique" minWidth="0.0" prefWidth="116.2666015625" text="Ville" />
                                                   <TableColumn fx:id="prix_chClinique" minWidth="0.0" prefWidth="149.333251953125" text="Prix_chambre(DT)" />
-                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="342.39998779296866" text="Action" />
+                                                  <TableColumn fx:id="editColCli" minWidth="0.0" prefWidth="449.60004882812495" text="Action" />
                                               </columns>
                                               <opaqueInsets>
                                                   <Insets />
@@ -404,7 +404,7 @@
                                           <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="155.46673583984375" text="Email" />
                                           <TableColumn fx:id="gender" minWidth="0.0" prefWidth="109.33331298828125" text="Sexe" />
                                           <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="139.199951171875" text="Nationalite" />
-                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="389.59993896484366" text="Action" />
+                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="496.79999999999995" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -432,15 +432,17 @@
                                           <TableView fx:id="tableRendezvous" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
                                              <columns>
                                                 <TableColumn id="id" fx:id="idRendezvous" prefWidth="49.59994351863861" text="ID" />
-                                                <TableColumn fx:id="patientRendezvous" prefWidth="87.2000732421875" text="Patient" />
-                                                <TableColumn fx:id="medicinRendezvous" prefWidth="113.60009765625" text="Medicin" />
+                                                <TableColumn fx:id="patientRendezvous" prefWidth="104.0" text="Patient" />
+                                                <TableColumn fx:id="medicinRendezvous" prefWidth="98.39990234375" text="Medicin" />
                                                 <TableColumn fx:id="cliniqueRendezvous" prefWidth="104.0001220703125" text="Clinique" />
-                                                <TableColumn fx:id="dateDRendezvous" prefWidth="133.60003662109375" text="Date debut" />
-                                                <TableColumn fx:id="dateFRendezvous" prefWidth="133.60003662109375" text="Date fin" />
-                                                <TableColumn fx:id="prixRendezvous" prefWidth="75.9998779296875" text="Prix" />
-                                                <TableColumn fx:id="typeRendezvous" prefWidth="72.800048828125" text="Type" />
-                                                <TableColumn fx:id="hebergRendezvous" prefWidth="150.4000244140625" text="Hebergement" />
-                                                <TableColumn fx:id="editColRendezvous" minWidth="0.0" prefWidth="120.79995117187491" text="Action" />
+                                                <TableColumn fx:id="dateDRendezvous" prefWidth="104.0" text="Date debut" />
+                                                <TableColumn fx:id="dateFRendezvous" prefWidth="90.4000244140625" text="Date fin" />
+                                                <TableColumn fx:id="heure" prefWidth="89.60009765625" text="Heure" />
+                                                <TableColumn fx:id="prixRendezvous" prefWidth="87.199951171875" text="Prix" />
+                                                <TableColumn fx:id="typeRendezvous" prefWidth="136.800048828125" text="Type" />
+                                                <TableColumn fx:id="hebergTypeRendezvous" prefWidth="95.199951171875" text="Hebergement" />
+                                                <TableColumn fx:id="hebergRendezvous" prefWidth="96.0001220703125" text="Chambre" />
+                                                <TableColumn fx:id="editColRendezvous" minWidth="0.0" prefWidth="198.400146484375" text="Action" />
                                              </columns>
                                              <opaqueInsets>
                                                 <Insets />
@@ -451,7 +453,7 @@
                                           </TableView>
                                        </center>
                                        <top>
-                                          <ChoiceBox fx:id="specialites1" prefHeight="26.0" prefWidth="1147.0" BorderPane.alignment="CENTER">
+                                          <ChoiceBox fx:id="typesOper" prefHeight="26.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </BorderPane.margin>
@@ -529,7 +531,7 @@
                                           <TableColumn fx:id="villeHotel" prefWidth="86.13339233398438" text="Ville" />
                                           <TableColumn fx:id="catHotel" minWidth="0.0" prefWidth="91.19989013671875" text="Categorie" />
                                           <TableColumn fx:id="prix_chHotel" minWidth="0.0" prefWidth="143.7333984375" text="Prix_chambre(DT)" />
-                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="357.59991455078125" text="Action" />
+                                          <TableColumn fx:id="editColHotel" minWidth="0.0" prefWidth="460.0" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -580,7 +582,7 @@
                                           <TableColumn fx:id="villeAppartment" prefWidth="106.66668701171875" text="Ville" />
                                           <TableColumn fx:id="prix_chAppartment" minWidth="0.0" prefWidth="111.199951171875" text="Prix_chambre(DT)" />
                                           <TableColumn fx:id="videAppartment" minWidth="0.0" prefWidth="81.86676025390625" text="Vide" />
-                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="392.80001220703116" text="Action" />
+                                          <TableColumn fx:id="editColAppartment" minWidth="0.0" prefWidth="500.00007324218745" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -629,7 +631,7 @@
                                           <TableColumn fx:id="superficieChHotel" prefWidth="152.79998779296875" text="Superficie" />
                                           <TableColumn fx:id="hotelCh" prefWidth="152.79998779296875" text="Hotel" />
                                           <TableColumn fx:id="videChHotel" prefWidth="152.79998779296875" text="Vide" />
-                                          <TableColumn fx:id="editColChHotel" minWidth="0.0" prefWidth="644.5332946777344" text="Action" />
+                                          <TableColumn fx:id="editColChHotel" minWidth="0.0" prefWidth="502.39997558593745" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -681,7 +683,7 @@
                                           <TableColumn fx:id="nbLitsCh" prefWidth="152.79998779296875" text="Nombre des Lits" />
                                           <TableColumn fx:id="cliniqueCh" prefWidth="152.79998779296875" text="Clinique" />
                                           <TableColumn fx:id="videCh" prefWidth="152.79998779296875" text="Vide" />
-                                          <TableColumn fx:id="editColChCli" minWidth="0.0" prefWidth="644.5332946777344" text="Action" />
+                                          <TableColumn fx:id="editColChCli" minWidth="0.0" prefWidth="499.2001953125" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -747,7 +749,7 @@
                                           </TableView>
                                        </center>
                                        <top>
-                                          <ChoiceBox fx:id="specialites" prefHeight="26.0" prefWidth="1147.0" BorderPane.alignment="CENTER">
+                                          <ChoiceBox fx:id="specialites" prefHeight="26.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </BorderPane.margin>
@@ -773,7 +775,7 @@
                                                 <TableColumn id="id" fx:id="idSoin" prefWidth="49.59994351863861" text="ID" />
                                                 <TableColumn fx:id="prixSoin" prefWidth="80.800048828125" text="Prix initial" />
                                                 <TableColumn fx:id="specialiteSoin" prefWidth="161.6000518798828" text="Specialite" />
-                                                <TableColumn fx:id="editColSoin" minWidth="0.0" prefWidth="856.7999877929688" text="Action" />
+                                                <TableColumn fx:id="editColSoin" minWidth="0.0" prefWidth="966.3999450683593" text="Action" />
                                              </columns>
                                              <opaqueInsets>
                                                 <Insets />
@@ -784,7 +786,7 @@
                                           </TableView>
                                        </center>
                                        <top>
-                                          <ChoiceBox fx:id="specialitesSoin" prefHeight="26.0" prefWidth="1155.0" BorderPane.alignment="CENTER">
+                                          <ChoiceBox fx:id="specialitesSoin" prefHeight="26.0" prefWidth="1251.0" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </BorderPane.margin>

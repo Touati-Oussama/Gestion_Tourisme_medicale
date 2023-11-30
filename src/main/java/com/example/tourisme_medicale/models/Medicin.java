@@ -1,7 +1,7 @@
 package com.example.tourisme_medicale.models;
 import java.sql.Date;
 
-public class Medicin {
+public final class Medicin {
     private int id;
     private String nom;
     private String prenom;
@@ -14,7 +14,6 @@ public class Medicin {
 
     private Specialite specialite;
 
-    private EmploiTemps emploiTemps;
 
     public Medicin(int id, String nom, String prenom, Date dateNaiss, String email, String sexe, int telephone, Clinique clinique, Specialite specialite) {
         this.id = id;
@@ -107,15 +106,6 @@ public class Medicin {
     }
 
 
-
-    public EmploiTemps getEmploiTemps() {
-        return emploiTemps;
-    }
-
-    public void setEmploiTemps(EmploiTemps emploiTemps) {
-        this.emploiTemps = emploiTemps;
-    }
-
     @Override
     public String toString() {
         return "Doctor{" +
@@ -131,7 +121,4 @@ public class Medicin {
                 '}';
     }
 
-    public void affecterEmploisDeTemps(EmploiTemps emploiTemps){
-        this.emploiTemps = emploiTemps;
-    }
 }

@@ -96,7 +96,7 @@ public class HelloController implements Initializable{
     @FXML
     private TableColumn<ChambreHotel, Float> superficieChHotel;
     @FXML
-    private TableColumn<ChambreHotel, Boolean> videChHotel;
+    private TableColumn<ChambreHotel, String> videChHotel;
     @FXML
     private TableColumn<ChambreHotel, String> hotelCh;
 
@@ -249,7 +249,7 @@ public class HelloController implements Initializable{
     @FXML
     private TableColumn<RendezVous, Date> dateDRendezvous;
     @FXML
-    private TableColumn<RendezVous, Date> dateFRendezvous;
+    private TableColumn<RendezVous, String> dateFRendezvous;
     @FXML
     private TableColumn<RendezVous, Float> prixRendezvous;
     @FXML
@@ -257,8 +257,14 @@ public class HelloController implements Initializable{
     @FXML
     private TableColumn<RendezVous, String> hebergRendezvous;
     @FXML
+    private TableColumn<RendezVous, String> hebergTypeRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> heure;
+    @FXML
     private TableColumn<RendezVous, String> editColRendezvous;
 
+    @FXML
+    private ChoiceBox<String> typesOper;
     ObservableList<RendezVous>  rendezVousList = FXCollections.observableArrayList();
     @FXML
     Button btnAddRendezvous,btnExportRendezvous;
@@ -357,7 +363,8 @@ public class HelloController implements Initializable{
         }
         else if (tab.equals(tabPane.getTabs().get(4))){
             rendezVousController.afficher(btnRV,rendezVousList,idRendezvous,patientRendezvous,medicinRendezvous,
-                    cliniqueRendezvous,dateDRendezvous,dateFRendezvous,prixRendezvous,typeRendezvous,hebergRendezvous, editColRendezvous, tableRendezvous);
+                    cliniqueRendezvous,dateDRendezvous,dateFRendezvous,prixRendezvous,
+                    typeRendezvous,hebergRendezvous,hebergTypeRendezvous,heure, editColRendezvous, tableRendezvous,typesOper);
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
             hotelController.afficher(btnHotel,hotelList,idHotel, nomHotel,adrHotel, telHotel,

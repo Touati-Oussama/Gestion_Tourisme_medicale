@@ -65,6 +65,13 @@ public final class AppartementMeuble extends Hebergement implements InterfacePri
         return vide;
     }
 
+    public String getVide() {
+        if (vide)
+            return  "Disponible";
+        else
+            return  "Non";
+    }
+
     public void setVide(boolean vide) {
         this.vide = vide;
     }

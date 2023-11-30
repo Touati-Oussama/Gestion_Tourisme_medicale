@@ -357,7 +357,54 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         if (event.getSource() == btnAddRendezvous){
             showDialog("ajouter", "rendez-vous");
         }
+        else if (event.getSource() == btnExportRendezvous){
+            RendezVousController rendezVousController = new RendezVousController();
+            ArrayList<RendezVous> l = null;
+            try {
+                l = rendezVousController.getAll();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ID").append(",").append("PATIENT").append(",").append("MEDICIN").append(",").append("CLINIQUE")
+                    .append(",").append("DATE DEBUT").append(",").append("DATE FIN").append(",").append("PRIX").append(",").append("TYPE")
+                    .append(",").append("HEBERGEMENT").append(",").append("CHAMBRE").append("\n");
+
+            for (RendezVous  c: l) {
+                String hebergment = null;
+                String chambre = null;
+                if (c.type() instanceof  Chirurgie){
+                    if ( c.hebergement() instanceof  ChambreClinique){
+                        hebergment = ((ChambreClinique)c.hebergement()).getClinique();
+                        chambre = ((ChambreClinique)c.hebergement()).getNom();
+                    }
+                    else if ( c.hebergement() instanceof  ChambreHotel){
+                        hebergment = ((ChambreHotel)c.hebergement()).getHotel();
+                        chambre = ((ChambreHotel)c.hebergement()).getNom();
+                    }
+                    else if ( c.hebergement() instanceof  AppartementMeuble){
+                        hebergment = ((AppartementMeuble)c.hebergement()).getNom();
+                        chambre = hebergment;
+                    }
+
+                    stringBuilder.append(c.getId()).append(",").append(c.getPatient()).append(",").append(c.getMedicin()).append(",").append(c.medicin().getClinique())
+                            .append(",").append(c.getDateDebut()).append(",").append(c.getDateFin()).append(",").append(c.getPrixTotal()).append(",").append(((Chirurgie)c.type()).getTypeChirurgie())
+                            .append(",").append((hebergment)).append(",").append(chambre).append("\n");
+                }
+            }
+
+            try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\Planification-Chirurgie.csv")){
+                writer.write(stringBuilder.toString());
+                System.out.println("File created ! ");
+            }
+            catch (Exception e){
+
+            }
+            exportDataSoins();
+        }
     }
+
+
 
     private void showDialog(String fxml, String repos){
         try {
@@ -372,6 +419,36 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             //refreshTable(tabPane.getSelectionModel().getSelectedItem());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void exportDataSoins() {
+        RendezVousController rendezVousController = new RendezVousController();
+        ArrayList<RendezVous> l = null;
+        try {
+            l = rendezVousController.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("ID").append(",").append("PATIENT").append(",").append("MEDICIN").append(",").append("CLINIQUE")
+                .append(",").append("DATE DEBUT").append(",").append("PRIX").append(",").append("TYPE").append("\n");
+
+        for (RendezVous  c: l) {
+            String hebergment = null;
+            String chambre = null;
+            if (c.type() instanceof  SoinsMedicaux){
+                stringBuilder.append(c.getId()).append(",").append(c.getPatient()).append(",").append(c.getMedicin()).append(",").append(c.medicin().getClinique())
+                        .append(",").append(c.getDateDebut()).append(",").append(c.getPrixTotal()).append(",").append(((SoinsMedicaux)c.type()).getSpecialite()).append("\n");
+            }
+        }
+
+        try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\Planification-Soins.csv")){
+            writer.write(stringBuilder.toString());
+            System.out.println("File created ! ");
+        }
+        catch (Exception e){
+
         }
     }
 }

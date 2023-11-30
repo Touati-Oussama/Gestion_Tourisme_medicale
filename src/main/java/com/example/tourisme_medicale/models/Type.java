@@ -1,6 +1,6 @@
 package com.example.tourisme_medicale.models;
 
-public abstract class Type {
+public sealed class Type permits Chirurgie,SoinsMedicaux{
     private int id;
     private float prix;
 
@@ -38,7 +38,6 @@ public abstract class Type {
         this.specialite = specialite;
     }
 
-    public abstract void description();
 
     @Override
     public String toString() {

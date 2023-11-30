@@ -1,9 +1,7 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
-import com.example.tourisme_medicale.models.Chirurgie;
-import com.example.tourisme_medicale.models.SoinsMedicaux;
-import com.example.tourisme_medicale.models.Specialite;
+import com.example.tourisme_medicale.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -499,5 +497,8 @@ public class SoinMedicaleController implements Initializable {
         }
         return null; // No Clinique found with the specified ID
     }
+
+
+
 }
 

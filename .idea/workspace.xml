@@ -6,18 +6,38 @@
   <component name="ChangeListManager">
     <list default="true" id="e2544eb4-2887-4b14-a6e6-d2fd5df9e55c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/AppartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/AppartmentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreCliniqueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreCliniqueController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreHotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChambreHotelController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieMedicinController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/ChirurgieMedicinController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/MedicinController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/MedicinController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/PatientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/PatientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/RendezVousController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/RendezVousController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SoinMedicaleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SoinMedicaleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SpecialiteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/SpecialiteController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/controlles/ShowDialogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/controlles/ShowDialogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/AppartementMeuble.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/AppartementMeuble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/ChambreClinique.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/ChambreClinique.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/ChambreHotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/ChambreHotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Chirurgie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Chirurgie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/EmploiTemps.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Hebergement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Hebergement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Hotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/JourDeTravail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Medicament.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Medicin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Medicin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Medicin_Chirurgie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Medicin_Chirurgie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Ordonance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Patient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/RendezVous.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/RendezVous.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/SoinsMedicaux.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/SoinsMedicaux.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Specialite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Specialite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/SpecialiteVm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tourisme_medicale/models/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/medicin_chirurgie/liste.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/medicin_chirurgie/liste.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/rendez-vous/ajouter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/rendez-vous/ajouter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/rendez-vous/modifier.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/tourisme_medicale/views/rendez-vous/modifier.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +48,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaFXApplication" />
-        <option value="Enum" />
         <option value="FxmlFile" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="528.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.ChirurgieMedicinController">
+<AnchorPane prefHeight="528.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tourisme_medicale.ChirurgieMedicinController">
 
     <children>
         <BorderPane prefHeight="232.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -25,7 +25,7 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="489.0" prefWidth="845.0" stylesheets="@../../css/style.css">
                                     <children>
-                                        <BorderPane layoutX="20.8" layoutY="9.6" prefHeight="474.0" prefWidth="847.0" stylesheets="@../../css/style.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
+                                        <BorderPane layoutX="20.8" layoutY="9.6" prefHeight="474.0" prefWidth="847.0" stylesheets="@../../css/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <top>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="696.0" spacing="10.0" BorderPane.alignment="CENTER">
                                                     <children>
@@ -61,7 +61,7 @@
                                           <TableColumn fx:id="nomMedicin" prefWidth="109.5999755859375" text="Medicin" />
                                           <TableColumn fx:id="reductionMedCh" prefWidth="92.0" text="Reduction" />
                                           <TableColumn fx:id="prixFinChirur" prefWidth="111.20001220703125" text="Prix Reduction" />
-                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="201.60003662109375" text="Action" />
+                                                        <TableColumn fx:id="editCol" minWidth="0.0" prefWidth="236.0000122070312" text="Action" />
                                                     </columns>
                                                     <opaqueInsets>
                                                         <Insets />

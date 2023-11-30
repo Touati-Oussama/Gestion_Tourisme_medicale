@@ -3,7 +3,7 @@ package com.example.tourisme_medicale.models;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class RendezVous {
+public final class  RendezVous {
     private int id;
     private Date dateDebut;
 
@@ -14,7 +14,35 @@ public class RendezVous {
     private Medicin medicin;
     private  Clinique clinique;
     private Patient patient;
+    private  String heure;
 
+    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF,float prixTotal,String heure) {
+        this.id = id;
+        this.dateDebut = date;
+        this.medicin = medicin;
+        this.clinique = medicin.clinique();
+        this.patient = patient;
+        this.dateFin = dateF;
+        this.prixTotal = prixTotal;
+        this.heure = heure;
+        if (type instanceof Chirurgie){
+            Chirurgie chirurgie = (Chirurgie)type;
+            this.type = chirurgie;
+        }else if (type instanceof  SoinsMedicaux) {
+            SoinsMedicaux soin = (SoinsMedicaux) type;
+            this.type = soin;
+        }
+        if (hebergement instanceof ChambreClinique) {
+            ChambreClinique chambreClinique = (ChambreClinique) hebergement;
+            this.hebergement = chambreClinique;
+        } else if (hebergement instanceof ChambreHotel) {
+            ChambreHotel chambreHotel = (ChambreHotel) hebergement;
+            this.hebergement = chambreHotel;
+        } else if (hebergement instanceof AppartementMeuble) {
+            AppartementMeuble appartementMeuble = (AppartementMeuble) hebergement;
+            this.hebergement = appartementMeuble;
+        }
+    }
     public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF) {
         this.id = id;
         this.dateDebut = date;
@@ -57,7 +85,15 @@ public class RendezVous {
         this.dateDebut = date;
     }
 
+    public String getHeure() {
+        if (type instanceof Chirurgie)
+            return "*****";
+        return heure;
+    }
 
+    public void setHeure(String heure) {
+        this.heure = heure;
+    }
 
     public float getPrixTotal() {
         return prixTotal;
@@ -68,20 +104,42 @@ public class RendezVous {
             Chirurgie c = (Chirurgie) type;
             if (hebergement instanceof ChambreHotel){
                 ChambreHotel ch = (ChambreHotel) hebergement;
-                prixTotal = ch.getPrixJour()* c.getDuree();
+                prixTotal = ch.getPrixJour()* c.getDuree() + c.getPrix();
             }
             else if (hebergement instanceof ChambreClinique){
                 ChambreClinique ch = (ChambreClinique) hebergement;
-                prixTotal = ch.getPrixJour()* c.getDuree();
+                prixTotal = ch.getPrixJour()* c.getDuree() + c.getPrix();
             } else if (hebergement instanceof  AppartementMeuble) {
                 AppartementMeuble ch = (AppartementMeuble) hebergement;
-                prixTotal = ch.getPrixJour()*c.getDuree();
+                prixTotal = ch.getPrixJour()*c.getDuree() + c.getPrix();
             }
         }
         else if (type instanceof SoinsMedicaux){
             SoinsMedicaux s = (SoinsMedicaux) type;
             prixTotal = s.getPrix();
         }
+    }
+    public float calculMontantReduction(float reduction){
+        float prixTotal = 0;
+        if (type instanceof Chirurgie){
+            Chirurgie c = (Chirurgie) type;
+            if (hebergement instanceof ChambreHotel){
+                ChambreHotel ch = (ChambreHotel) hebergement;
+                prixTotal = (ch.getPrixJour()* c.getDuree()) + (c.getPrix()*(1-reduction));
+            }
+            else if (hebergement instanceof ChambreClinique){
+                ChambreClinique ch = (ChambreClinique) hebergement;
+                prixTotal = ch.getPrixJour()* c.getDuree() + (c.getPrix()*(1-reduction));
+            } else if (hebergement instanceof  AppartementMeuble) {
+                AppartementMeuble ch = (AppartementMeuble) hebergement;
+                prixTotal = ch.getPrixJour()*c.getDuree() +  (c.getPrix()*(1-reduction));
+            }
+        }
+        else if (type instanceof SoinsMedicaux){
+            SoinsMedicaux s = (SoinsMedicaux) type;
+            prixTotal = s.getPrix();
+        }
+        return  prixTotal;
     }
 
     public String getType() {
@@ -100,22 +158,40 @@ public class RendezVous {
     }
     public Hebergement hebergement(){ return hebergement;};
 
+    public String getTypeHebergement(){
+        if (type instanceof  Chirurgie){
+            if (hebergement instanceof ChambreHotel)
+                return  ((ChambreHotel)hebergement).getHotel();
+            else if (hebergement instanceof ChambreClinique)
+                return  ((ChambreClinique)hebergement).getClinique();
+            else
+                return ((AppartementMeuble)hebergement).getNom();
+        }
+        return "*****";
+    }
     public String getHebergement() {
-        if (hebergement instanceof ChambreHotel)
-            return  ((ChambreHotel)hebergement).getHotel()+ "Chambre= "+ ((ChambreHotel)hebergement).getNom();
-        else if (hebergement instanceof ChambreClinique)
-            return  ((ChambreClinique)hebergement).getClinique()+ "Chambre= "+ ((ChambreClinique)hebergement).getNom();
-        else
-            return ((AppartementMeuble)hebergement).getNom();
+        if (type instanceof Chirurgie){
+            if (hebergement instanceof ChambreHotel)
+                return  ((ChambreHotel)hebergement).getNom();
+            else if (hebergement instanceof ChambreClinique)
+                return  ((ChambreClinique)hebergement).getNom();
+            else
+                return ((AppartementMeuble)hebergement).getNom();
+        }
+        return "*****";
     }
 
     public void setHebergement(Hebergement hebergement) {
         this.hebergement = hebergement;
     }
 
+    public Date dateFin() { return  dateFin;}
 
-    public Date getDateFin() {
-        return dateFin;
+    public String getDateFin() {
+        if (type instanceof Chirurgie)
+            return String.valueOf(dateFin);
+        else
+            return "*********";
     }
 
     public void setDateFin(Date dateFin) {

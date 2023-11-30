@@ -79,7 +79,7 @@ public class PatientController implements Initializable {
 
 
     @FXML
-    private void save(ActionEvent event) {
+    private void save(ActionEvent event) throws SQLException, ErreurData {
         String nom = this.nom.getText();
         String prenom = this.prenom.getText();
         String email = this.email.getText();
@@ -93,9 +93,21 @@ public class PatientController implements Initializable {
             alert.showAndWait();
 
         } else {
-            getQuery();
-            insert();
-            clean();
+            try {
+                Patient p = getPatientByName(nom+ " " + prenom);
+                if (p != null)
+                    throw new ErreurData("Patient: " + nom+ " " + prenom+ " deja existe");
+                getQuery();
+                insert();
+                clean();
+            }catch (SQLException err){}
+            catch (ErreurData e){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+
 
         }
         Stage stage = (Stage) btnAdd.getScene().getWindow();
