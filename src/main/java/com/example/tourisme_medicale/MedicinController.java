@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class MedicinController implements Initializable {
 
@@ -39,6 +40,8 @@ public class MedicinController implements Initializable {
     int medicinId;
 
 
+    @FXML
+    private ChoiceBox<String> choiceSpecialite;
 
     @FXML
     TextField nom;
@@ -250,9 +253,12 @@ public class MedicinController implements Initializable {
                   TableColumn<Medicin, String> specialite,
                   TableColumn<Medicin, String> clinique,
                   TableColumn<Medicin, String> editColMed,
-                  TableView<Medicin> tableMedicin
+                  TableView<Medicin> tableMedicin,
+                  ChoiceBox<String> specialites
 
     ){
+        this.choiceSpecialite = specialites;
+        loadDataByChoicSpecialite(tableMedicin);
         btnMedicin.requestFocus();
         idMedicin.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomMedicin.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -374,6 +380,33 @@ public class MedicinController implements Initializable {
             }
         }
         return null; // No Clinique found with the specified ID
+    }
+
+    private void loadDataByChoicSpecialite(TableView<Medicin> tablechirurgie){
+        if (choiceSpecialite != null){
+            choiceSpecialite.getItems().clear();
+            try {
+                choiceSpecialite.getItems().add("Tous");
+                for (Specialite s: specialiteController.getAll()) {
+                    choiceSpecialite.getItems().add(s.specialite());
+                }
+                ObservableList<Medicin> list = fetchDataMedicin();
+                choiceSpecialite.setOnAction(event ->{
+                    String s = choiceSpecialite.getValue();
+                    if (!choiceSpecialite.getSelectionModel().isSelected(0)){
+                        ObservableList<Medicin> filtredList =  FXCollections.observableArrayList(list.stream().filter(e-> e.getSpecialite().equals(s))
+                                .collect(Collectors.toList()));
+                        tablechirurgie.setItems(filtredList);
+                    }
+                    else {
+                        tablechirurgie.setItems(list);
+                    }
+                });
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
 }

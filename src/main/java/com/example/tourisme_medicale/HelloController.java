@@ -186,6 +186,28 @@ public class HelloController implements Initializable{
     @FXML
     ChoiceBox<String> specialites;
 
+    /******************************************* Soin Medicale *********************************/
+    @FXML
+    private TableView<SoinsMedicaux> tableSoin;
+    @FXML
+    private TableColumn<SoinsMedicaux, Integer> idSoin;
+
+    @FXML
+    private TableColumn<SoinsMedicaux, Float> prixSoin;
+
+    @FXML
+    private TableColumn<SoinsMedicaux, String> specialiteSoin;
+
+    @FXML
+    private TableColumn<SoinsMedicaux, String> editColSoin;
+
+    ObservableList<SoinsMedicaux> soinList = FXCollections.observableArrayList();
+
+    @FXML
+    Button btnAddSoin,btnExportSoin;
+    @FXML
+    ChoiceBox<String> specialitesSoin;
+
     /******************************************** Appartment ***********************************/
     @FXML
     private TableView<AppartementMeuble> tableAppartment;
@@ -211,6 +233,38 @@ public class HelloController implements Initializable{
     Button btnAddAppartment,btnExportAppartment;
 
     /**********************************************************************************************************/
+
+    /******************************************** Rendez-vous ***********************************/
+    @FXML
+    private TableView<RendezVous> tableRendezvous;
+    @FXML
+    private TableColumn<RendezVous, Integer> idRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> patientRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> medicinRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> cliniqueRendezvous;
+
+    @FXML
+    private TableColumn<RendezVous, Date> dateDRendezvous;
+    @FXML
+    private TableColumn<RendezVous, Date> dateFRendezvous;
+    @FXML
+    private TableColumn<RendezVous, Float> prixRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> typeRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> hebergRendezvous;
+    @FXML
+    private TableColumn<RendezVous, String> editColRendezvous;
+
+    ObservableList<RendezVous>  rendezVousList = FXCollections.observableArrayList();
+    @FXML
+    Button btnAddRendezvous,btnExportRendezvous;
+
+    /**********************************************************************************************************/
+
 
 
     /******************************************** Medicin ***********************************/
@@ -241,11 +295,14 @@ public class HelloController implements Initializable{
     @FXML
     Button btnAddMedicin,btnExportMedicin;
 
+    @FXML
+    ChoiceBox<String> specialitesMedicin;
+
     /**********************************************************************************************************/
     @FXML
     TabPane tabPane;
     @FXML
-    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7,imgRefresh8,imgRefresh9,imgRefresh10;
+    ImageView imgRefresh1, imgRefresh2, imgRefresh3,imgRefresh4,imgRefresh5,imgRefresh6,imgRefresh7,imgRefresh8,imgRefresh9,imgRefresh10,imgRefresh11;
     @FXML
     Button btnSpecialite,btnMedicin,btnClinique,btnPatient,btnHotel,btnRV,btnAppartment,btnMedCh,btnChirurgies,btnChambreClinique,btnSoins,btnChambreHotel, btnAdd,btnExport;
 
@@ -258,6 +315,9 @@ public class HelloController implements Initializable{
     private CliniqueController cliniqueController = new CliniqueController();
     private MedicinController medicinController = new MedicinController();
     private SpecialiteController specialiteController = new SpecialiteController();
+    private  SoinMedicaleController soinMedicaleController= new SoinMedicaleController();
+
+    private  RendezVousController rendezVousController = new RendezVousController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabPane.getSelectionModel().select(3);
@@ -284,7 +344,7 @@ public class HelloController implements Initializable{
         }
         else if (tab.equals(tabPane.getTabs().get(1))){
             medicinController.afficher(btnMedicin, medicinList,idMedicin, nomMedicin,prenomMedicin, dateNaissMedicin,
-                    emailMedicin,genderMedicin,telephone, specialiteMed,clinique,editColMed, tableMedicin);
+                    emailMedicin,genderMedicin,telephone, specialiteMed,clinique,editColMed, tableMedicin,specialitesMedicin);
         }
         else if (tab.equals(tabPane.getTabs().get(2))){
 
@@ -294,6 +354,10 @@ public class HelloController implements Initializable{
         else if (tab.equals(tabPane.getTabs().get(3))){
             patientController.afficher(btnPatient,patientsList,idPatient,nomPatient,prenomPatient,
                     dateNaiss,emailPatient,gender,nationalite, editColPat, tablePatient);
+        }
+        else if (tab.equals(tabPane.getTabs().get(4))){
+            rendezVousController.afficher(btnRV,rendezVousList,idRendezvous,patientRendezvous,medicinRendezvous,
+                    cliniqueRendezvous,dateDRendezvous,dateFRendezvous,prixRendezvous,typeRendezvous,hebergRendezvous, editColRendezvous, tableRendezvous);
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
             hotelController.afficher(btnHotel,hotelList,idHotel, nomHotel,adrHotel, telHotel,
@@ -317,6 +381,10 @@ public class HelloController implements Initializable{
             chirurgieController.afficher(btnChirurgies,chirurgieList,idChirurgie, prixChirurgie,dureeChirurgie,specialiteChirurgie,
                     typeChirurgie,editColChirurgie,tableChirurgie,specialites);
         }
+        else if (tab.equals(tabPane.getTabs().get(10))){
+            soinMedicaleController.afficher(btnSoins,soinList,idSoin, prixSoin,specialiteSoin,
+                    editColSoin,tableSoin,specialitesSoin);
+        }
     }
 
 
@@ -337,6 +405,11 @@ public class HelloController implements Initializable{
             patientController.refreshTable(patientsList,tablePatient);
 
         }
+        else if (tab.equals(tabPane.getTabs().get(4))){
+
+            rendezVousController.refreshTable(rendezVousList,tableRendezvous);
+
+        }
         else if (tab.equals(tabPane.getTabs().get(5))){
             hotelController.refreshTable(hotelList,tableHotel);
 
@@ -351,6 +424,9 @@ public class HelloController implements Initializable{
         else if (tab.equals(tabPane.getTabs().get(9))){
             chirurgieController.refreshTable(chirurgieList,tableChirurgie);
         }
+        else if (tab.equals(tabPane.getTabs().get(10))){
+            soinMedicaleController.refreshTable(soinList,tableSoin);
+        }
     }
 
 
@@ -359,7 +435,7 @@ public class HelloController implements Initializable{
                  btnAdd, btnExport, btnAddCli, btnExportCli,btnAddPat,btnExportPat,
                 btnAddHotel,btnExportHotel,btnAddAppartment, btnExportAppartment,
                 btnAddMedicin,btnExportMedicin, btnAddCh,btnExportChCli,btnAddChHotel,btnExportChHotel,
-                btnAddChirurgie,btnExportChirurgie
+                btnAddChirurgie,btnExportChirurgie,btnAddSoin, btnExportSoin,btnAddRendezvous,btnExportRendezvous
         );
         btnAdd.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExport.addEventHandler(ActionEvent.ACTION, showDialogController);
@@ -379,6 +455,10 @@ public class HelloController implements Initializable{
         btnExportChHotel.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnAddChirurgie.addEventHandler(ActionEvent.ACTION, showDialogController);
         btnExportChirurgie.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddSoin.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportSoin.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnAddRendezvous.addEventHandler(ActionEvent.ACTION, showDialogController);
+        btnExportRendezvous.addEventHandler(ActionEvent.ACTION, showDialogController);
     }
 
 
@@ -419,18 +499,7 @@ public class HelloController implements Initializable{
         }
 
         if (event.getSource() == btnSoins){
-            FXMLLoader loader = new FXMLLoader ();
-            loader.setLocation(getClass().getResource("views/soin-medicale/liste-soin.fxml"));
-            try {
-                loader.load();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Parent parent = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent));
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
+            tabPane.getSelectionModel().select(10);
         }
 
         if (event.getSource() == btnMedCh){
@@ -469,6 +538,10 @@ public class HelloController implements Initializable{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
+        imgRefresh5.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
+        });
         imgRefresh6.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
@@ -486,6 +559,10 @@ public class HelloController implements Initializable{
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });
         imgRefresh10.setOnMouseClicked(event ->{
+            refreshTable(tabPane.getSelectionModel().getSelectedItem());
+            loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
+        });
+        imgRefresh11.setOnMouseClicked(event ->{
             refreshTable(tabPane.getSelectionModel().getSelectedItem());
             loadDataByTabs(tabPane.getSelectionModel().getSelectedItem());
         });

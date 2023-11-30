@@ -407,4 +407,29 @@ public class ChambreCliniqueController  implements Initializable {
                 }
             }
         }
+
+    public ChambreClinique getChambreById(int id) {
+        try {
+            for (ChambreClinique ch: getAll()
+            ) {
+                if (ch.getId() == id)
+                    return  ch;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
+    public ChambreClinique getChambreByNameAndClinique(String clinique, String chambre) {
+        try {
+            for (ChambreClinique ch: getAll()
+                 ) {
+                if (ch.getClinique().equals(clinique) && ch.getNom().equals(chambre))
+                    return  ch;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
 }

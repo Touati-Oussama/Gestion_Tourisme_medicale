@@ -406,6 +406,32 @@ public class ChambreHotelController implements Initializable {
 
 
     }
+
+
+    public ChambreHotel getChambreById(int id) {
+        try {
+            for (ChambreHotel ch: getAll()
+            ) {
+                if (ch.getId() == id)
+                    return  ch;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
+    public ChambreHotel getHotelByNameAndChambreName(String hotel, String chambre) {
+        try {
+            for (ChambreHotel ch: getAll()
+                 ) {
+                if (ch.getHotel().equals(hotel) && ch.getNom().equals(chambre))
+                    return  ch;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
 }
 
 

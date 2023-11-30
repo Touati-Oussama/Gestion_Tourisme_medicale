@@ -1,6 +1,7 @@
 package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
+import com.example.tourisme_medicale.models.Chirurgie;
 import com.example.tourisme_medicale.models.SoinsMedicaux;
 import com.example.tourisme_medicale.models.Specialite;
 import javafx.collections.FXCollections;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class SoinMedicaleController implements Initializable {
 
@@ -61,6 +63,9 @@ public class SoinMedicaleController implements Initializable {
     ImageView imgRefresh;
 
     @FXML
+    private ChoiceBox<String> choiceSpecialite;
+
+    @FXML
     ListView<String> specialites;
 
     @FXML
@@ -70,7 +75,12 @@ public class SoinMedicaleController implements Initializable {
     @FXML
     Button btnAdd,btnExport;
 
+
     private SpecialiteController specialiteController = new SpecialiteController();
+
+    public SoinMedicaleController() {
+        connection = DbConnect.getInstance().getConnection();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,8 +94,8 @@ public class SoinMedicaleController implements Initializable {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        loadData();
-        refreshData();
+        /*loadData();
+        refreshData();*/
     }
 
 
@@ -196,7 +206,7 @@ public class SoinMedicaleController implements Initializable {
     }
 
 
-    void loadData() {
+    /*void loadData() {
         if (idSoin != null  && prixSoin != null && specialite != null ){
             idSoin.setCellValueFactory(new PropertyValueFactory<>("id"));
             prixSoin.setCellValueFactory(new PropertyValueFactory<>("prix"));
@@ -297,7 +307,7 @@ public class SoinMedicaleController implements Initializable {
             }
         }
 
-    }
+    }*/
 
     public void refreshTable(ObservableList<SoinsMedicaux> soinList, TableView<SoinsMedicaux> tableSoin) {
         try {
@@ -332,12 +342,162 @@ public class SoinMedicaleController implements Initializable {
         return FXCollections.observableArrayList(soins);
     }
 
+    public void afficher(Button btnSoins,
+                         ObservableList<SoinsMedicaux> soinList,
+                         TableColumn<SoinsMedicaux, Integer> idSoin,
+                         TableColumn<SoinsMedicaux, Float> prixSoin,
+                         TableColumn<SoinsMedicaux, String> specialite,
+                         TableColumn<SoinsMedicaux, String> editCol,
+                         TableView<SoinsMedicaux> tableSoin,
+                         ChoiceBox<String>  specialites)
+    {
+        this.choiceSpecialite = specialites;
+        loadDataByChoicSpecialite(tableSoin);
+        btnSoins.requestFocus();
+        idSoin.setCellValueFactory(new PropertyValueFactory<>("id"));
+        prixSoin.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        specialite.setCellValueFactory(new PropertyValueFactory<>("specialite"));
 
-    public void refreshData(){
-        if (imgRefresh != null)
-            imgRefresh.setOnMouseClicked(event ->{
-                loadData();
-            });
+        //add cell of button edit
+        ObservableList<SoinsMedicaux> finalSoinList = soinList;
+        Callback<TableColumn<SoinsMedicaux, String>, TableCell<SoinsMedicaux, String>> cellFoctory = (TableColumn<SoinsMedicaux, String> param) -> {
+            // make cell containing buttons
+            final TableCell<SoinsMedicaux, String> cell = new TableCell<SoinsMedicaux, String>() {
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    FXMLLoader loader = new FXMLLoader ();
+                    loader.setLocation(getClass().getResource("views/soin-medicale/modifier-soin.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    SoinMedicaleController soinMedicaleController = loader.getController();
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+
+                        Button deleteIcon = new Button("Supprimer");
+                        Button editIcon = new Button("Modifier");
+                        editIcon.getStyleClass().add("btn-edit");
+                        deleteIcon.getStyleClass().add("btn-delete");
+                        deleteIcon.setOnAction((ActionEvent event) -> {
+                            soin = tableSoin.getSelectionModel().getSelectedItem();
+                            if (soin != null){
+                                try {
+                                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                                    alert.setHeaderText("Suppression");
+                                    alert.setContentText("Voulez-vous supprimer ce patient ?: ");
+                                    if (alert.showAndWait().get() == ButtonType.OK){
+                                        delete(soin.getId());
+                                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                        alert.setHeaderText("Success");
+                                        alert.setContentText("Le patient a été supprimé: ");
+                                    }
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                refreshTable(finalSoinList,tableSoin);
+                            }
+                            else {
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setHeaderText("Erreur de selection");
+                                alert.setContentText("Selectionner une appartment ! ");
+                                alert.showAndWait();
+                            }
+
+                        });
+                        editIcon.setOnAction((ActionEvent event) -> {
+                            soin = tableSoin.getSelectionModel().getSelectedItem();
+                            if (soin != null){
+                                soinMedicaleController.setUpdate(true);
+                                soinMedicaleController.setTextField(soin);
+                                Parent parent = loader.getRoot();
+                                Stage stage = new Stage();
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UTILITY);
+                                stage.show();
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                                alert.setHeaderText("Erreur de selection");
+                                alert.setContentText("Selectionner une appartment ! ");
+                                alert.showAndWait();
+                            }
+
+
+                        });
+                        HBox managebtn = new HBox(editIcon, deleteIcon);
+                        //managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+                        setGraphic(managebtn);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        };
+        if (editCol != null && tableSoin != null){
+            editCol.setCellFactory(cellFoctory);
+            try {
+                soinList = fetchDataSoin();
+                tableSoin.setItems(soinList);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private void loadDataByChoicSpecialite(TableView<SoinsMedicaux> tablechirurgie){
+        System.out.println("the choice is: " + choiceSpecialite);
+        if (choiceSpecialite != null){
+            choiceSpecialite.getItems().clear();
+            try {
+                choiceSpecialite.getItems().add("Tous");
+                for (Specialite s: specialiteController.getAll()) {
+                    choiceSpecialite.getItems().add(s.specialite());
+                }
+                ObservableList<SoinsMedicaux> list = fetchDataSoin();
+                choiceSpecialite.setOnAction(event ->{
+                    String s = choiceSpecialite.getValue();
+                    if (!choiceSpecialite.getSelectionModel().isSelected(0)){
+                        ObservableList<SoinsMedicaux> filtredList =  FXCollections.observableArrayList(list.stream().filter(e-> e.getSpecialite().equals(s))
+                                .collect(Collectors.toList()));
+                        tablechirurgie.setItems(filtredList);
+                    }
+                    else {
+                        tablechirurgie.setItems(list);
+                    }
+                });
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    public SoinsMedicaux getSoinsMedicauxById(int chirurgieId) throws SQLException {
+        for (SoinsMedicaux chirurgie : getAll()) {
+            if (chirurgie.getId() == chirurgieId) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public SoinsMedicaux getSoinsMedicauxByName(String spec) throws SQLException {
+        for (SoinsMedicaux chirurgie : getAll()) {
+            if (chirurgie.getSpecialite().equals(spec)) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 }
 

@@ -45,7 +45,6 @@ public class ChirurgieMedicinController implements Initializable {
     Chirurgie chirurgie = null;
 
 
-
     @FXML
     private TableView<Medicin_Chirurgie> tableMedChir;
 
@@ -374,7 +373,6 @@ public class ChirurgieMedicinController implements Initializable {
 
 
 
-
     @FXML
     public void showDialog(ActionEvent event){
         try {
@@ -409,5 +407,7 @@ public class ChirurgieMedicinController implements Initializable {
         }
         tableMedChir.setItems(list);
     }
+
+
 }
 

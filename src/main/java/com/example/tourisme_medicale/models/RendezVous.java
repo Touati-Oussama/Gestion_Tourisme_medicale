@@ -1,32 +1,42 @@
 package com.example.tourisme_medicale.models;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class RendezVous {
     private int id;
-    private Date date;
-    private int duree;
+    private Date dateDebut;
+
+    private Date dateFin;
     private float prixTotal;
     private Type type;
     private Hebergement hebergement;
-    private Ordonance ordonance;
+    private Medicin medicin;
+    private  Clinique clinique;
+    private Patient patient;
 
-    public RendezVous(int id, Date date, int duree, Type type, Hebergement hebergement, Ordonance ordonance) {
+    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF) {
         this.id = id;
-        this.date = date;
-        this.duree = duree;
-        this.type = type;
-        this.ordonance = ordonance;
+        this.dateDebut = date;
+        this.medicin = medicin;
+        this.clinique = medicin.clinique();
+        this.patient = patient;
+        this.dateFin = dateF;
+        if (type instanceof Chirurgie){
+            Chirurgie chirurgie = (Chirurgie)type;
+            this.type = chirurgie;
+        }else if (type instanceof  SoinsMedicaux) {
+            SoinsMedicaux soin = (SoinsMedicaux) type;
+            this.type = soin;
+        }
         if (hebergement instanceof ChambreClinique) {
             ChambreClinique chambreClinique = (ChambreClinique) hebergement;
-            this.prixTotal = (chambreClinique.getPrixJour()*duree) + ordonance.getPrix()+ type.getPrix();
             this.hebergement = chambreClinique;
         } else if (hebergement instanceof ChambreHotel) {
             ChambreHotel chambreHotel = (ChambreHotel) hebergement;
-            this.prixTotal = (chambreHotel.getPrixJour()*duree) + ordonance.getPrix()+ type.getPrix();
             this.hebergement = chambreHotel;
         } else if (hebergement instanceof AppartementMeuble) {
             AppartementMeuble appartementMeuble = (AppartementMeuble) hebergement;
-            this.prixTotal = (appartementMeuble.getPrixJour() * duree) + ordonance.getPrix() + type.getPrix();
             this.hebergement = appartementMeuble;
         }
     }
@@ -39,64 +49,119 @@ public class RendezVous {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateDebut() {
+        return dateDebut;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateDebut(Date date) {
+        this.dateDebut = date;
     }
 
-    public int getDuree() {
-        return duree;
-    }
 
-    public void setDuree(int duree) {
-        this.duree = duree;
-    }
 
     public float getPrixTotal() {
         return prixTotal;
     }
 
-    public void setPrixTotal(float prixTotal) {
-        this.prixTotal = prixTotal;
+    public void setPrixTotal() {
+        if (type instanceof Chirurgie){
+            Chirurgie c = (Chirurgie) type;
+            if (hebergement instanceof ChambreHotel){
+                ChambreHotel ch = (ChambreHotel) hebergement;
+                prixTotal = ch.getPrixJour()* c.getDuree();
+            }
+            else if (hebergement instanceof ChambreClinique){
+                ChambreClinique ch = (ChambreClinique) hebergement;
+                prixTotal = ch.getPrixJour()* c.getDuree();
+            } else if (hebergement instanceof  AppartementMeuble) {
+                AppartementMeuble ch = (AppartementMeuble) hebergement;
+                prixTotal = ch.getPrixJour()*c.getDuree();
+            }
+        }
+        else if (type instanceof SoinsMedicaux){
+            SoinsMedicaux s = (SoinsMedicaux) type;
+            prixTotal = s.getPrix();
+        }
     }
 
-    public Type getType() {
-        return type;
+    public String getType() {
+        if (type instanceof  Chirurgie)
+        {
+            return  ((Chirurgie) type).getTypeChirurgie();
+        }
+        else
+            return type.getSpecialite();
     }
+
+    public Type type(){ return type;};
 
     public void setType(Type type) {
         this.type = type;
     }
+    public Hebergement hebergement(){ return hebergement;};
 
-    public Hebergement getHebergement() {
-        return hebergement;
+    public String getHebergement() {
+        if (hebergement instanceof ChambreHotel)
+            return  ((ChambreHotel)hebergement).getHotel()+ "Chambre= "+ ((ChambreHotel)hebergement).getNom();
+        else if (hebergement instanceof ChambreClinique)
+            return  ((ChambreClinique)hebergement).getClinique()+ "Chambre= "+ ((ChambreClinique)hebergement).getNom();
+        else
+            return ((AppartementMeuble)hebergement).getNom();
     }
 
     public void setHebergement(Hebergement hebergement) {
         this.hebergement = hebergement;
     }
 
-    public Ordonance getOrdonance() {
-        return ordonance;
+
+    public Date getDateFin() {
+        return dateFin;
     }
 
-    public void setOrdonance(Ordonance ordonance) {
-        this.ordonance = ordonance;
+    public void setDateFin(Date dateFin) {
+        if (type instanceof Chirurgie){
+            Chirurgie c = (Chirurgie) type;
+            LocalDate date = dateDebut.toLocalDate();
+            date.plusDays(c.getDuree());
+            this.dateFin = Date.valueOf(date);
+        }
+
+    }
+
+    public String getMedicin() {
+        return medicin.getNom()+ " " +medicin.getPrenom();
+    }
+    public Medicin medicin(){ return medicin;}
+
+    public void setMedicin(Medicin medicin) {
+        this.medicin = medicin;
+    }
+
+    public String getClinique() {
+        return clinique.nom();
+    }
+
+    public void setClinique(Clinique clinique) {
+        this.clinique = clinique;
+    }
+
+    public String getPatient() {
+        return patient.getNom()+ " " + patient.getPrenom();
+    }
+    public Patient patient(){ return patient;}
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     @Override
     public String toString() {
         return "RendezVous{" +
                 "id=" + id +
-                ", date=" + date +
-                ", duree=" + duree +
+                ", date de debut=" + dateDebut +
                 ", prixTotal=" + prixTotal +
                 ", type=" + type +
                 ", hebergement=" + hebergement +
-                ", ordonance=" + ordonance +
                 '}';
     }
 }

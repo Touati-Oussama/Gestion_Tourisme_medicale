@@ -305,4 +305,23 @@ public class PatientController implements Initializable {
         ArrayList<Patient> patients = getAll();
         return FXCollections.observableArrayList(patients);
     }
+
+    public Patient getPatientById(int patientId) throws SQLException {
+        for (Patient patient : getAll()) {
+            if (patient.getId() == patientId) {
+                return patient; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Patient getPatientByName(String type) throws SQLException {
+        String[] s = type.split(" ");
+        for (Patient  patient : getAll()) {
+            if (patient.getNom().equals(s[0]) && patient.getPrenom().equals(s[1])) {
+                return patient; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
 }

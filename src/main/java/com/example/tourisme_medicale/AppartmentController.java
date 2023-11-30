@@ -2,6 +2,7 @@ package com.example.tourisme_medicale;
 
 import com.example.tourisme_medicale.Helpers.DbConnect;
 import com.example.tourisme_medicale.models.AppartementMeuble;
+import com.example.tourisme_medicale.models.ChambreClinique;
 import com.example.tourisme_medicale.models.Hotel;
 import com.example.tourisme_medicale.models.Ville;
 import javafx.collections.FXCollections;
@@ -323,6 +324,28 @@ public class AppartmentController  implements Initializable {
     private ObservableList<AppartementMeuble> fetchDataHotel() throws SQLException {
         ArrayList<AppartementMeuble> appartments =  getAll();
         return FXCollections.observableArrayList(appartments);
+    }
+
+
+    public AppartementMeuble getChambreById(int id) {
+        try {
+            for (AppartementMeuble ch: getAll()
+            ) {
+                if (ch.getId() == id)
+                    return  ch;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  null;
+    }
+    public AppartementMeuble getAppartmentByName(String hot) throws SQLException {
+        for (AppartementMeuble hotel : getAll()) {
+            if (hotel.getNom().equals(hot)) {
+                return hotel; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 }
 

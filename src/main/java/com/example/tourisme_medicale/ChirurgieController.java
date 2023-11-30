@@ -45,28 +45,10 @@ public class ChirurgieController implements Initializable {
     private boolean update;
     int chirurgieId;
 
-    @FXML
-    private TableView<Chirurgie> tablechirurgie;
-    @FXML
-    private TableColumn<Chirurgie, Integer> idchirurgie;
-
-    @FXML
-    private TableColumn<Chirurgie, Float> prixchirurgie;
-
-    @FXML
-    private TableColumn<Chirurgie, String> dureechirurgie;
-
-    @FXML
-    private TableColumn<Chirurgie, String> specialite;
-    @FXML
-    private TableColumn<Chirurgie, String> typechirurgie;
-
-    @FXML
-    private TableColumn<Chirurgie, String> editCol;
 
     @FXML
     private ChoiceBox<String> choiceSpecialite;
-    ObservableList<Chirurgie> chirurgieList = FXCollections.observableArrayList();
+
     @FXML
     ImageView imgRefresh;
 
@@ -424,6 +406,24 @@ public class ChirurgieController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public Chirurgie getChirurgieById(int chirurgieId) throws SQLException {
+        for (Chirurgie chirurgie : getAll()) {
+            if (chirurgie.getId() == chirurgieId) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
+    }
+
+    public Chirurgie getChirurgieByName(String spec) throws SQLException {
+        for (Chirurgie chirurgie : getAll()) {
+            if (chirurgie.getTypeChirurgie().equals(spec)) {
+                return chirurgie; // Found the Clinique with the specified ID
+            }
+        }
+        return null; // No Clinique found with the specified ID
     }
 
     private void loadDataByChoicSpecialite(TableView<Chirurgie> tablechirurgie){
