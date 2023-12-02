@@ -1,8 +1,2 @@
-ID,PATIENT,MEDICIN,CLINIQUE,DATE DEBUT,DATE FIN,PRIX,TYPE,HEBERGEMENT,CHAMBRE
-7,Touati Ahmed,Medicin1 Med1,El Yosr,2023-12-01,2023-12-04,0.0,Chirurgie laser,Movenpick,Chambre 1
-8,Touati Ahmed,Medicin1 Med1,El Yosr,2023-12-07,2023-12-10,0.0,Chirurgie laser,Movenpick,Chambre 1
-10,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-08,2023-12-11,1750.0,Chirurgie laser,Movenpick,Chambre 1
-11,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-08,2023-12-11,1750.0,Chirurgie laser,Movenpick,Chambre 1
-12,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-08,2023-12-11,1750.0,Chirurgie laser,Movenpick,Chambre 1
-21,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-01,2023-12-04,1300.0,Chirurgie laser,El Yosr,Chambre 1
-22,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-30,2024-01-02,1750.0,Chirurgie laser,Movenpick,Chambre 5
+ID,PATIENT,MEDICIN,CLINIQUE,DATE DEBUT,DATE FIN,PRIX,TYPE,HEBERGEMENT,CHAMBRE,ETAT
+41,Touati Oussama,Medicin1 Med1,El Yosr,12/1/2023,12/4/2023,1750,Chirurgie laser,Movenpick,Chambre 1,CONFIRME

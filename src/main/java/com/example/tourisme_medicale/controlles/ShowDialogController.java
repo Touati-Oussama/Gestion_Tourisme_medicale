@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -105,6 +106,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\cliniques.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("cliniques.csv");
             }
             catch (Exception e){
 
@@ -136,6 +138,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\patients.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("patients.csv");
             }
             catch (Exception e){
 
@@ -167,6 +170,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\hotels.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("hotels.csv");
             }
             catch (Exception e){
 
@@ -196,6 +200,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\appartments.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("appartments.csv");
             }
             catch (Exception e){
 
@@ -228,6 +233,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\medicins.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("medicins.csv");
             }
             catch (Exception e){
 
@@ -257,6 +263,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreCliniques.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("chambreCliniques.csv");
             }
             catch (Exception e){
 
@@ -287,6 +294,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\chambreHotels.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("chambreHotels.csv");
             }
             catch (Exception e){
 
@@ -318,6 +326,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\listeChirurgies.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("listeChirurgies.csv");
             }
             catch (Exception e){
 
@@ -349,6 +358,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\listeChirurgies.csv")){
                 writer.write(stringBuilder.toString());
                 System.out.println("File created ! ");
+                alert("listeChirurgies.csv");
             }
             catch (Exception e){
 
@@ -368,7 +378,7 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("ID").append(",").append("PATIENT").append(",").append("MEDICIN").append(",").append("CLINIQUE")
                     .append(",").append("DATE DEBUT").append(",").append("DATE FIN").append(",").append("PRIX").append(",").append("TYPE")
-                    .append(",").append("HEBERGEMENT").append(",").append("CHAMBRE").append("\n");
+                    .append(",").append("HEBERGEMENT").append(",").append("CHAMBRE").append(",").append("ETAT").append("\n");
 
             for (RendezVous  c: l) {
                 String hebergment = null;
@@ -389,18 +399,19 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
 
                     stringBuilder.append(c.getId()).append(",").append(c.getPatient()).append(",").append(c.getMedicin()).append(",").append(c.medicin().getClinique())
                             .append(",").append(c.getDateDebut()).append(",").append(c.getDateFin()).append(",").append(c.getPrixTotal()).append(",").append(((Chirurgie)c.type()).getTypeChirurgie())
-                            .append(",").append((hebergment)).append(",").append(chambre).append("\n");
+                            .append(",").append((hebergment)).append(",").append(chambre).append(",").append(c.getEtat()).append("\n");
                 }
             }
 
             try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\Planification-Chirurgie.csv")){
                 writer.write(stringBuilder.toString());
-                System.out.println("File created ! ");
+                System.out.println("File created !!!! ");
             }
             catch (Exception e){
 
             }
             exportDataSoins();
+            alert("Planification-Chirurgie.csv");
         }
     }
 
@@ -432,23 +443,32 @@ public class ShowDialogController implements EventHandler<ActionEvent> {
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("ID").append(",").append("PATIENT").append(",").append("MEDICIN").append(",").append("CLINIQUE")
-                .append(",").append("DATE DEBUT").append(",").append("PRIX").append(",").append("TYPE").append("\n");
+                .append(",").append("DATE DEBUT").append(",").append("PRIX").append(",").append("TYPE").append(",").append("ETAT").append("\n");
 
         for (RendezVous  c: l) {
             String hebergment = null;
             String chambre = null;
             if (c.type() instanceof  SoinsMedicaux){
                 stringBuilder.append(c.getId()).append(",").append(c.getPatient()).append(",").append(c.getMedicin()).append(",").append(c.medicin().getClinique())
-                        .append(",").append(c.getDateDebut()).append(",").append(c.getPrixTotal()).append(",").append(((SoinsMedicaux)c.type()).getSpecialite()).append("\n");
+                        .append(",").append(c.getDateDebut()).append(",").append(c.getPrixTotal()).append(",").append(((SoinsMedicaux)c.type()).getSpecialite()).append(",").append(c.getEtat()).append("\n");
             }
         }
 
         try (FileWriter writer = new FileWriter("D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\Planification-Soins.csv")){
             writer.write(stringBuilder.toString());
-            System.out.println("File created ! ");
+
         }
         catch (Exception e){
 
         }
     }
+
+    public void alert(String name){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Exportation reussite");
+        alert.setContentText("Export de fichier '" + name+"'");
+        alert.showAndWait();
+    }
+
 }

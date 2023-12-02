@@ -261,6 +261,8 @@ public class HelloController implements Initializable{
     @FXML
     private TableColumn<RendezVous, String> heure;
     @FXML
+    private TableColumn<RendezVous, String> etatRendezVous;
+    @FXML
     private TableColumn<RendezVous, String> editColRendezvous;
 
     @FXML
@@ -364,7 +366,7 @@ public class HelloController implements Initializable{
         else if (tab.equals(tabPane.getTabs().get(4))){
             rendezVousController.afficher(btnRV,rendezVousList,idRendezvous,patientRendezvous,medicinRendezvous,
                     cliniqueRendezvous,dateDRendezvous,dateFRendezvous,prixRendezvous,
-                    typeRendezvous,hebergRendezvous,hebergTypeRendezvous,heure, editColRendezvous, tableRendezvous,typesOper);
+                    typeRendezvous,hebergRendezvous,hebergTypeRendezvous,heure,etatRendezVous, editColRendezvous, tableRendezvous,typesOper);
         }
         else if (tab.equals(tabPane.getTabs().get(5))){
             hotelController.afficher(btnHotel,hotelList,idHotel, nomHotel,adrHotel, telHotel,

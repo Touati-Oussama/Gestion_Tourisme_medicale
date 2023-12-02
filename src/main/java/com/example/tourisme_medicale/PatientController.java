@@ -93,22 +93,29 @@ public class PatientController implements Initializable {
             alert.showAndWait();
 
         } else {
-            try {
-                Patient p = getPatientByName(nom+ " " + prenom);
-                if (p != null)
-                    throw new ErreurData("Patient: " + nom+ " " + prenom+ " deja existe");
+            if (update == false){
+                Patient p = null;
+                try {
+                    p = getPatientByName(nom + " " + prenom);
+                    if (p != null)
+                        throw new ErreurData("Patient: " + nom + " " + prenom + " deja existe");
+                    getQuery();
+                    insert();
+                    clean();
+                } catch (ErreurData e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
                 getQuery();
                 insert();
                 clean();
-            }catch (SQLException err){}
-            catch (ErreurData e){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
             }
-
-
         }
         Stage stage = (Stage) btnAdd.getScene().getWindow();
         stage.close();
@@ -127,8 +134,8 @@ public class PatientController implements Initializable {
 
     private void getQuery() {
 
-        if (update == false) {
 
+        if (update == false) {
             query = "INSERT INTO `patient`(`nom`, `prenom`, `dateNaiss`, `email`, `sexe`, `nationalite`) " +
                     "VALUES (?,?,?,?,?,?)";
         }else{
@@ -146,7 +153,6 @@ public class PatientController implements Initializable {
     private void insert() {
 
         try {
-
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, this.nom.getText());
             preparedStatement.setString(2, this.prenom.getText());
@@ -155,10 +161,12 @@ public class PatientController implements Initializable {
             preparedStatement.setString(5, this.sexes.getSelectionModel().getSelectedItem().name());
             preparedStatement.setString(6, this.nationalites.getSelectionModel().getSelectedItem().name());
             preparedStatement.execute();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(SpecialiteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+
+
 
     }
     public void delete(int id) throws SQLException {

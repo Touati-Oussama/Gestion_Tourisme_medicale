@@ -3,6 +3,8 @@ module com.example.tourisme_medicale {
     requires javafx.fxml;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires java.mail;
+    requires activation;
 
 
     opens com.example.tourisme_medicale to javafx.fxml;

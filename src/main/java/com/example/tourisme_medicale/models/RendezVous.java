@@ -14,9 +14,10 @@ public final class  RendezVous {
     private Medicin medicin;
     private  Clinique clinique;
     private Patient patient;
+    private String etat;
     private  String heure;
 
-    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF,float prixTotal,String heure) {
+    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF,float prixTotal,String heure,String etat) {
         this.id = id;
         this.dateDebut = date;
         this.medicin = medicin;
@@ -24,6 +25,33 @@ public final class  RendezVous {
         this.patient = patient;
         this.dateFin = dateF;
         this.prixTotal = prixTotal;
+        this.heure = heure;
+        this.etat = etat;
+        if (type instanceof Chirurgie){
+            Chirurgie chirurgie = (Chirurgie)type;
+            this.type = chirurgie;
+        }else if (type instanceof  SoinsMedicaux) {
+            SoinsMedicaux soin = (SoinsMedicaux) type;
+            this.type = soin;
+        }
+        if (hebergement instanceof ChambreClinique) {
+            ChambreClinique chambreClinique = (ChambreClinique) hebergement;
+            this.hebergement = chambreClinique;
+        } else if (hebergement instanceof ChambreHotel) {
+            ChambreHotel chambreHotel = (ChambreHotel) hebergement;
+            this.hebergement = chambreHotel;
+        } else if (hebergement instanceof AppartementMeuble) {
+            AppartementMeuble appartementMeuble = (AppartementMeuble) hebergement;
+            this.hebergement = appartementMeuble;
+        }
+    }
+    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF,String heure) {
+        this.id = id;
+        this.dateDebut = date;
+        this.medicin = medicin;
+        this.clinique = medicin.clinique();
+        this.patient = patient;
+        this.dateFin = dateF;
         this.heure = heure;
         if (type instanceof Chirurgie){
             Chirurgie chirurgie = (Chirurgie)type;
@@ -42,31 +70,7 @@ public final class  RendezVous {
             AppartementMeuble appartementMeuble = (AppartementMeuble) hebergement;
             this.hebergement = appartementMeuble;
         }
-    }
-    public RendezVous(int id,Patient patient, Date date, Type type, Hebergement hebergement,Medicin medicin, Date dateF) {
-        this.id = id;
-        this.dateDebut = date;
-        this.medicin = medicin;
-        this.clinique = medicin.clinique();
-        this.patient = patient;
-        this.dateFin = dateF;
-        if (type instanceof Chirurgie){
-            Chirurgie chirurgie = (Chirurgie)type;
-            this.type = chirurgie;
-        }else if (type instanceof  SoinsMedicaux) {
-            SoinsMedicaux soin = (SoinsMedicaux) type;
-            this.type = soin;
-        }
-        if (hebergement instanceof ChambreClinique) {
-            ChambreClinique chambreClinique = (ChambreClinique) hebergement;
-            this.hebergement = chambreClinique;
-        } else if (hebergement instanceof ChambreHotel) {
-            ChambreHotel chambreHotel = (ChambreHotel) hebergement;
-            this.hebergement = chambreHotel;
-        } else if (hebergement instanceof AppartementMeuble) {
-            AppartementMeuble appartementMeuble = (AppartementMeuble) hebergement;
-            this.hebergement = appartementMeuble;
-        }
+        setDateFin();
     }
 
     public int getId() {
@@ -75,6 +79,14 @@ public final class  RendezVous {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public Date getDateDebut() {
@@ -118,6 +130,10 @@ public final class  RendezVous {
             SoinsMedicaux s = (SoinsMedicaux) type;
             prixTotal = s.getPrix();
         }
+    }
+
+    public void setPrixTotalRed(float prix){
+        this.prixTotal = prix;
     }
     public float calculMontantReduction(float reduction){
         float prixTotal = 0;
@@ -194,13 +210,20 @@ public final class  RendezVous {
             return "*********";
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin() {
         if (type instanceof Chirurgie){
             Chirurgie c = (Chirurgie) type;
             LocalDate date = dateDebut.toLocalDate();
             date.plusDays(c.getDuree());
+            System.out.println(date);
             this.dateFin = Date.valueOf(date);
         }
+        System.out.println(dateFin);
+
+    }
+
+    public void setDateFin(Date d) {
+            dateFin = d;
 
     }
 
@@ -235,6 +258,7 @@ public final class  RendezVous {
         return "RendezVous{" +
                 "id=" + id +
                 ", date de debut=" + dateDebut +
+                ", date de fin=" + dateFin +
                 ", prixTotal=" + prixTotal +
                 ", type=" + type +
                 ", hebergement=" + hebergement +

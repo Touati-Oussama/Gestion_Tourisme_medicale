@@ -1,11 +1,15 @@
 package com.example.tourisme_medicale;
 
+import com.example.tourisme_medicale.Helpers.AlertHelper;
 import com.example.tourisme_medicale.Helpers.DbConnect;
+import com.example.tourisme_medicale.Helpers.JavaMailUtil;
 import com.example.tourisme_medicale.models.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -44,7 +48,7 @@ public class RendezVousController implements Initializable {
     RendezVousManager rendezVousManager = new RendezVousManager();
 
     @FXML
-    ChoiceBox<String> patients,listeChirurgies,listSoins,medicins,hebergements,heures,types,hotels,appartments,cliniques,chambreHotels,chambreCliniques,chambreAppartments;
+    ChoiceBox<String> patients,listeChirurgies,etats,listSoins,medicins,hebergements,heures,types,hotels,appartments,cliniques,chambreHotels,chambreCliniques,chambreAppartments;
 
 
     @FXML
@@ -339,7 +343,9 @@ public class RendezVousController implements Initializable {
                 }
             });
         }
-
+        if (etats != null){
+            etats.getItems().addAll(Etat.CONFIRME.name(),Etat.ANNULLER.name());
+        }
 
     }
 
@@ -374,7 +380,6 @@ public class RendezVousController implements Initializable {
 
     @FXML
     private void clean() {
-
         this.patients.getSelectionModel().select(null);
         this.medicins.getSelectionModel().select(null);
         this.dateDeb.setValue(null);
@@ -399,7 +404,7 @@ public class RendezVousController implements Initializable {
 
             query = "INSERT INTO `rendez_vous`(`date_debut`, `prix_total`, `chambre_hotel_id`, `appartment_id`," +
                     " `chambre_clinique_id`, `chirurgie_id`, `soin_id`, `medicin_id`, `clinique_id`, `date_fin`," +
-                    " `patient_id`,`heure`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                    " `patient_id`,`heure`,`etat`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         }else{
             query = "UPDATE `rendez_vous` SET " +
                     "`date_debut`= ?," +
@@ -418,6 +423,77 @@ public class RendezVousController implements Initializable {
         }
     }
 
+    @FXML
+    private void updateEtat() throws SQLException {
+        String etat = etats.getSelectionModel().getSelectedItem();
+        List<RendezVous> r = getAll().stream().filter(e-> e.getId() == rdvId).collect(Collectors.toList());
+        updateRendezVous(r.get(0),etat);
+    }
+
+    private  void updateRendezVous(RendezVous v, String etat){
+        query = "UPDATE `rendez_vous` SET `etat` = ? where id = "+v.getId();
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,etat);
+            preparedStatement.execute();
+            if (etat.equals(Etat.CONFIRME.name())){
+                showLoadingMessage();
+                new Thread(() -> {
+                    rendezVousManager.bookRendezVous(v);
+                    rendezVousManager.savePayments(v);
+                    JavaMailUtil.sendMail(v);
+
+                    // After sending the mail, update UI on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        // Close loading message
+                        closeLoadingMessage();
+
+                        // Show confirmation message or perform any other UI updates
+                        showConfirmationMessage();
+                    });
+                }).start();
+            }
+            if (btnExportRendezvous != null)
+            {
+                Stage stage = (Stage) btnExportRendezvous.getScene().getWindow();
+                stage.close();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+    private void showLoadingMessage() {
+        // Display a loading indicator or message
+        Platform.runLater(() -> {
+            // Code to show loading message (e.g., using a progress indicator or label)
+            // For example, you can use an Alert with AlertType.INFORMATION
+            Alert loadingAlert = new Alert(Alert.AlertType.INFORMATION, "Envoi du confirmation au patient... Veuillez patienter..", ButtonType.CLOSE);
+            loadingAlert.show();
+        });
+    }
+
+    private void closeLoadingMessage() {
+        // Close the loading indicator or message
+        Platform.runLater(() -> {
+            // Code to close the loading message (e.g., close the Alert)
+            Alert loadingAlert = AlertHelper.getOpenAlert(Alert.AlertType.INFORMATION);
+            if (loadingAlert != null) {
+                loadingAlert.close();
+            }
+        });
+    }
+
+    private void showConfirmationMessage() {
+        // Display a confirmation message
+        Platform.runLater(() -> {
+            // Code to show confirmation message (e.g., using an Alert)
+            Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION, "Notification envoyée avec succès.!", ButtonType.OK);
+            confirmationAlert.show();
+        });
+    }
     private void insertSoin() {
         Patient patient;
         Medicin medicin;
@@ -444,8 +520,11 @@ public class RendezVousController implements Initializable {
             preparedStatement.setNull(10, Types.DATE);
             preparedStatement.setInt(11, patient.getId());
             preparedStatement.setString(12,heures.getSelectionModel().getSelectedItem());
-            RendezVous v = new RendezVous(0, patient, Date.valueOf(this.dateDeb.getValue()), soinsMedicaux, null, medicin, null);
+            preparedStatement.setString(13,Etat.EN_ATTENTE.name());
+            String heure = heures.getSelectionModel().getSelectedItem();
+            RendezVous v = new RendezVous(0, patient, Date.valueOf(this.dateDeb.getValue()), soinsMedicaux, null, medicin, null,heure);
             v.setPrixTotal();
+            v.setHeure(heure);
             float montant  = v.getPrixTotal();
             lbPrixTotal.setText("Le prix total avant reduction est: " + montant + "DT.");
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -462,7 +541,6 @@ public class RendezVousController implements Initializable {
             // Check which button was clicked
             if (result.isPresent() && result.get() == buttonTypeYes) {
                 preparedStatement.execute();
-                rendezVousManager.bookRendezVous(patient.getNom()+ " "+ patient.getPrenom());
 
                 // Perform the action if the user clicked Yes
             }
@@ -541,7 +619,8 @@ public class RendezVousController implements Initializable {
                 preparedStatement.setDate(10, Date.valueOf(datef));
             preparedStatement.setInt(11, patient.getId());
             preparedStatement.setNull(12,Types.VARCHAR);
-            RendezVous v = new RendezVous(0,patient,Date.valueOf(this.dateDeb.getValue()),chirurgie,hebergement,medicin,null);
+            preparedStatement.setString(13,Etat.EN_ATTENTE.name());
+            RendezVous v = new RendezVous(0,patient,Date.valueOf(this.dateDeb.getValue()),chirurgie,hebergement,medicin,null,null);
             float reduction = chirurgieMedicinController.getReduction(medicin,chirurgie);
             v.setPrixTotal();
             float montantRed = v.calculMontantReduction(reduction);
@@ -553,7 +632,8 @@ public class RendezVousController implements Initializable {
             alert.setContentText("Le prix total avant reduction est: " + v.getPrixTotal()+"DT."+"\n"+
                     "Le prix aprés redution est: " +montantRed +"DT.");
             preparedStatement.setFloat(2, montantRed);
-
+            v.setPrixTotalRed(montantRed);
+            v.setDateFin(Date.valueOf(dateDeb.getValue().plusDays(chirurgie.getDuree())));
             // Custom buttons for confirmation dialog
             ButtonType buttonTypeYes = new ButtonType("Oui");
             ButtonType buttonTypeNo = new ButtonType("Non");
@@ -562,7 +642,6 @@ public class RendezVousController implements Initializable {
             // Check which button was clicked
             if (result.isPresent() && result.get() == buttonTypeYes) {
                 preparedStatement.execute();
-                rendezVousManager.bookRendezVous(patient.getNom()+ " "+ patient.getPrenom());
                 // Perform the action if the user clicked Yes
             }
         } catch (SQLException ex) {
@@ -640,7 +719,7 @@ public class RendezVousController implements Initializable {
                 default:
                     hebergement = null;
             }
-            s.add(new RendezVous(
+            RendezVous r = new RendezVous(
                     resultSet.getInt("id"),
                     patient,
                     resultSet.getDate("date_debut"),
@@ -649,48 +728,30 @@ public class RendezVousController implements Initializable {
                     medicin,
                     resultSet.getDate("date_fin"),
                     resultSet.getFloat("prix_total"),
-                    resultSet.getString("heure")
-                    ));
+                    resultSet.getString("heure"),
+                    resultSet.getString("etat"));
+            s.add(r);
         }
         return s;
     }
     public void setTextField(RendezVous rdv) {
-
+        rdvId = rdv.getId();
         this.patients.getSelectionModel().select(rdv.getPatient());
+        this.patients.setDisable(true);
         this.medicins.getSelectionModel().select(rdv.getMedicin());
+        this.medicins.setDisable(true);
         this.dateDeb.setValue(rdv.getDateDebut().toLocalDate());
-        if (rdv.type() instanceof Chirurgie){
-            Chirurgie c = (Chirurgie) rdv.type();
-            this.types.getSelectionModel().select("CHIRURGIE");
-            this.listeChirurgies.getSelectionModel().select(c.getTypeChirurgie());
-        }
-
-        else if (rdv.type() instanceof  SoinsMedicaux){
-            SoinsMedicaux s = (SoinsMedicaux) rdv.type();
-            this.types.getSelectionModel().select("SOIN MEDICALE");
-            this.listSoins.getSelectionModel().select(s.specialite().getSpecialite());
-        }
-        if (rdv.hebergement() instanceof ChambreHotel){
-            ChambreHotel ch = (ChambreHotel) rdv.hebergement();
-            this.hebergements.getSelectionModel().select("HOTEL");
-            hotels.getSelectionModel().select(ch.getNom());
-        }
-        if (rdv.hebergement() instanceof AppartementMeuble){
-            AppartementMeuble ch = (AppartementMeuble) rdv.hebergement();
-            this.hebergements.getSelectionModel().select("APPARTMENT");
-            appartments.getSelectionModel().select(ch.getNom());
-        }
-        if (rdv.hebergement() instanceof ChambreClinique){
-            ChambreClinique ch = (ChambreClinique) rdv.hebergement();
-            this.hebergements.getSelectionModel().select("CLINIQUE");
-            cliniques.getSelectionModel().select(ch.getNom());
-        }
+        this.dateDeb.setDisable(true);
+        this.etats.getSelectionModel().select(rdv.getEtat());
     }
 
-    public void setData(String medicin, String chirurgie){
-        medicins.getSelectionModel().select(medicin);
+    public void setData(Medicin_Chirurgie medCh){
+        this.medicins.getSelectionModel().select(medCh.getMedicin());
         types.getSelectionModel().select("CHIRURGIE");
-        listeChirurgies.getSelectionModel().select(chirurgie);
+        types.setDisable(true);
+        listeChirurgies.getSelectionModel().select(medCh.getChirurgie());
+        listeChirurgies.setDisable(true);
+
 
     }
 
@@ -711,6 +772,7 @@ public class RendezVousController implements Initializable {
                   TableColumn<RendezVous, String> hebergRendezvous,
                   TableColumn<RendezVous, String> hebergTypeRendezvous,
                   TableColumn<RendezVous, String> heure,
+                  TableColumn<RendezVous, String> etatRendezVous,
                   TableColumn<RendezVous, String> editColRendezvous,
                   TableView<RendezVous> tableRendezvous,
                   ChoiceBox<String> typesOper
@@ -728,6 +790,7 @@ public class RendezVousController implements Initializable {
         prixRendezvous.setCellValueFactory(new PropertyValueFactory<>("prixTotal"));
         typeRendezvous.setCellValueFactory(new PropertyValueFactory<>("type"));
         heure.setCellValueFactory(new PropertyValueFactory<>("heure"));
+        etatRendezVous.setCellValueFactory(new PropertyValueFactory<>("etat"));
         hebergRendezvous.setCellValueFactory(new PropertyValueFactory<>("hebergement"));
         hebergTypeRendezvous.setCellValueFactory(new PropertyValueFactory<>("typeHebergement"));
         //add cell of button edit
@@ -756,9 +819,11 @@ public class RendezVousController implements Initializable {
 
                         Button deleteIcon = new Button("Supprimer");
                         Button editIcon = new Button("Modifier");
+                        Button payerIcon = new Button("Payer");
                         editIcon.getStyleClass().add("btn-edit");
                         deleteIcon.getStyleClass().add("btn-delete");
-                        deleteIcon.setOnAction((ActionEvent event) -> {
+                        payerIcon.setStyle("-fx-text-fill: white;");
+                        /*deleteIcon.setOnAction((ActionEvent event) -> {
                             rendezVous = tableRendezvous.getSelectionModel().getSelectedItem();
                             try {
                                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -774,22 +839,101 @@ public class RendezVousController implements Initializable {
                                 throw new RuntimeException(e);
                             }
                             refreshTable(finalList,tableRendezvous);
-                        });
+                        });*/
                         editIcon.setOnAction((ActionEvent event) -> {
                             rendezVous = tableRendezvous.getSelectionModel().getSelectedItem();
-                            rendezVousController.setUpdate(true);
-                            rendezVousController.setTextField(rendezVous);
-                            Parent parent = loader.getRoot();
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UTILITY);
-                            stage.show();
+                            if (rendezVous != null){
+                                if (rendezVous.getEtat().equals(Etat.CONFIRME.name())){
+                                    try {
+                                        throw new ErreurData("Impossible de modifier le rendez-vous !");
+                                    } catch (ErreurData e) {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText(e.getMessage());
+                                        alert.showAndWait();
+                                    }
+                                }
+                                if (rendezVous.getEtat().equals(Etat.ANNULLER.name())){
+                                    try {
+                                        throw new ErreurData("Le rendez-vous déja annulé !");
+                                    } catch (ErreurData e) {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText(e.getMessage());
+                                        alert.showAndWait();
+                                    }
+                                }
+                                else if (rendezVous.getEtat().equals(Etat.EN_ATTENTE.name())){
+                                    rendezVousController.setUpdate(true);
+                                    rendezVousController.setTextField(rendezVous);
+                                    Parent parent = loader.getRoot();
+                                    Stage stage = new Stage();
+                                    stage.setScene(new Scene(parent));
+                                    stage.initStyle(StageStyle.UTILITY);
+                                    stage.show();
+                                }
+
+                            }
+                            else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setHeaderText(null);
+                                alert.setContentText("Selectionner un rendez-vous");
+                                alert.showAndWait();
+                            }
 
                         });
-                        HBox managebtn = new HBox(editIcon, deleteIcon);
+                        payerIcon.setOnAction((ActionEvent event) -> {
+                            rendezVous = tableRendezvous.getSelectionModel().getSelectedItem();
+                            if (rendezVous != null){
+                                if (rendezVous.getEtat().equals(Etat.EN_ATTENTE.name())){
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Confirmation De Payment");
+                                    alert.setHeaderText("Confirmation de montant ?");
+                                    alert.setContentText("Le prix total est: " + rendezVous.getPrixTotal()+"DT.");
+                                    ButtonType buttonTypeYes = new ButtonType("Oui");
+                                    ButtonType buttonTypeNo = new ButtonType("Non");
+                                    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+                                    java.util.Optional<ButtonType> result = alert.showAndWait();
+                                    // Check which button was clicked
+                                    if (result.isPresent() && result.get() == buttonTypeYes) {
+                                        updateRendezVous(rendezVous,Etat.CONFIRME.name());
+                                        // Perform the action if the user clicked Yes
+                                    }
+                                }
+                                else if (rendezVous.getEtat().equals(Etat.CONFIRME.name())){
+                                    try {
+                                        throw new ErreurData("Le rendez-vous déja payé !");
+                                    } catch (ErreurData e) {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText(e.getMessage());
+                                        alert.showAndWait();
+                                    }
+                                }
+                                else {
+                                    try {
+                                        throw new ErreurData("Le rendez-vous déja annulé !");
+                                    } catch (ErreurData e) {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText(e.getMessage());
+                                        alert.showAndWait();
+                                    }
+                                }
+                            }
+                            else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setHeaderText(null);
+                                alert.setContentText("Selectionner un rendez-vous");
+                                alert.showAndWait();
+                            }
+
+                        });
+                        HBox managebtn = new HBox(editIcon, payerIcon);
                         //managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
-                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 2));
+                        //HBox.setMargin(deleteIcon, new Insets(2, 2, 0, 3));
+                        HBox.setMargin(editIcon, new Insets(2, 3, 0, 3));
+                        HBox.setMargin(payerIcon, new Insets(2, 3, 0, 2));
                         setGraphic(managebtn);
                         setText(null);
                     }

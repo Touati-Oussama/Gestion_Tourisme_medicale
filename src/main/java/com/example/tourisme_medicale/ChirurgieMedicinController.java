@@ -323,7 +323,7 @@ public class ChirurgieMedicinController implements Initializable {
                             RendezVousController rendezVousController = loader2.getController();
                             medicin_chirurgie = tableMedChir.getSelectionModel().getSelectedItem();
                             if (medicin_chirurgie != null){
-                                rendezVousController.setData(medicin_chirurgie.getMedicin(),medicin_chirurgie.getChirurgie());
+                                rendezVousController.setData(medicin_chirurgie);
                                 Parent parent = loader2.getRoot();
                                 Stage stage = new Stage();
                                 stage.setScene(new Scene(parent));

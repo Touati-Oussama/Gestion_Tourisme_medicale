@@ -292,7 +292,7 @@
                                                 <TableColumn fx:id="emailMedicin" minWidth="0.0" prefWidth="144.0" text="Email" />
                                                 <TableColumn fx:id="specialiteMed" minWidth="0.0" prefWidth="99.2000732421875" text="Specialite" />
                                                 <TableColumn fx:id="clinique" minWidth="0.0" prefWidth="97.333251953125" text="Clinique" />
-                                                <TableColumn fx:id="editColMed" minWidth="0.0" prefWidth="356.80001220703116" text="Action" />
+                                                <TableColumn fx:id="editColMed" minWidth="0.0" prefWidth="464.00007324218745" text="Action" />
                                              </columns>
                                              <opaqueInsets>
                                                 <Insets />
@@ -401,10 +401,10 @@
                                           <TableColumn fx:id="nomPatient" prefWidth="86.13330841064453" text="Nom" />
                                           <TableColumn fx:id="prenomPatient" minWidth="0.0" prefWidth="102.666748046875" text="Prenom" />
                                           <TableColumn fx:id="dateNaiss" minWidth="0.0" prefWidth="126.1334228515625" text="Date de Naissance" />
-                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="155.46673583984375" text="Email" />
-                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="109.33331298828125" text="Sexe" />
-                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="139.199951171875" text="Nationalite" />
-                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="496.79999999999995" text="Action" />
+                                          <TableColumn fx:id="emailPatient" minWidth="0.0" prefWidth="223.199951171875" text="Email" />
+                                          <TableColumn fx:id="gender" minWidth="0.0" prefWidth="116.7999267578125" text="Sexe" />
+                                          <TableColumn fx:id="nationalite" minWidth="0.0" prefWidth="124.800048828125" text="Nationalite" />
+                                          <TableColumn fx:id="editColPat" minWidth="0.0" prefWidth="437.60009765625" text="Action" />
                                        </columns>
                                        <opaqueInsets>
                                           <Insets />
@@ -442,7 +442,8 @@
                                                 <TableColumn fx:id="typeRendezvous" prefWidth="136.800048828125" text="Type" />
                                                 <TableColumn fx:id="hebergTypeRendezvous" prefWidth="95.199951171875" text="Hebergement" />
                                                 <TableColumn fx:id="hebergRendezvous" prefWidth="96.0001220703125" text="Chambre" />
-                                                <TableColumn fx:id="editColRendezvous" minWidth="0.0" prefWidth="198.400146484375" text="Action" />
+                                                <TableColumn fx:id="etatRendezVous" prefWidth="73.60009765625" text="Etat" />
+                                                <TableColumn fx:id="editColRendezvous" minWidth="0.0" prefWidth="263.199951171875" text="Action" />
                                              </columns>
                                              <opaqueInsets>
                                                 <Insets />

@@ -12,7 +12,7 @@ public final class SoinsMedicaux extends Type {
         this.prix = prix;
         this.specialite = specialite;
     }
-    
+
     @Override
     public int getId() {
         return id;

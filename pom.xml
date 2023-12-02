@@ -42,12 +42,6 @@
         <artifactId>bootstrapfx-core</artifactId>
         <version>0.4.0</version>
       </dependency>
-    <dependency>
-      <groupId>de.jensdjensd</groupId>
-      <artifactId>fontawesomefx</artifactId>
-      <version>8.9</version>
-    </dependency>
-
 
   </dependencies>
 

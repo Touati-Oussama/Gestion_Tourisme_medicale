@@ -1,5 +1,6 @@
 package com.example.tourisme_medicale;
 
+import com.example.tourisme_medicale.Helpers.JavaMailUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

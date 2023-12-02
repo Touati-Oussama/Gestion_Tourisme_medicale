@@ -1,5 +1,3 @@
-ID,PATIENT,MEDICIN,CLINIQUE,DATE DEBUT,PRIX,TYPE
-5,Touati Ahmed,Medicin3 Medicin3,Les oliviers,2023-12-08,0.0,Ophtalmologie
-13,Touati Oussama,Medicin1 Med1,El Yosr,2023-12-01,60.0,Dermatologie
-15,Touati Ahmed,Medicin1 Med1,El Yosr,2023-12-08,60.0,Dermatologie
-16,Touati Ahmed,Medicin1 Med1,El Yosr,2023-12-01,60.0,Dermatologie
+ID,PATIENT,MEDICIN,CLINIQUE,DATE DEBUT,PRIX,TYPE,ETAT
+42,Touati Ahmed,Med2 Med2,El Yosr,2023-12-01,60.0,Dermatologie,EN_ATTENTE
+43,Touati Ahmed,Med2 Med2,El Yosr,2023-12-30,60.0,Dermatologie,EN_ATTENTE

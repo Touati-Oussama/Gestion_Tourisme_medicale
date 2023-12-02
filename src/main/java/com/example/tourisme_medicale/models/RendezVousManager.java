@@ -1,22 +1,39 @@
 package com.example.tourisme_medicale.models;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RendezVousManager {
     private Map<String, Integer> listeClients;
+    private Map<String, RendezVous> payments;
     private final String CSV_FILE_PATH = "D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\clients_statistiques.csv";
+
+    private final String CSV_FILE_PATH_PAYMENTS = "D:\\java\\Tourisme_Medicale\\src\\main\\CSV\\payments.csv";
 
     public RendezVousManager() {
         this.listeClients = new HashMap<>();
+        this.payments = new HashMap<>();
         loadFromCsv();
     }
 
-    public void bookRendezVous(String patientName) {
-        listeClients.put(patientName, listeClients.getOrDefault(patientName, 0) + 1);
-        saveToCsv();
+    public void bookRendezVous(RendezVous rendezVous) {
+            listeClients.put(rendezVous.getPatient(), listeClients.getOrDefault(rendezVous.getPatient(), 0) + 1);
+            saveToCsv();
     }
+
+    public void savePayments(RendezVous rendezVous){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // Format the current date and time using the specified format
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        System.out.println(formattedDateTime);
+        payments.put(formattedDateTime, rendezVous);
+        savePaymentToCsv();
+    }
+
 
     public void printBookedRendezVousCount() {
         System.out.println("Booked RendezVous Count:");
@@ -35,8 +52,19 @@ public class RendezVousManager {
         }
     }
 
+    private void savePaymentToCsv() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(CSV_FILE_PATH_PAYMENTS))) {
+            for (Map.Entry<String, RendezVous> entry : payments.entrySet()) {
+                writer.println(entry.getKey() + "," + entry.getValue().getId()+","+ entry.getValue().getPrixTotal()+"DT");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void clear(){
+
         this.listeClients.clear();
+        this.payments.clear();
     }
 
     private void loadFromCsv() {
